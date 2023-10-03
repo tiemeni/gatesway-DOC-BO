@@ -1,8 +1,13 @@
 import * as types from './types';
 
+/**
+ * @description remarquer qu'on defini des valeurs initial aux deux parametres
+ * aussi
+ */
+
 const initialState = {};
 
-const CommonReducer = (action, state = initialState) => {
+const CommonReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
     case types.RESET_APP:
       return {

@@ -3,12 +3,12 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ContentRouter from './ContentRouter';
 import AuthRouter from './AuthRouter';
-import { RESET_APP } from '../REDUX/common/types';
+import reseteApp from '../REDUX/common/actions';
 
 function Routeur() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(RESET_APP());
+    dispatch(reseteApp());
   });
   return (
     <BrowserRouter>

@@ -1,7 +1,7 @@
 import { RESET_APP } from './types';
 
-const resetApp = () => ({
+const reseteApp = () => ({
   type: RESET_APP,
 });
 
-export default resetApp;
+export default reseteApp;
