@@ -1,3 +1,9 @@
+#regles de bonne pratique a suivre dans le projet :
+les fichiers javascript qui retournent du html se creent avec l'extension .jsx
+les function components se definissent avec la clée function et pas en arrow fonction
+utiliser "export default" lorsqu'il n'y a pas plus d'un export a faire dans un fichier
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

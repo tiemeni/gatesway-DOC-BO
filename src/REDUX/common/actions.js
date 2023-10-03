@@ -1,7 +1,7 @@
-import { RESET_APP } from "./types"
+import { RESET_APP } from './types';
 
-export const resetApp = () => {
-    return {
-        type: RESET_APP
-    }
-}
+const reseteApp = () => ({
+  type: RESET_APP,
+});
+
+export default reseteApp;
