@@ -1,5 +1,5 @@
-import { all } from "redux-saga/effects";
-import CommonSagas from "../common/saga";
+import { all } from 'redux-saga/effects';
+import CommonSagas from '../common/saga';
 
 /**
 
