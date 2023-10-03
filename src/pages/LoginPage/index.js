@@ -1,4 +1,6 @@
+import { useSelector } from "react-redux";
 
 export const LoginPage = () => {
-    return "login"
-}
+  const label = useSelector((state) => state.Common.waveForLogin);
+  return label;
+};

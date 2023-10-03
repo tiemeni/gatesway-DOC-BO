@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 import "./App.css";
-import Routeur from "./GlobalRouter";
+import Routeur from "./RouterWrapper";
 import store from "./REDUX/setup/store";
 
 function App() {

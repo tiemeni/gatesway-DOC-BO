@@ -7,6 +7,7 @@ const CommonReducer = (state = initialState, action) => {
     case types.RESET_APP:
       return {
         ...state,
+        waveForLogin: "App reset good , welcome login"
       };
     default:
       return state;
