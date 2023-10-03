@@ -1,12 +1,12 @@
-import * as types from "./types";
-import { takeLatest } from "redux-saga/effects";
+import { takeLatest } from 'redux-saga/effects';
+import * as types from './types';
 
 /**
  * @description ici le saga reducer de l'evenement RESET_APP
  */
 
 function* resetApp() {
-  yield console.log("reset app saga common reducer");
+  yield console.log('reset app saga common reducer');
 }
 
 export default function* CommonSagas() {
