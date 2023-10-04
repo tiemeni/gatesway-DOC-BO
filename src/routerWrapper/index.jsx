@@ -3,18 +3,20 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ContentRouter from './ContentRouter';
 import AuthRouter from './AuthRouter';
-import reseteApp from '../REDUX/common/actions';
+import { resetApp } from '../redux/common/actions';
+import ListeCentres from '../pages/LIsteCentres';
 
 function Routeur() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(reseteApp());
+    dispatch(resetApp());
   });
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AuthRouter />} />
         <Route path="/content" element={<ContentRouter />} />
+        <Route path="/liste_centres" element={<ListeCentres />} />
       </Routes>
     </BrowserRouter>
   );
