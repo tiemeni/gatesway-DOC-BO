@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import './App.css';
-import Routeur from './RouterWrapper';
-import store from './REDUX/setup/store';
+import Routeur from './routerWrapper';
+import store from './redux/setup/store';
 
 function App() {
   return (
