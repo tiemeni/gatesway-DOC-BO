@@ -1,5 +1,7 @@
+import React from 'react';
+
 function MainPage() {
-  return 'main page';
+  return <div>main page</div>;
 }
 
 export default MainPage;
