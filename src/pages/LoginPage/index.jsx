@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -11,16 +10,41 @@ import {
   InputRightElement,
   VStack,
 } from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
 import logi from '../../assets/images/gatewaydoc.png';
 import { useDimensions } from '../../hooks/useDimensions';
 import styles from './style';
 import user from '../../assets/images/user.png';
 import visible from '../../assets/images/visible.png';
 import hide from '../../assets/images/hide.png';
+import processLogin from '../../redux/user/actions';
+import retreiveIdc from '../../utils/helpers';
 
 function LoginPage() {
+  const dispatch = useDispatch();
+  const loginLoading = useSelector((state) => state.User.loginLoading);
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
   const { innerWidth } = useDimensions();
   const [showPw, setShoPw] = useState(false);
+  const handleLogin = () => {
+    dispatch(
+      processLogin({
+        email: formData.username,
+        password: formData.password,
+        idCentre: retreiveIdc(),
+      }),
+    );
+  };
+
+  const handleChange = (event, payload) => {
+    setFormData({
+      ...formData,
+      [event]: payload.target.value,
+    });
+  };
   return (
     <Grid templateColumns="repeat(8, 1fr)" gap={4}>
       <GridItem
@@ -47,7 +71,14 @@ function LoginPage() {
                   style={{ ...styles.inputIconLeft }}
                 />
               </InputLeftElement>
-              <Input w="full" placeholder="username" size="lg" mb={3} />
+              <Input
+                value={formData.username}
+                onChange={(e) => handleChange('username', e)}
+                w="full"
+                placeholder="username"
+                size="lg"
+                mb={3}
+              />
             </InputGroup>
             <InputGroup>
               <InputRightElement onClick={() => setShoPw((v) => !v)}>
@@ -60,6 +91,8 @@ function LoginPage() {
                 />
               </InputRightElement>
               <Input
+                value={formData.password}
+                onChange={(e) => handleChange('password', e)}
                 w="full"
                 placeholder="**********"
                 size="lg"
@@ -68,11 +101,14 @@ function LoginPage() {
             </InputGroup>
           </Box>
           <Box width="100%">
-            <Link to="/content">
-              <Button w="full" colorScheme="blue">
-                Connexion
-              </Button>
-            </Link>
+            <Button
+              isLoading={loginLoading}
+              onClick={handleLogin}
+              w="full"
+              colorScheme="blue"
+            >
+              Connexion
+            </Button>
           </Box>
         </VStack>
       </GridItem>

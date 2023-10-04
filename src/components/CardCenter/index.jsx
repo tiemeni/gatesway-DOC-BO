@@ -20,7 +20,7 @@ function CardCenter(props) {
       <CardBody>
         <UnorderedList fontSize="sm">
           <ListItem color="blue.500">
-            <Link href={`/login/?idc=${_id}`}>Backoffice</Link>
+            <Link href={`/?idc=${_id}`}>Backoffice</Link>
           </ListItem>
           <ListItem color="blue.500">
             <Link href="/content">Lien backoffice propre</Link>
