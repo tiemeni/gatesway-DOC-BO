@@ -1,6 +1,7 @@
 import { all } from 'redux-saga/effects';
 import CommonSagas from '../common/saga';
 import UserSaga from '../user/saga';
+import PraticiensSaga from '../praticiens/saga';
 
 /**
 
@@ -9,5 +10,5 @@ import UserSaga from '../user/saga';
  */
 
 export default function* Sagas() {
-  yield all([CommonSagas(), UserSaga()]);
+  yield all([CommonSagas(), UserSaga(), PraticiensSaga()]);
 }

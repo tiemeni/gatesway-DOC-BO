@@ -18,7 +18,7 @@ import user from '../../assets/images/user.png';
 import visible from '../../assets/images/visible.png';
 import hide from '../../assets/images/hide.png';
 import processLogin from '../../redux/user/actions';
-import retreiveIdc from '../../utils/helpers';
+import { retreiveIdc } from '../../utils/helpers';
 import { RESET_ALL_FIELD } from '../../redux/user/types';
 
 function LoginPage() {

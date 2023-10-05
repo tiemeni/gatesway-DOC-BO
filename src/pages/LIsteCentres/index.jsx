@@ -16,7 +16,7 @@ function ListeCentres() {
 
   return (
     <Container minW="full" padding={spacing}>
-      <Heading as="h1" size="lg" fontWeight="semibold">
+      <Heading as="h1" size="lg" fontWeight="semibold" color="dark.500">
         Les structures
       </Heading>
       <Grid gap={spacing} mt={spacing} templateColumns="repeat(3, 1fr)">
