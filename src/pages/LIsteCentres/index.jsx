@@ -22,7 +22,7 @@ function ListeCentres() {
       <Grid gap={spacing} mt={spacing} templateColumns="repeat(3, 1fr)">
         {listCentres?.map((centre) => (
           <CardCenter
-            key={centre._id}
+            key={centre?._id}
             nom={centre.nom}
             _id={centre._id}
             telephone={centre.telephone}

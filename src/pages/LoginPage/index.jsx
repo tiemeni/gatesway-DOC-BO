@@ -1,8 +1,119 @@
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import {
+  Box,
+  Button,
+  Grid,
+  GridItem,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  VStack,
+} from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import logi from '../../assets/images/gatewaydoc.png';
+import { useDimensions } from '../../hooks/useDimensions';
+import styles from './style';
+import user from '../../assets/images/user.png';
+import visible from '../../assets/images/visible.png';
+import hide from '../../assets/images/hide.png';
+import processLogin from '../../redux/user/actions';
+import {retreiveIdc} from '../../utils/helpers';
 
-const LoginPage = () => {
-  const label = useSelector((state) => state.Common.waveForLogin);
-  return label;
-};
+function LoginPage() {
+  const dispatch = useDispatch();
+  const loginLoading = useSelector((state) => state.User.loginLoading);
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
+  const { innerWidth } = useDimensions();
+  const [showPw, setShoPw] = useState(false);
+  const handleLogin = () => {
+    dispatch(
+      processLogin({
+        email: formData.username,
+        password: formData.password,
+        idCentre: retreiveIdc(),
+      }),
+    );
+  };
+
+  const handleChange = (event, payload) => {
+    setFormData({
+      ...formData,
+      [event]: payload.target.value,
+    });
+  };
+  return (
+    <Grid templateColumns="repeat(8, 1fr)" gap={4}>
+      <GridItem
+        colStart={innerWidth > 900 ? 3 : 1}
+        colEnd={innerWidth > 900 ? 7 : 9}
+        rowStart={1}
+        style={styles.formContainer}
+      >
+        <VStack spacing={10} width={innerWidth > 500 ? '70%' : '90%'}>
+          <Box>
+            <img src={logi} height="180px" width="180px" alt="" />
+          </Box>
+          <Box>
+            <p>Connectez-vous a votre compte</p>
+          </Box>
+          <Box width="100%">
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <img
+                  src={user}
+                  alt=""
+                  width="25px"
+                  height="25px"
+                  style={{ ...styles.inputIconLeft }}
+                />
+              </InputLeftElement>
+              <Input
+                value={formData.username}
+                onChange={(e) => handleChange('username', e)}
+                w="full"
+                placeholder="username"
+                size="lg"
+                mb={3}
+              />
+            </InputGroup>
+            <InputGroup>
+              <InputRightElement onClick={() => setShoPw((v) => !v)}>
+                <img
+                  src={showPw ? visible : hide}
+                  alt=""
+                  width="25px"
+                  height="25px"
+                  style={{ ...styles.inputIconRight, cursor: 'pointer' }}
+                />
+              </InputRightElement>
+              <Input
+                value={formData.password}
+                onChange={(e) => handleChange('password', e)}
+                w="full"
+                placeholder="**********"
+                size="lg"
+                type={showPw ? 'text' : 'password'}
+              />
+            </InputGroup>
+          </Box>
+          <Box width="100%">
+            <Button
+              isLoading={loginLoading}
+              onClick={handleLogin}
+              w="full"
+              colorScheme="blue"
+            >
+              Connexion
+            </Button>
+          </Box>
+        </VStack>
+      </GridItem>
+    </Grid>
+  );
+}
 
 export default LoginPage;

@@ -59,5 +59,31 @@ const generateRandomAppointments = () => {
   return appointments;
 };
 
-const fakeDatas = generateRandomAppointments();
-export default fakeDatas;
+export const fakeDatas = generateRandomAppointments();
+
+export const retreiveIdc = () => {
+  const idc = window.location.search.split('idc=')[1];
+  return idc;
+};
+
+export const formatUserName = (username, userSurname) => {
+  const [firstName, secondName] = username.split(' ');
+  const [firstSurname, secondSurname] = userSurname.split(' ');
+  let final = '';
+
+  if (firstName) {
+    final = firstName;
+    if (secondName) {
+      final += ` ${secondName}`;
+    }
+  }
+
+  if (firstSurname) {
+    final += ` ${firstSurname}`;
+    if (secondSurname && !secondName) {
+      final += ` ${secondSurname}`;
+    }
+  }
+
+  return final;
+};
