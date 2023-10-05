@@ -27,13 +27,14 @@
   padding: 3px;
   background-color: rgba(79, 177, 201, 0.966);
   position: absolute;
-  margin-left: 13%;
+  margin-left: 12%;
   border-radius: 50px;
   color: white !important;
 }
 .second input {
   margin: 10px;
   height: 25px;
+  width: 200px;
   border: none;
   border-radius: 20px;
   position: relative;

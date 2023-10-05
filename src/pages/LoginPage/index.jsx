@@ -84,13 +84,13 @@ function LoginPage() {
           <Box>
             <p>Connectez-vous a votre compte</p>
           </Box>
+          {error && (
+            <Alert status="error" mt={2}>
+              <AlertIcon />
+              {error}
+            </Alert>
+          )}
           <Box width="100%">
-            {error && (
-              <Alert status="error" mb={2}>
-                <AlertIcon />
-                {error}
-              </Alert>
-            )}
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <img
