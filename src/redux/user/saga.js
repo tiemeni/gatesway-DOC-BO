@@ -14,13 +14,17 @@ function* login({ payload }) {
   };
   try {
     const result = yield postUnauthRequest(
-      `http://localhost:3500/users/signin?idCentre=
-          ${payload?.idCentre}`,
+      `http://localhost:3500/users/signin?idCentre=${payload?.idCentre}`,
       data,
     );
-    yield console.log(result);
     if (result.success) {
-      yield put({ type: types.LOGIN_REQUEST_SUCCESS, payload: result.data });
+      console.log(result);
+      yield put({
+        type: types.LOGIN_REQUEST_SUCCESS,
+        payload: result.data?.user,
+      });
+      localStorage.setItem('idc', payload?.idCentre);
+      window.location = '/content';
     } else {
       yield put({ type: types.LOGIN_REQUEST_FAILED, payload: result.message });
     }
