@@ -13,6 +13,9 @@ const theme = extendTheme({
     },
     secondary: {
       500: "#FDB305"
+    },
+    dark: {
+      500: "#343a40"
     }
   },
   fonts: {

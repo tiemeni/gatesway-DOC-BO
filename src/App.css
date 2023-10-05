@@ -28,6 +28,18 @@
   color: #61dafb;
 }
 
+.calendar-event {
+  border-left: 5px solid;
+  border-bottom-color: white !important;
+  border-top-color: white !important;
+  border-right-color: white !important;
+  border-radius: .5em;
+}
+
+.fc-timegrid-event .fc-event-main {
+  padding: 0;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
