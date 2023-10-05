@@ -5,7 +5,9 @@ import * as types from './types';
  *
  */
 
-const initialState = {};
+const initialState = {
+  userInfo: {},
+};
 
 const UserReducers = (state = initialState, action = undefined) => {
   switch (action.type) {
@@ -18,6 +20,7 @@ const UserReducers = (state = initialState, action = undefined) => {
       return {
         ...state,
         loginLoading: false,
+        userInfo: action.payload,
       };
     case types.LOGIN_REQUEST_FAILED:
       return {
