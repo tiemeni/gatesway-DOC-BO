@@ -20,38 +20,34 @@ function MenuItem(props) {
   const { professionName, data } = props;
   const [isGroupChecked, setIsGroupChecked] = useState(false);
 
-  const handleChange = (e) => {
-    e.stopPropagation()
-    console.log(e)
+  const handleChange = () => {
     setIsGroupChecked(!isGroupChecked);
   };
 
   return (
     <AccordionItem>
-      <h2>
+      <HStack alignItems="center">
+        <Checkbox
+          value={isGroupChecked}
+          onChange={handleChange}
+          onAbortCapture={handleChange}
+          size="md"
+          colorScheme="primary"
+        />
         <AccordionButton
           px={0}
           _hover={{ bg: 'transparent' }}
           _expanded={{ borderBottomWidth: 1, borderBottomColor: 'primary.200' }}
         >
           <HStack w="full" justifyContent="space-between">
-            <HStack w="full" gap={_spacing}>
-              <Checkbox
-                value={isGroupChecked}
-                onChange={handleChange}
-                onAbortCapture={handleChange}
-                size="md"
-                colorScheme="primary"
-              />
-              <Text
-                fontSize="sm"
-                textTransform="uppercase"
-                color="primary.500"
-                fontWeight="semibold"
-              >
-                {professionName}
-              </Text>
-            </HStack>
+            <Text
+              fontSize="sm"
+              textTransform="uppercase"
+              color="primary.500"
+              fontWeight="semibold"
+            >
+              {professionName}
+            </Text>
 
             <IconButton
               onClick={(e) => e.stopPropagation()}
@@ -61,9 +57,9 @@ function MenuItem(props) {
             />
           </HStack>
         </AccordionButton>
-      </h2>
+      </HStack>
       <AccordionPanel py={_spacing} px={0}>
-        <VStack>
+        <VStack spacing={_spacing}>
           {data.map((praticien) => (
             <MenuItemChild
               key={praticien._id}

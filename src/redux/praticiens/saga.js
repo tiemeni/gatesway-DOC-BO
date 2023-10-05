@@ -2,10 +2,9 @@ import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import { getUnauthRequest } from '../../utils/api';
 
-const BASE_URL =
-  process.env.BASE_URL || 'https://marque-blanche-bo-backnd.vercel.app';
+const { REACT_APP_BASE_URL } = process.env;
 
-const idc = localStorage.getItem('idc') || '649aacd0c7542f87284daefd';
+const idc = localStorage.getItem('idc');
 
 /**
  * @description ici le saga reducer de l'evenement RESET_APP
@@ -13,7 +12,7 @@ const idc = localStorage.getItem('idc') || '649aacd0c7542f87284daefd';
 function* getAllPraticiens() {
   try {
     const res = yield getUnauthRequest(
-      `${BASE_URL}/users/profession/?isPraticien=true&idCentre=${idc}`,
+      `${REACT_APP_BASE_URL}/users/profession/?isPraticien=true&idCentre=${idc}`,
     );
     if (!res.success)
       yield put({

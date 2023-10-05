@@ -21,7 +21,7 @@ function MenuPraticien() {
         <Input variant="outline" placeholder="Rechercher un praticien" />
       </Box>
       <Box h="full" w="full" px={_spacing}>
-        <Accordion w="full" allowMultiple defaultIndex={[3]} onChange={() => console.log("done")}>
+        <Accordion w="full" allowMultiple defaultIndex={[1]}>
           {Object.keys(datas).map((profession) => (
             <MenuItem
               key={profession}
