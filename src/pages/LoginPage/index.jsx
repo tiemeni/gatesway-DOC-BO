@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -19,10 +19,16 @@ import visible from '../../assets/images/visible.png';
 import hide from '../../assets/images/hide.png';
 import processLogin from '../../redux/user/actions';
 import retreiveIdc from '../../utils/helpers';
+import { RESET_ALL_FIELD } from '../../redux/user/types';
 
 function LoginPage() {
   const dispatch = useDispatch();
+  const [error, setError] = useState();
   const loginLoading = useSelector((state) => state.User.loginLoading);
+  const successLogin = useSelector((state) => state.User.loginSuccess);
+  const loginErrorMessage = useSelector(
+    (state) => state.User.loginErrorMessage,
+  );
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -30,6 +36,8 @@ function LoginPage() {
   const { innerWidth } = useDimensions();
   const [showPw, setShoPw] = useState(false);
   const handleLogin = () => {
+    setError('');
+    dispatch({ type: RESET_ALL_FIELD });
     dispatch(
       processLogin({
         email: formData.username,
@@ -45,6 +53,20 @@ function LoginPage() {
       [event]: payload.target.value,
     });
   };
+
+  useEffect(() => {
+    if (successLogin) {
+      try {
+        window.location = '/content';
+      } catch (e) {
+        /**
+         *
+         */
+      }
+    } else if (loginErrorMessage) {
+      setError(loginErrorMessage);
+    }
+  }, [successLogin, loginErrorMessage]);
   return (
     <Grid templateColumns="repeat(8, 1fr)" gap={4}>
       <GridItem
@@ -99,6 +121,7 @@ function LoginPage() {
                 type={showPw ? 'text' : 'password'}
               />
             </InputGroup>
+            {error && <p style={{ color: 'red', marginBottom: 3 }}>{error}</p>}
           </Box>
           <Box width="100%">
             <Button
