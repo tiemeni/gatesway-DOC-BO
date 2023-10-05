@@ -28,7 +28,7 @@
     padding: 3px;
     background-color:rgba(79, 177, 201, 0.966);  
     position: absolute;
-    margin-left: 165px;
+    margin-left: 13%;
     border-radius: 50px;
     color: white !important;
 }
@@ -46,7 +46,7 @@
     color:rgba(79, 177, 201, 0.966);
 }
 .tird{
-    margin-left: 250px;
+    margin-left: 21%;
 }
 .tird select{
     color:  rgb(196, 193, 193);
