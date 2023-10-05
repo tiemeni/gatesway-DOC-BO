@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Grid,
@@ -83,6 +85,12 @@ function LoginPage() {
             <p>Connectez-vous a votre compte</p>
           </Box>
           <Box width="100%">
+            {error && (
+              <Alert status="error" mb={2}>
+                <AlertIcon />
+                {error}
+              </Alert>
+            )}
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <img
@@ -121,7 +129,6 @@ function LoginPage() {
                 type={showPw ? 'text' : 'password'}
               />
             </InputGroup>
-            {error && <p style={{ color: 'red', marginBottom: 3 }}>{error}</p>}
           </Box>
           <Box width="100%">
             <Button
