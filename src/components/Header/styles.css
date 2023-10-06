@@ -27,7 +27,7 @@
   padding: 3px;
   background-color: rgba(79, 177, 201, 0.966);
   position: absolute;
-  margin-left: 12%;
+  margin-left: 14.5%;
   border-radius: 50px;
   color: white !important;
 }
@@ -35,17 +35,16 @@
   margin: 10px;
   height: 25px;
   width: 200px;
-  border: none;
+  background-color: white;
   border-radius: 20px;
   position: relative;
 }
 .second input::placeholder {
   font-size: 0.8em;
-  padding: 10px;
   color: rgba(79, 177, 201, 0.966);
 }
 .tird {
-  margin-left: 21%;
+  margin-left: 20%;
 }
 .tird select {
   color: rgb(196, 193, 193);
@@ -55,6 +54,7 @@
   border-radius: 20px;
   display: inline-block;
   position: absolute;
+  font-size: 0.8em;
 }
 .tird .let {
   display: inline-block;
@@ -94,7 +94,7 @@
 }
 .tird .group {
   position: absolute;
-  margin-left: 200px;
+  margin-left: 13%;
   width: 30px;
   height: 30px;
 }
