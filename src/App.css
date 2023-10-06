@@ -1,3 +1,24 @@
+/* Largeur de la scrollbar */
+::-webkit-scrollbar {
+  width: .4em;
+}
+
+/* Couleur de fond de la scrollbar */
+::-webkit-scrollbar-track {
+  background-color: rgba(4, 183, 201, 0.2);
+}
+
+/* Style de la poignée (thumb) de la scrollbar */
+::-webkit-scrollbar-thumb {
+  background-color: #04B7C9;
+  border-radius: 4px;
+}
+
+/* Style de la poignée lorsqu'elle est survolée par la souris */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
 .App {
   text-align: center;
 }

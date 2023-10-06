@@ -26,8 +26,9 @@ function Calendar() {
   const pickerRef = useRef(null);
 
   const handlePikadayDateChange = (date) => {
+    const calendarApi = calendarRef.current.getApi();
     if (date.toString() !== calendarRef.current.getApi().getDate().toString()) {
-      calendarRef.current.getApi().gotoDate(new Date(date));
+      calendarApi.gotoDate(new Date(date));
     }
   };
 

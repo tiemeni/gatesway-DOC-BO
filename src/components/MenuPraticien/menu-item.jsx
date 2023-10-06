@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   AccordionButton,
@@ -17,20 +17,26 @@ const _spacing = 3;
 const _iconSize = 20;
 
 function MenuItem(props) {
-  const { professionName, data } = props;
-  const [isGroupChecked, setIsGroupChecked] = useState(false);
+  const { professionName, selectedPractitioners, data, handleSelection } =
+    props;
 
-  const handleChange = () => {
-    setIsGroupChecked(!isGroupChecked);
+  // Add or remove ids when checkbox is checked or not
+  const handleChange = (e) => {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      const tabIds = data.map((practitioner) => practitioner._id);
+      handleSelection(tabIds);
+      return;
+    }
+    handleSelection([]);
   };
 
   return (
     <AccordionItem>
       <HStack alignItems="center">
         <Checkbox
-          value={isGroupChecked}
+          defaultChecked={data.length === selectedPractitioners.length}
           onChange={handleChange}
-          onAbortCapture={handleChange}
           size="md"
           colorScheme="primary"
         />
@@ -60,12 +66,14 @@ function MenuItem(props) {
       </HStack>
       <AccordionPanel py={_spacing} px={0}>
         <VStack spacing={_spacing}>
-          {data.map((praticien) => (
+          {data.map((practitioner) => (
             <MenuItemChild
-              key={praticien._id}
-              name={praticien.name}
-              surname={praticien.surname}
-              _id={praticien._id}
+              key={practitioner._id}
+              name={practitioner.name}
+              surname={practitioner.surname}
+              _id={practitioner._id}
+              defaultChecked={selectedPractitioners.includes(practitioner._id)}
+              handleSelection={handleSelection}
             />
           ))}
         </VStack>
@@ -81,6 +89,8 @@ MenuItem.propTypes = {
       _id: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  selectedPractitioners: PropTypes.arrayOf(PropTypes.string).isRequired,
+  handleSelection: PropTypes.func.isRequired,
 };
 
 export default MenuItem;
