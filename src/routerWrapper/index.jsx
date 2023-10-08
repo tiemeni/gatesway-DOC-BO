@@ -15,7 +15,7 @@ function Routeur() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AuthRouter />} />
-        <Route path="/content" element={<ContentRouter />} />
+        <Route path="/content/*" element={<ContentRouter />} />
         <Route path="/liste_centres" element={<ListeCentres />} />
       </Routes>
     </BrowserRouter>
