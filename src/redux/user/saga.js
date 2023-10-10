@@ -2,7 +2,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import { postUnauthRequest } from '../../utils/api';
 
-const {REACT_APP_BASE_URL} = process.env
+const { REACT_APP_BASE_URL } = process.env;
 
 /**
  * @description ici le saga reducer de l'evenement RESET_APP

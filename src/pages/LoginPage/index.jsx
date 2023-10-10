@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Grid,
@@ -18,11 +20,17 @@ import user from '../../assets/images/user.png';
 import visible from '../../assets/images/visible.png';
 import hide from '../../assets/images/hide.png';
 import processLogin from '../../redux/user/actions';
-import {retreiveIdc} from '../../utils/helpers';
+import { retreiveIdc } from '../../utils/helpers';
+import { RESET_ALL_FIELD } from '../../redux/user/types';
 
 function LoginPage() {
   const dispatch = useDispatch();
+  const [error, setError] = useState();
   const loginLoading = useSelector((state) => state.User.loginLoading);
+  const successLogin = useSelector((state) => state.User.loginSuccess);
+  const loginErrorMessage = useSelector(
+    (state) => state.User.loginErrorMessage,
+  );
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -30,6 +38,8 @@ function LoginPage() {
   const { innerWidth } = useDimensions();
   const [showPw, setShoPw] = useState(false);
   const handleLogin = () => {
+    setError('');
+    dispatch({ type: RESET_ALL_FIELD });
     dispatch(
       processLogin({
         email: formData.username,
@@ -45,6 +55,20 @@ function LoginPage() {
       [event]: payload.target.value,
     });
   };
+
+  useEffect(() => {
+    if (successLogin) {
+      try {
+        window.location = '/content';
+      } catch (e) {
+        /**
+         *
+         */
+      }
+    } else if (loginErrorMessage) {
+      setError(loginErrorMessage);
+    }
+  }, [successLogin, loginErrorMessage]);
   return (
     <Grid templateColumns="repeat(8, 1fr)" gap={4}>
       <GridItem
@@ -60,6 +84,12 @@ function LoginPage() {
           <Box>
             <p>Connectez-vous a votre compte</p>
           </Box>
+          {error && (
+            <Alert status="error" mt={2}>
+              <AlertIcon />
+              {error}
+            </Alert>
+          )}
           <Box width="100%">
             <InputGroup>
               <InputLeftElement pointerEvents="none">

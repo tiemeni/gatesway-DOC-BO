@@ -54,7 +54,7 @@
   border-bottom-color: white !important;
   border-top-color: white !important;
   border-right-color: white !important;
-  border-radius: .5em;
+  border-radius: 0.5em;
 }
 
 .fc-timegrid-event .fc-event-main {
