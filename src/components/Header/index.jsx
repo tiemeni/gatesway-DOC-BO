@@ -116,7 +116,7 @@ function NavigationBar() {
         <Text className='textLogo'>GATESWAYDOC</Text>
         <Text className='dateText'>{getDateAndTime()}</Text>
       </VStack>
-      <InputGroup size="sm" mt={{ base: 4, md: 0 }} width={{ base: '100%', md: 280 }} ml={{ base: 0, md: 14 }}>
+      <InputGroup size="sm" mt={{ base: 4, md: 0 }} width={{ base: '100%', md: 250 }} ml={{ base: 0, md: 14 }}>
         <Input backgroundColor='whiteAlpha.800' rounded={50} placeholder='Rechercher un patient' _placeholder={{ color: 'blue.300' }} />
         <InputRightElement backgroundColor='blue.300' rounded={50}>
           <SearchIcon color='white' />
