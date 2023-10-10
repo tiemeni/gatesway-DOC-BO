@@ -15,19 +15,20 @@ function MenuItemChild(props) {
     const { checked } = e.target;
     setIsChecked(checked);
     if (!checked) {
-      handleSelection([_id], 'remove');
+      handleSelection([_id],[formatUserName(name, surname)], 'remove');
       return;
     }
-    handleSelection([_id]);
+    handleSelection([_id], [formatUserName(name, surname)]);
   };
 
   const handleUncheckOthers = () => {
-    handleSelection([_id], 'uncheckOthers');
+    handleSelection([_id], [formatUserName(name, surname)], 'uncheckOthers');
   };
 
   useEffect(() => {
     setIsChecked(defaultChecked);
   }, [defaultChecked]);
+
 
   return (
     <HStack w="full" gap={_spacing}>

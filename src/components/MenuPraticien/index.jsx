@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useCallback } from 'react';
 import { UilAngleDoubleLeft } from '@iconscout/react-unicons';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Accordion,
   Box,
@@ -9,68 +8,78 @@ import {
   Input,
   VStack,
 } from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from './menu-item';
-import { getPraticiens } from '../../redux/praticiens/actions';
+import { formatUserName } from '../../utils/helpers';
+import { saveCheckedPractitioners } from '../../redux/praticiens/actions';
 
 const _spacing = 3;
 function MenuPraticien() {
   const dispatch = useDispatch();
+  const { practitionersCheckedList, datas } = useSelector(
+    (state) => state.Praticiens,
+  );
   const idc = localStorage.getItem('idc');
-  const [practitionerCheckedList, setPractitionerCheckedList] = useState();
-  const { datas, success, loading } = useSelector((state) => state.Praticiens);
 
   // Control profession checkboxes
-  const handleSelection = (tabIds, actionTypes = 'add') => {
-    let finalTab = [];
-    // Uncheck other selected practitioner
-    if (actionTypes === 'uncheckOthers') {
-      finalTab = [...tabIds];
-    }
-    // When practitioner is unselected
-    if (actionTypes === 'remove') {
-      const copyTab = practitionerCheckedList;
-      const index = copyTab.indexOf(tabIds[0]);
-      copyTab.splice(index, 1);
-      finalTab = [...copyTab];
-    }
-    // When profession is selected/unselected
-    if (actionTypes === 'add') {
-      if (tabIds.length !== 0) {
-        const tabs = Array.from(
-          new Set([...practitionerCheckedList, ...tabIds]),
-        );
-        finalTab = tabs;
-      } else {
-        const profession = Object.keys(datas)[0];
-        const selectedPractitioner = datas[profession][0]._id;
-        finalTab = [selectedPractitioner];
+  const handleSelection = useCallback(
+    (tabIds, names, actionTypes = 'add') => {
+      let finalTab = [];
+      // Uncheck other selected practitioner
+      if (actionTypes === 'uncheckOthers') {
+        finalTab = { idsList: tabIds, namesList: names };
       }
-    }
-    setPractitionerCheckedList(finalTab);
-    localStorage.setItem(`practitionerCheckedList${idc}`, finalTab.join(';'));
-  };
+      // When practitioner is unselected
+      if (actionTypes === 'remove') {
+        const ids = practitionersCheckedList.idsList;
+        const lists = practitionersCheckedList.namesList;
+        if (ids.length === 1 && ids[0] === tabIds[0]) return;
 
-  useEffect(() => {
-    dispatch(getPraticiens());
-  }, []);
+        tabIds.forEach((id) => {
+          const index = ids.indexOf(id);
+          if (index !== -1) {
+            ids.splice(index, 1);
+            lists.splice(index, 1);
+          }
+        });
+        finalTab = { idsList: [...ids], namesList: [...lists] };
+      }
+      // When profession is selected/unselected
+      if (actionTypes === 'add') {
+        const tabs = Array.from(
+          new Set([...practitionersCheckedList.idsList, ...tabIds]),
+        );
+        const namesTabs = Array.from(
+          new Set([...practitionersCheckedList.namesList, ...names]),
+        );
+        finalTab = { idsList: tabs, namesList: namesTabs };
+      }
 
-  useEffect(() => {
-    const storedList = localStorage.getItem(`practitionerCheckedList${idc}`);
-    let selectedPractitioner = '';
-    // if checked practitioner was saved
-    if (storedList) {
-      selectedPractitioner = storedList.split(';');
-      setPractitionerCheckedList(selectedPractitioner);
-      return;
-    }
+      if (finalTab.idsList.length === 0) {
+        const profession = Object.keys(datas)[0];
+        const selectedPractitioner = datas[profession][0];
+        const username = formatUserName(
+          selectedPractitioner.name,
+          selectedPractitioner.surname,
+        );
+        finalTab = {
+          idsList: [selectedPractitioner._id],
+          namesList: [username],
+        };
+      }
 
-    const profession = Object.keys(datas)[0];
-    selectedPractitioner = datas[profession][0]._id;
-    setPractitionerCheckedList([selectedPractitioner]);
-    localStorage.setItem(`practitionerCheckedList${idc}`, selectedPractitioner);
-  }, []);
-
-  console.log(loading, success);
+      dispatch(saveCheckedPractitioners(finalTab));
+      localStorage.setItem(
+        `practitionerCheckedList${idc}`,
+        finalTab.idsList.join(';'),
+      );
+      localStorage.setItem(
+        `practitionerCheckedListNames${idc}`,
+        finalTab.namesList.join(';'),
+      );
+    },
+    [practitionersCheckedList.idsList],
+  );
 
   return (
     <VStack h="full" boxShadow="2xl">
@@ -86,20 +95,19 @@ function MenuPraticien() {
       </Box>
       <Box h="full" w="full" px={_spacing} overflow="auto">
         <Accordion w="full" allowMultiple defaultIndex={[0]}>
-          {datas.lenght !== 0 &&
-            Object.keys(datas).map((profession) => (
-              <MenuItem
-                key={profession}
-                professionName={profession}
-                data={datas[profession]}
-                selectedPractitioners={practitionerCheckedList}
-                handleSelection={handleSelection}
-              />
-            ))}
+          {Object.keys(datas).map((profession) => (
+            <MenuItem
+              key={profession}
+              professionName={profession}
+              data={datas[profession]}
+              selectedPractitioners={practitionersCheckedList.idsList}
+              handleSelection={handleSelection}
+            />
+          ))}
         </Accordion>
       </Box>
     </VStack>
   );
 }
 
-export default MenuPraticien;
+export default memo(MenuPraticien);

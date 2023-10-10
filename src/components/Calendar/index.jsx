@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
@@ -6,6 +6,7 @@ import frlocale from '@fullcalendar/core/locales/fr';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Box, Heading, Text } from '@chakra-ui/react';
 import Pikaday from 'pikaday';
+import { useSelector } from 'react-redux';
 import { fakeDatas } from '../../utils/helpers';
 
 function renderEventContent({ event }) {
@@ -24,6 +25,8 @@ function renderEventContent({ event }) {
 function Calendar() {
   const calendarRef = useRef(null);
   const pickerRef = useRef(null);
+  const [calendarTItle, setCalendarTItle] = useState();
+  const { practitionersCheckedList } = useSelector((state) => state.Praticiens);
 
   const handlePikadayDateChange = (date) => {
     const calendarApi = calendarRef.current.getApi();
@@ -41,7 +44,16 @@ function Calendar() {
     },
   };
 
-  useEffect(() => {});
+  useEffect(() => {
+    console.log('calendar');
+    let title = '';
+    if (practitionersCheckedList.namesList?.length) {
+      const { length } = practitionersCheckedList.namesList;
+      const [value] = practitionersCheckedList.namesList;
+      title = length > 1 ? `Affichage de ${length} praticiens` : value;
+    }
+    setCalendarTItle(title);
+  }, [practitionersCheckedList.namesList]);
 
   React.useEffect(() => {
     const picker = new Pikaday({
@@ -95,7 +107,7 @@ function Calendar() {
         color="primary.500"
         mb={5}
       >
-        OPHTA2 Pierre
+        {calendarTItle}
       </Heading>
       <FullCalendar
         ref={calendarRef}
@@ -142,4 +154,4 @@ function Calendar() {
   );
 }
 
-export default Calendar;
+export default memo(Calendar);

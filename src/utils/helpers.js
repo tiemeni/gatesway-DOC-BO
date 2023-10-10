@@ -1,5 +1,5 @@
 const generateRandomAppointments = () => {
-  const startDate = new Date('2023-10-02'); // Date de début : aujourd'hui
+  const startDate = new Date("2023-10-09"); // Date de début : aujourd'hui
   startDate.setHours(0, 0, 0, 0); // Réinitialiser l'heure à 00:00:00
 
   const endDate = new Date(startDate);
