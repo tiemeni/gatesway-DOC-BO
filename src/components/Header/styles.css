@@ -1,11 +1,12 @@
-.first {
+.dateText {
   color: white;
+  font-size: 13px;
 }
 
-.first h1 {
-  margin-left: 20px;
-  font-family: Arial, Helvetica, sans-serif;
+.textLogo {
   font-weight: 800;
+  color: rgb(23, 114, 218);
+  font-size: 20px;
 }
 .first p {
   font-size: 0.8em;
@@ -97,4 +98,14 @@
   margin-left: 200px;
   width: 30px;
   height: 30px;
+}
+
+.boxLeftIcon{
+  height: 35px;
+  width: 35px;
+  border-radius: 50px;
+  border-width: 2px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }

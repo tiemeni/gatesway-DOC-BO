@@ -1,13 +1,26 @@
+import { SearchIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Flex,
+  HStack, Input,
+  InputGroup,
+  InputRightElement,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spacer,
+  Text,
+  VStack
+} from '@chakra-ui/react';
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
-import { Icon } from '@chakra-ui/icons';
-import { FaUser } from 'react-icons/fa';
-import { MdMail, MdOutlinePersonalVideo } from 'react-icons/md';
 import { AiFillSetting } from 'react-icons/ai';
-import { FcFlashOn } from 'react-icons/fc';
-import { RiSearch2Line, RiAlertFill } from 'react-icons/ri';
 import { BiSolidMessageRounded } from 'react-icons/bi';
+import { FaUser } from 'react-icons/fa';
 import { HiUserGroup } from 'react-icons/hi';
+import { IoMdArrowDropdown } from 'react-icons/io';
+import { MdMail, MdOutlinePersonalVideo } from 'react-icons/md';
+import { RiAlertFill } from 'react-icons/ri';
 import './styles.css';
 
 function NavigationBar() {
@@ -98,37 +111,54 @@ function NavigationBar() {
   }
 
   return (
-    <Flex bg="#3A3C44" p={4} alignItems="center">
-      <div className="first">
-        <h1>GATESWAYDOC</h1>
-        <p>{getDateAndTime()}</p>
-      </div>
-      <div className="second">
-        <form>
-          <input
-            type="search"
-            name=""
-            id=""
-            placeholder="Rechercer un patient"
-          />
-          <Icon className="icon" as={RiSearch2Line} color="white" />
-        </form>
-        <Icon as={FaUser} />
-        <Icon as={MdMail} />
-        <Icon as={AiFillSetting} />
-        <Icon as={FcFlashOn} />
-        <Icon as={MdOutlinePersonalVideo} />
-      </div>
-      <div className="tird">
-        <Icon className="let" as={BiSolidMessageRounded} />
-        <Icon className="let" as={MdMail} />
-        <Icon className="let" as={RiAlertFill} />
-        <Icon className="let let-user" as={FaUser} />
-        <select name="" id="">
-          <option value=""> GatesWayDoc Admin </option>
-        </select>
-        <Icon className="group" as={HiUserGroup} />
-      </div>
+    <Flex bg="#3A3C44" paddingY={2} paddingX={5} flexDirection={{ base: 'column', md: 'row' }} alignItems="center">
+      <VStack justifyItems="center">
+        <Text className='textLogo'>GATESWAYDOC</Text>
+        <Text className='dateText'>{getDateAndTime()}</Text>
+      </VStack>
+      <InputGroup size="sm" mt={{ base: 4, md: 0 }} width={{ base: '100%', md: 280 }} ml={{ base: 0, md: 14 }}>
+        <Input backgroundColor='whiteAlpha.800' rounded={50} placeholder='Rechercher un patient' _placeholder={{ color: 'blue.300' }} />
+        <InputRightElement backgroundColor='blue.300' rounded={50}>
+          <SearchIcon color='white' />
+        </InputRightElement>
+      </InputGroup>
+      <HStack color='whiteAlpha.800' spacing={6} ml={{ base: 0, md: 14 }}>
+        <FaUser className='let' size={20} />
+        <MdMail size={24} />
+        <AiFillSetting size={24} />
+        <MdOutlinePersonalVideo size={24} />
+      </HStack>
+      <Spacer />
+      <HStack spacing={6} color='whiteAlpha.800' mr={4}>
+        <Box className='boxLeftIcon'>
+          <BiSolidMessageRounded size={20} />
+        </Box>
+        <Box className='boxLeftIcon'>
+          <MdMail size={20} />
+        </Box>
+        <Box className='boxLeftIcon'>
+          <RiAlertFill size={20} />
+        </Box>
+        <Box backgroundColor="black" borderWidth={0} className='boxLeftIcon'>
+          <FaUser size={20} />
+        </Box>
+        <Menu isLazy>
+          <MenuButton>
+            <HStack>
+              <Text>
+                GatewayDoc Admin
+              </Text>
+              <IoMdArrowDropdown color='white'/>
+            </HStack>
+          </MenuButton>
+          <MenuList color='blue.400'>
+            <MenuItem>Download</MenuItem>
+            <MenuItem>Create a Copy</MenuItem>
+            <MenuItem>Mark as Draft</MenuItem>
+          </MenuList>
+        </Menu>
+        <HiUserGroup size={26} />
+      </HStack>
     </Flex>
   );
 }
