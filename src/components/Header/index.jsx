@@ -21,7 +21,7 @@ import { HiUserGroup } from 'react-icons/hi';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { MdMail, MdOutlinePersonalVideo } from 'react-icons/md';
 import { RiAlertFill } from 'react-icons/ri';
-import './styles.css';
+import styles from './styles';
 
 function NavigationBar() {
 
@@ -128,8 +128,8 @@ function NavigationBar() {
   return (
     <Flex bg="#3A3C44" paddingY={5} paddingX={5} height='16' flexDirection={{ base: 'column', md: 'row' }} alignItems="center">
       <VStack justifyItems="center">
-        <Text fontSize={windowWidth < 958 ? 16 : 20} className='textLogo'>GATESWAYDOC</Text>
-        <Text className='dateText'>{getDateAndTime()}</Text>
+        <Text fontSize={windowWidth < 958 ? 16 : 20} style={styles.textLogo}>GATESWAYDOC</Text>
+        <Text style={styles.dateText}>{getDateAndTime()}</Text>
       </VStack>
       {windowWidth > 758 ? (
       <InputGroup size="sm" mt={{ base: 0, md: 0 }} width={{ base: '100%', md: 250 }} ml={{ base: 0, md: 14 }}>
@@ -148,16 +148,16 @@ function NavigationBar() {
       <HStack spacing={6} color='whiteAlpha.800' mr={4}>
         {windowWidth > 958 ? (
           <>
-            <Box className='boxLeftIcon'>
+            <Box style={styles.boxLeftIcon}>
               <BiSolidMessageRounded size={20} />
             </Box>
-            <Box className='boxLeftIcon'>
+            <Box style={styles.boxLeftIcon}>
               <MdMail size={20} />
             </Box>
-            <Box className='boxLeftIcon'>
+            <Box style={styles.boxLeftIcon}>
               <RiAlertFill size={20} />
             </Box>
-            <Box backgroundColor="black" borderWidth={0} className='boxLeftIcon'>
+            <Box backgroundColor="black" borderWidth={0} style={styles.boxLeftIcon}>
               <FaUser size={20} />
             </Box>
           </>) : null
