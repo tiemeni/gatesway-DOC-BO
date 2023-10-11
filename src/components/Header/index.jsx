@@ -55,9 +55,9 @@ function Header() {
   return (
     <Flex className="navigation" bg="#3A3C44" p={4} alignItems="center">
         {isButtonVisible && (
-        <div className="button">
+        <div >
           {isNavVisible}
-          <Button className={isButtonActive ? 'phone' : ''} onClick={toggleNav}>
+          <Button background="none" className={isButtonActive ? 'phone' : ''} onClick={toggleNav}>
             <span className='phone-box'>
               <span className='phone-inner' />
             </span>
