@@ -7,6 +7,9 @@
 .navigation .phone{
   display: none;
 }
+.navigation .visible{
+  display: flex;
+}
 .navigation h1{
   font-size: 1.5em;
   font-family: Arial, Helvetica, sans-serif;
@@ -81,7 +84,26 @@
 @media screen and (max-width:1000px){
   .navigation{
     display: none;
+    justify-content: space-between;
   }
+  .navigation input{
+    width: 30vw;
+    height: 5vh;
+    
+  }
+  .navigation svg{
+    width: 4vw;
+    height: 4.5vh;
+  }
+  
+  .navigation .btn-search{
+    width: 3vw;
+    margin-left: 24vw;
+    padding: 0;
+
+  }
+ 
+ 
   .phone{
     padding: 15px 15px;
     display: inline-block;
@@ -130,6 +152,9 @@
   }
   .phone-inner::after {
     bottom: -10px; 
+  }
+  .button{
+    background: none ;
   }
     
 }

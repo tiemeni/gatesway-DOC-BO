@@ -18,6 +18,7 @@ function Header() {
   const [isNavVisible, setNavVisible] = useState(true);
   const [isButtonActive, setButtonActive] = useState(false);
   const [isButtonVisible, setButtonVisible] = useState(false);
+  const [isVisible, setVisible] = useState(true);
   
   const toggleNav = () => {
     setNavVisible(!isNavVisible);
@@ -35,8 +36,10 @@ function Header() {
     const handleResize = () => {
       if (window.innerWidth > 1000) {
         setButtonVisible(false);
+        setVisible(true);
       } else {
         setButtonVisible(true);
+        setVisible(false);
       }
     };
 
@@ -61,10 +64,12 @@ function Header() {
           </Button>
         </div>
       )}
-      <div className="first">
-        <h1>GATESWAYDOC</h1>
-        <p>{currentTime}</p>
-      </div>
+      {isVisible && (
+        <div className="first">
+          <h1>GATESWAYDOC</h1>
+          <p>{currentTime}</p>
+        </div>
+      )}
       <div className="second">
         <div className='form' >
           <form id='search'>
@@ -72,21 +77,37 @@ function Header() {
             <Button className="btn-search" ><Icon as={RiSearch2Line} color="white" /></Button>
           </form>
         </div>
-        <Icon className="icon" as={FaUser} />
-        <Icon className="icon" as={MdMail} />
-        <Icon className="icon" as={AiFillSetting} />
-        <Icon className="icon" as={IoIosFlash} />
-        <Icon className="icon" as={MdOutlinePersonalVideo} />
+        {isVisible && ( 
+          <div className='visible'>
+            <Icon className="icon" as={FaUser} />
+            <Icon className="icon" as={MdMail} />
+            <Icon className="icon" as={AiFillSetting} />
+            <Icon className="icon" as={IoIosFlash} />
+            <Icon className="icon" as={MdOutlinePersonalVideo} />
+          </div>
+        )}
+        
       </div>
       <div className="tird">
-        <Icon className="let" as={BiSolidMessageRounded} />
-        <Icon className="let" as={MdMail} />
-        <Icon className="let" as={RiAlertFill} />
+          {isVisible && (
+            <div className='visible'>
+              <Icon className="let" as={BiSolidMessageRounded} />
+              <Icon className="let" as={MdMail} />
+              <Icon className="let" as={RiAlertFill} />
+
+            </div>
+          )}
+        
         <Icon id='user' className="let let-user" as={FaUser} />
-        <select  name="" id="">
-          <option value=""> GatesWayDoc Admin </option>
-        </select>
-        <Icon className="group" as={HiUserGroup} />
+        {isVisible && (
+          <div className='visible'>
+            <select  name="" id="">
+              <option value=""> GatesWayDoc Admin </option>
+            </select>
+            <Icon className="group" as={HiUserGroup} />
+          </div>
+        )}
+        
       </div>
     </Flex>
   );
