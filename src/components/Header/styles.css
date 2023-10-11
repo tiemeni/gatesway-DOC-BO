@@ -1,100 +1,135 @@
-.first {
-  color: white;
+.navigation{
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  color: rgb(196, 193, 193);
 }
-
-.first h1 {
-  margin-left: 20px;
+.navigation .phone{
+  display: none;
+}
+.navigation h1{
+  font-size: 1.5em;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 800;
 }
-.first p {
-  font-size: 0.8em;
+.navigation p{
   font-family: 'Times New Roman', Times, serif;
+  font-weight: 800;
+  font-size: 0.7em;
+  margin-left: 0.5vw;
 }
-.second {
-  margin-left: 20px;
-  display: flex;
+.navigation .second{
+  display: inline-flex;
+  margin-left: 3vw;
 }
-.second form {
-  display: flex;
+.navigation .form{
+  display:  flex;
 }
-.second svg {
-  margin: 10px;
-  font-size: 1.5em;
-  color: rgb(196, 193, 193);
-}
-.second .icon {
-  padding: 3px;
-  background-color: rgba(79, 177, 201, 0.966);
-  position: absolute;
-  margin-left: 14.5%;
-  border-radius: 50px;
-  color: white !important;
-}
-.second input {
-  margin: 10px;
-  height: 25px;
-  width: 200px;
-  background-color: white;
-  border-radius: 20px;
-  position: relative;
-}
-.second input::placeholder {
+.navigation input::placeholder{
   font-size: 0.8em;
   color: rgba(79, 177, 201, 0.966);
 }
-.tird {
-  margin-left: 20%;
-}
-.tird select {
-  color: rgb(196, 193, 193);
-  background: none;
-  margin-top: 10px;
-  height: 20px;
+.navigation input{
+  width: 20vw;
+  height: 5vh;
   border-radius: 20px;
-  display: inline-block;
+  background-color: white;
   position: absolute;
-  font-size: 0.8em;
 }
-.tird .let {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  padding: 5px;
-  margin: 5px;
-  border: 2px solid rgb(196, 193, 193);
+.navigation svg{
+  width: 2vw;
+  height: 4.5vh;
+}
+
+.navigation .btn-search{
+  margin-left: 17vw;
+  width: 2.5vw;
+  height: 5vh;
+  padding: 1px;
   border-radius: 50%;
-  background-color: none;
-  color: rgb(196, 193, 193);
-  text-align: center;
-  line-height: 40px;
-  font-size: 16px;
-  position: relative;
+  background-color: rgba(79, 177, 201, 0.966);
 }
-.tird svg {
-  color: rgb(196, 193, 193);
-  font-size: 1.2em;
+.navigation .tird{
+  display: flex;
+  margin-left: 16vw;
 }
-.tird span {
-  display: inline-block;
-  color: white;
-  position: absolute;
-  margin-right: 20px !important;
+.navigation .icon{
+ margin-left: 1vw;
+}
+
+.navigation select{
+  background: none;
+  color: rgb(196, 193, 193);
+}
+
+.navigation .let{
+  margin: 4px;
+  border: 2px solid  rgb(196, 193, 193);
   border-radius: 50%;
-  background-color: red;
-  font-size: 0.7em;
-  height: 20px;
-  width: 20px;
-  padding: 5px;
 }
-.tird .let-user {
-  margin-left: 20px;
-  border: none;
-  background-color: black;
+
+.navigation .groupe{
+  width: 3vw;
+  margin-left: 4vw;
 }
-.tird .group {
-  position: absolute;
-  margin-left: 13%;
-  width: 30px;
-  height: 30px;
+
+.navigation .let-user{
+
+  padding: 1px;
+  background: black;
+}
+@media screen and (max-width:1000px){
+  .navigation{
+    display: none;
+  }
+  .phone{
+    padding: 15px 15px;
+    display: inline-block;
+    cursor: pointer;
+    transition-property: opacity, filter;
+    transition-duration: 0.15s;
+    transition-timing-function: linear;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    background-color: rgba(79, 177, 201, 0.966);
+    border: 0;
+    margin: 0;
+    overflow: visible; 
+  }
+  .phone:hover{
+    opacity: 0.7;
+  }
+  .phone-box{
+    width: 40px;
+    height: 24px;
+    display: inline-block;
+    position: relative; 
+  }
+  .phone-inner{
+    display: block;
+    top: 50%;
+    margin-top: -2px;
+  }
+  .phone-inner, .phone-inner::before, .phone-inner::after {
+    width: 40px;
+    height: 4px;
+    background-color: white;
+    border-radius: 4px;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.15s;
+    transition-timing-function: ease; 
+  }
+  .phone-inner::before, .phone-inner::after {
+    content: "";
+    display: block; 
+  }
+  .phone-inner::before {
+    top: -10px; 
+  }
+  .phone-inner::after {
+    bottom: -10px; 
+  }
+    
 }
