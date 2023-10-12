@@ -34,7 +34,7 @@
 }
 .navigation input{
   width: 20vw;
-  height: 5vh;
+  height: 6.5vh;
   border-radius: 20px;
   background-color: white;
   position: absolute;
@@ -46,8 +46,6 @@
 
 .navigation .btn-search{
   margin-left: 17vw;
-  width: 2.5vw;
-  height: 5vh;
   padding: 1px;
   border-radius: 50%;
   background-color: rgba(79, 177, 201, 0.966);
@@ -88,7 +86,7 @@
   }
   .navigation input{
     width: 30vw;
-    height: 5vh;
+    height: 6.5vh;
     
   }
   .navigation svg{
@@ -97,7 +95,7 @@
   }
   
   .navigation .btn-search{
-    width: 3vw;
+    
     margin-left: 24vw;
     padding: 0;
 

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { Flex, Input , Button} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import { Flex, Input, Button } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/icons';
 import { FaUser } from 'react-icons/fa';
 import { IoIosFlash } from "react-icons/io";
@@ -11,29 +11,24 @@ import { HiUserGroup } from 'react-icons/hi';
 import { getDateAndTime } from '../../utils/helpers';
 import './styles.css';
 
-
 function Header() {
-
   const [currentTime, setCurrentTime] = useState(getDateAndTime());
   const [isNavVisible, setNavVisible] = useState(true);
   const [isButtonActive, setButtonActive] = useState(false);
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [isVisible, setVisible] = useState(true);
-  
+
   const toggleNav = () => {
     setNavVisible(!isNavVisible);
     setButtonActive(!isButtonActive);
   };
-  
-  const  updateTime = () => {
+
+  const updateTime = () => {
     setCurrentTime(getDateAndTime());
   }
-  
 
   useEffect(() => {
-    const interval = setInterval(updateTime, 1000); 
-      // gestion du responsive du button
-    const handleResize = () => {
+    const updateButtonVisibility = () => {
       if (window.innerWidth > 1000) {
         setButtonVisible(false);
         setVisible(true);
@@ -43,14 +38,21 @@ function Header() {
       }
     };
 
+    updateButtonVisibility(); // Appel initial pour configurer la visibilité du bouton
+
+    const interval = setInterval(updateTime, 1000);
+
+    const handleResize = () => {
+      updateButtonVisibility(); // Mettre à jour la visibilité du bouton lors du redimensionnement de la fenêtre
+    };
+
     window.addEventListener('resize', handleResize);
 
     return () => {
-      clearInterval(interval)
+      clearInterval(interval);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-    
 
   return (
     <Flex className="navigation" bg="#3A3C44" p={4} alignItems="center">
