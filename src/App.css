@@ -50,15 +50,23 @@
 }
 
 .calendar-event {
-  border-left: 5px solid;
-  border-bottom-color: white !important;
-  border-top-color: white !important;
-  border-right-color: white !important;
+  border-left-width: thick;
+  border-right: 0;
+  border-bottom: 0;
+  border-top: 0;
   border-radius: 0.5em;
 }
 
 .fc-timegrid-event .fc-event-main {
   padding: 0;
+}
+
+button.fc-button.fc-button-primary {
+  font-size: 0.875em;
+}
+
+.fc-direction-ltr .fc-timegrid-col-events {
+  margin: 0px .8em 0px .2em;
 }
 
 @keyframes App-logo-spin {

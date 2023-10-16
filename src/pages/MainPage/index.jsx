@@ -16,9 +16,7 @@ function MainPage() {
 
   return (
     <HStack minW="full" alignItems="flex-start" h={innerHeight}>
-      <Box minW="20%" h="full">
-        <MenuPraticien />
-      </Box>
+      <MenuPraticien />
       <Box overflow="auto" h="full">
         <Calendar />
       </Box>

@@ -16,9 +16,13 @@ import { saveCheckedPractitioners } from '../../redux/praticiens/actions';
 const _spacing = 3;
 function MenuPraticien() {
   const dispatch = useDispatch();
+  const [searchedValue, setSearchedValue] = React.useState('');
   const { practitionersCheckedList, datas } = useSelector(
     (state) => state.Praticiens,
   );
+  const [practitionersList, setPractitionersList] = React.useState({
+    ...datas,
+  });
   const idc = localStorage.getItem('idc');
 
   // Control profession checkboxes
@@ -81,8 +85,36 @@ function MenuPraticien() {
     [practitionersCheckedList.idsList],
   );
 
+  const handleSearch = (e) => {
+    const value = e.target.value.toLowerCase()
+    setSearchedValue(value);
+    const copy = { ...datas };
+    if (value === '') {
+      setPractitionersList({ ...copy });
+      return;
+    }
+    Object.keys(datas).map((key) => {
+      copy[key] = datas[key].filter(
+        (practitioner) =>
+          practitioner.name.toLowerCase().includes(value) ||
+          practitioner.surname.toLowerCase().includes(value),
+      );
+
+      if (copy[key].length === 0) {
+        delete copy[key];
+      }
+
+      return false;
+    });
+    setPractitionersList({ ...copy });
+  };
+
+  React.useEffect(() => {
+    setPractitionersList(datas);
+  }, [datas]);
+
   return (
-    <VStack h="full" boxShadow="2xl">
+    <VStack h="full" boxShadow="2xl" minW="18em">
       <HStack w="full" justifyContent="end" pb={_spacing}>
         <IconButton
           size="sm"
@@ -91,15 +123,21 @@ function MenuPraticien() {
         />
       </HStack>
       <Box p={_spacing}>
-        <Input variant="outline" placeholder="Rechercher un praticien" />
+        <Input
+          variant="outline"
+          placeholder="Rechercher un praticien"
+          onChange={handleSearch}
+          value={searchedValue}
+          fontSize="sm"
+        />
       </Box>
       <Box h="full" w="full" px={_spacing} overflow="auto">
         <Accordion w="full" allowMultiple defaultIndex={[0]}>
-          {Object.keys(datas).map((profession) => (
+          {Object.keys(practitionersList).map((profession) => (
             <MenuItem
               key={profession}
               professionName={profession}
-              data={datas[profession]}
+              data={practitionersList[profession]}
               selectedPractitioners={practitionersCheckedList.idsList}
               handleSelection={handleSelection}
             />

@@ -1,5 +1,5 @@
 const generateRandomAppointments = () => {
-  const startDate = new Date("2023-10-09"); // Date de début : aujourd'hui
+  const startDate = new Date(); // Date de début : aujourd'hui
   startDate.setHours(0, 0, 0, 0); // Réinitialiser l'heure à 00:00:00
 
   const endDate = new Date(startDate);
@@ -72,9 +72,9 @@ export const formatUserName = (username, userSurname) => {
   let final = '';
 
   if (firstName) {
-    final = firstName;
+    final = firstName.toUpperCase();
     if (secondName) {
-      final += ` ${secondName}`;
+      final += ` ${secondName.toUpperCase()}`;
     }
   }
 

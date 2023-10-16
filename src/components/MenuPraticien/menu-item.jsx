@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   AccordionButton,
@@ -35,11 +35,12 @@ function MenuItem(props) {
     else handleSelection(tabIds, tabNames, 'remove');
   };
 
+  console.log("item rerendered")
+
   return (
     <AccordionItem>
       <HStack alignItems="center">
         <Checkbox
-          defaultChecked={data.length === selectedPractitioners.length}
           onChange={handleChange}
           size="md"
           colorScheme="primary"
@@ -97,4 +98,4 @@ MenuItem.propTypes = {
   handleSelection: PropTypes.func.isRequired,
 };
 
-export default memo(MenuItem);
+export default MenuItem;

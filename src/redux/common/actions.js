@@ -1,9 +1,10 @@
-import { RESET_APP } from './types';
+import * as types from './types';
 
 export const resetApp = () => ({
-  type: RESET_APP,
+  type: types.RESET_APP,
 });
 
-export const anotherAction = () => ({
-  type: 'ANOTHER_ACTION',
+export const onDateSelected = (payload) => ({
+  type: types.AGENDA_DATE_CLICK,
+  payload,
 });

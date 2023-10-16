@@ -5,7 +5,10 @@ import * as types from './types';
  * aussi
  */
 
-const initialState = {};
+const initialState = {
+  dateSelected: null,
+  openModal: false,
+};
 
 const CommonReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
@@ -13,6 +16,12 @@ const CommonReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         waveForLogin: 'App reset good , welcome login',
+      };
+    case types.AGENDA_DATE_CLICK:
+      return {
+        ...state,
+        dateSelected: action.payload.date,
+        openModal: action.payload.isOpen,
       };
     default:
       return state;
