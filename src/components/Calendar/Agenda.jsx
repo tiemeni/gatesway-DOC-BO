@@ -6,16 +6,24 @@ import frlocale from '@fullcalendar/core/locales/fr';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Box, Text } from '@chakra-ui/react';
 import Pikaday from 'pikaday';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import EventContent from './EventContent';
-import { onDateSelected } from '../../redux/common/actions';
-import { fakeDatas } from '../../utils/helpers';
+import { onChangeCalendar, onDateSelected } from '../../redux/common/actions';
+import {
+  headerToolbar,
+  months,
+  slotLabelFormat,
+  weekdays,
+  weekdaysShort,
+} from '../../utils/variables/fullcalendar';
+import Loader from './Loader';
 
 function Agenda() {
-  console.log('agenda');
+  const idc = localStorage.getItem('idc');
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const pickerRef = useRef(null);
+  const { practitionersCheckedList } = useSelector((state) => state.Praticiens);
 
   const handlePikadayDateChange = (date) => {
     const calendarApi = calendarRef.current.getApi();
@@ -29,6 +37,7 @@ function Agenda() {
     dispatch(onDateSelected({ date: dateStr, isOpen: true }));
   };
   const renderEventContent = ({ event }) => <EventContent event={event} />;
+  const onLoad = (isLoading) => dispatch(onChangeCalendar(isLoading));
   const dayHeaderContent = (info) => <Text fontSize="sm">{info.text}</Text>;
   const onDatesSet = (event) => {
     if (pickerRef?.current) {
@@ -55,30 +64,9 @@ function Agenda() {
       i18n: {
         previousMonth: 'Mois précedent',
         nextMonth: 'Mois prochain',
-        months: [
-          'Janvier',
-          'Février',
-          'Mars',
-          'Avril',
-          'Mai',
-          'Juin',
-          'Juillet',
-          'Août',
-          'Septembre',
-          'Octobre',
-          'Novembre',
-          'Décembre',
-        ],
-        weekdays: [
-          'Dimanche',
-          'Lundi',
-          'Mardi',
-          'Mercredi',
-          'Jeudi',
-          'Vendredi',
-          'Samedi',
-        ],
-        weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+        months,
+        weekdays,
+        weekdaysShort,
       },
       firstDay: 1,
       showWeekNumber: true,
@@ -91,7 +79,7 @@ function Agenda() {
   }, []);
 
   return (
-    <Box p={5}>
+    <Box position="relative" w="full">
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, resourceTimeGridPlugin, interactionPlugin]}
@@ -113,22 +101,24 @@ function Agenda() {
         height="auto"
         eventContent={renderEventContent}
         customButtons={customButtons}
-        events={fakeDatas}
+        datesSet={onDatesSet}
         dayHeaderContent={dayHeaderContent}
         dateClick={onDateClick}
-        headerToolbar={{
-          left: 'today prev,next miniCalendar',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay',
-        }}
-        slotLabelFormat={{
-          hour: 'numeric',
-          minute: '2-digit',
-          omitZeroMinute: false,
-          meridiem: 'short',
-        }}
-        datesSet={onDatesSet}
+        headerToolbar={headerToolbar}
+        slotLabelFormat={slotLabelFormat}
+        eventSources={[
+          {
+            url: `${process.env.REACT_APP_BASE_URL}/appointments/`,
+            extraParams: {
+              idCentre: idc,
+              idp: practitionersCheckedList.idsList,
+            },
+          },
+        ]}
+        eventSourceSuccess={(rawEvents) => rawEvents.data}
+        loading={onLoad}
       />
+      <Loader />
     </Box>
   );
 }

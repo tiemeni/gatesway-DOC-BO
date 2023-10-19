@@ -3,6 +3,8 @@ import { Box, HStack, Heading, Switch, Text } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import CalendarAppointment from './CalendarAppointment';
 import Agenda from './Agenda';
+import FicheRdv from './FicheRdv';
+import DeleteDialog from './DeleteDialog';
 
 function Calendar() {
   const [calendarTItle, setCalendarTItle] = useState();
@@ -35,6 +37,8 @@ function Calendar() {
       </Heading>
       <Agenda />
       <CalendarAppointment />
+      <FicheRdv />
+      <DeleteDialog />
     </Box>
   );
 }

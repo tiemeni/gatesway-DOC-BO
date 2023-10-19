@@ -56,12 +56,12 @@ function CalendarAppointment() {
       <ModalOverlay />
       <ModalContent roundedTop={10}>
         <ModalHeader roundedTop={10} bg="primary.500">
-          <Text fontSize="lg" color="white">
+          <Text fontWeight="normal" fontSize="lg" color="white">
             Prendre rendez-vous
           </Text>
         </ModalHeader>
         <ModalCloseButton color="white" />
-        <ModalBody p={10}>
+        <ModalBody p={5}>
           <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
@@ -171,7 +171,7 @@ function CalendarAppointment() {
               colorScheme="primary"
               rightIcon={<UilArrowCircleRight />}
             >
-              <Text fontWeight="normal">Valider</Text>
+              <Text fontSize="sm" fontWeight="normal">Valider</Text>
             </Button>
             <Button
               colorScheme="primary"
@@ -181,10 +181,10 @@ function CalendarAppointment() {
               rightIcon={<UilPrint />}
               onClick={onClose}
             >
-              <Text fontWeight="normal">Valider et Imprimer</Text>
+              <Text fontSize="sm" fontWeight="normal">Valider et Imprimer</Text>
             </Button>
             <Button size="md" onClick={onClose}>
-              <Text fontWeight="normal">Annuler</Text>
+              <Text fontSize="sm" fontWeight="normal">Annuler</Text>
             </Button>
           </HStack>
         </ModalFooter>

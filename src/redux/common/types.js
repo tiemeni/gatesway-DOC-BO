@@ -1,3 +1,6 @@
 export const RESET_APP = 'RESET_APP';
 export const AUTHER = 'AUTHER';
 export const AGENDA_DATE_CLICK = 'AGENDA_DATE_CLICK';
+export const SHOW_CALENDAR_LOADER = 'SHOW_CALENDAR_LOADER';
+export const EVENT_CLICK = 'EVENT_CLICK';
+export const DELETE_EVENT = 'DELETE_EVENT';

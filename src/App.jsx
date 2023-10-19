@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import './App.css';
 import Routeur from './routerWrapper';
 import store from './redux/setup/store';
+import 'moment/locale/fr';
 
 function App() {
   return (

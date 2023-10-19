@@ -8,6 +8,10 @@ import * as types from './types';
 const initialState = {
   dateSelected: null,
   openModal: false,
+  showLoader: false,
+  showFicheRdv: false,
+  infoRdv: {},
+  openDeletion: false,
 };
 
 const CommonReducer = (state = initialState, action = undefined) => {
@@ -22,6 +26,22 @@ const CommonReducer = (state = initialState, action = undefined) => {
         ...state,
         dateSelected: action.payload.date,
         openModal: action.payload.isOpen,
+      };
+    case types.SHOW_CALENDAR_LOADER:
+      return {
+        ...state,
+        showLoader: action.payload,
+      };
+    case types.EVENT_CLICK:
+      return {
+        ...state,
+        showFicheRdv: action.payload.showFicheRdv,
+        infoRdv: { ...action.payload.infoRdv },
+      };
+    case types.DELETE_EVENT:
+      return {
+        ...state,
+        openDeletion: action.payload,
       };
     default:
       return state;
