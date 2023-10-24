@@ -4,12 +4,15 @@ import './App.css';
 import Routeur from './routerWrapper';
 import store from './redux/setup/store';
 import 'moment/locale/fr';
+import { SocketProvider } from './providers/socket';
 
 function App() {
   return (
     <div>
       <Provider store={store}>
-        <Routeur />
+        <SocketProvider>
+          <Routeur />
+        </SocketProvider>
       </Provider>
     </div>
   );

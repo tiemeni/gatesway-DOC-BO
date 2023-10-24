@@ -24,13 +24,15 @@ import {
   Text,
   Textarea,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { UilUser, UilHistoryAlt, UilPen } from '@iconscout/react-unicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field } from 'formik';
 import moment from 'moment';
 import { onDeleteEvent, onEventClick } from '../../redux/common/actions';
+import { onUpdateAppointment } from '../../redux/appointments/actions';
 
 function RdvInfo() {
   return (
@@ -43,6 +45,10 @@ function RdvInfo() {
           <Field fontSize="sm" as={Select} id="status" name="status">
             <option value="Annulé">Annulé</option>
             <option value="Planifié">Planifié</option>
+            <option value="Absence excusée">Absence excusée</option>
+            <option value="Absence non excusé">Absence non excusé</option>
+            <option value="En salle d&apos;attente">En salle d&apos;attente</option>
+            <option value="Traité">Traité</option>
           </Field>
         </FormControl>
         <FormControl isRequired>
@@ -60,7 +66,14 @@ function RdvInfo() {
           <FormLabel color="gray.500" fontSize="sm">
             Date
           </FormLabel>
-          <Field as={Input} id="date" name="date" fontSize="sm" type="date" />
+          <Field
+            as={Input}
+            id="date"
+            name="date"
+            fontSize="sm"
+            type="date"
+            isReadOnly
+          />
         </FormControl>
         <FormControl isRequired>
           <FormLabel color="gray.500" fontSize="sm">
@@ -107,8 +120,12 @@ function RdvInfo() {
 
 function FicheRdv() {
   const { showFicheRdv, infoRdv } = useSelector((state) => state.Common);
+  const { isLoading, success, isFailed } = useSelector(
+    (state) => state.Appointments,
+  );
   const { patient } = infoRdv;
   const dispatch = useDispatch();
+  const toast = useToast();
   const initialValues = {
     status: infoRdv?.status,
     motif: infoRdv?.motif,
@@ -144,14 +161,47 @@ function FicheRdv() {
     );
 
   const onDelete = () => dispatch(onDeleteEvent(true));
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    dispatch(
+      onUpdateAppointment({
+        ...data,
+        date_long: infoRdv.dateLong,
+        _id: infoRdv._id,
+      }),
+    );
+  };
+
+  useEffect(() => {
+    if (success || (!success && isFailed)) {
+      const status = !success && isFailed ? 'danger' : 'success';
+      const titleText = success
+        ? `Le rendez-vous à bien été mis à jour`
+        : 'Une erreur est survenue lors de la mise à jour du rendez-vous';
+      const title = <Text fontSize="sm">{titleText}</Text>;
+
+      toast({
+        title,
+        status,
+        variant: 'solid',
+        position: 'top-right',
+        isClosable: true,
+      });
+    }
+  }, [success]);
+
+  const loadingText = (
+    <Text fontSize="sm" fontWeight="normal">
+      Patientez...
+    </Text>
+  );
 
   return (
     <Modal
       size="3xl"
       isOpen={showFicheRdv}
       onClose={onClose}
-      closeOnOverlayClick={false}autoFocus
+      closeOnOverlayClick={false}
+      autoFocus
     >
       <ModalOverlay />
       <ModalContent roundedTop={10}>
@@ -306,6 +356,8 @@ function FicheRdv() {
                                   type="submit"
                                   size="md"
                                   colorScheme="primary"
+                                  isLoading={isLoading}
+                                  loadingText={loadingText}
                                 >
                                   <Text fontSize="sm" fontWeight="normal">
                                     Modifier
@@ -317,6 +369,8 @@ function FicheRdv() {
                                   color="secondary.500"
                                   size="md"
                                   onClick={onClose}
+                                  isDisabled={isLoading}
+                                  loadingText={loadingText}
                                 >
                                   <Text
                                     fontSize="sm"
@@ -332,6 +386,8 @@ function FicheRdv() {
                                   color="red.500"
                                   size="md"
                                   onClick={onDelete}
+                                  isDisabled={isLoading}
+                                  loadingText={loadingText}
                                 >
                                   <Text
                                     fontSize="sm"

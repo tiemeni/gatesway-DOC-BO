@@ -58,7 +58,6 @@ const generateRandomAppointments = () => {
 
   return appointments;
 };
-
 export const fakeDatas = generateRandomAppointments();
 
 export const retreiveIdc = () => {
@@ -86,4 +85,25 @@ export const formatUserName = (username, userSurname) => {
   }
 
   return final;
+};
+
+export const incrementTime = (start, duration) => {
+  // Convertir l'heure de départ en minutes
+  const startHour = parseInt(start.split(':')[0], 10);
+  const startMinute = parseInt(start.split(':')[1], 10);
+  const totalStartMinutes = startHour * 60 + startMinute;
+
+  // Ajouter la durée en minutes
+  const totalEndMinutes = totalStartMinutes + parseInt(duration, 10);
+
+  // Calculer l'heure d'arrivée
+  const endHour = Math.floor(totalEndMinutes / 60);
+  const endMinute = totalEndMinutes % 60;
+
+  // Formater l'heure d'arrivée
+  const formattedEndHour = endHour.toString().padStart(2, '0');
+  const formattedEndMinute = endMinute.toString().padStart(2, '0');
+
+  // Retourner l'heure d'arrivée au format hh:mm
+  return `${formattedEndHour}:${formattedEndMinute}`;
 };

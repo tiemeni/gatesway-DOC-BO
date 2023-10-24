@@ -17,6 +17,7 @@ import {
   weekdaysShort,
 } from '../../utils/variables/fullcalendar';
 import Loader from './Loader';
+import { useSocket } from '../../providers/socket';
 
 function Agenda() {
   const idc = localStorage.getItem('idc');
@@ -24,6 +25,7 @@ function Agenda() {
   const calendarRef = useRef(null);
   const pickerRef = useRef(null);
   const { practitionersCheckedList } = useSelector((state) => state.Praticiens);
+  const socket = useSocket();
 
   const handlePikadayDateChange = (date) => {
     const calendarApi = calendarRef.current.getApi();
@@ -78,6 +80,12 @@ function Agenda() {
     };
   }, []);
 
+  React.useEffect(() => {
+    socket.on('refetchEvents', () => {
+      calendarRef.current.getApi().refetchEvents();
+    });
+  }, [socket]);
+
   return (
     <Box position="relative" w="full">
       <FullCalendar
@@ -108,7 +116,7 @@ function Agenda() {
         slotLabelFormat={slotLabelFormat}
         eventSources={[
           {
-            url: `${process.env.REACT_APP_BASE_URL}/appointments/`,
+            url: `${process.env.REACT_APP_LOCAL_URL}/appointments/`,
             extraParams: {
               idCentre: idc,
               idp: practitionersCheckedList.idsList,

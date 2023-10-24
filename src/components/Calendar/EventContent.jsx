@@ -29,6 +29,7 @@ import TooltipContent from './TooltipContent';
 
 function EventContent({ event }) {
   const {
+    _id,
     status,
     bgColor,
     timeStart,
@@ -41,6 +42,7 @@ function EventContent({ event }) {
     name,
     surname,
     profession,
+    dateLong,
   } = event.extendedProps;
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
@@ -64,6 +66,7 @@ function EventContent({ event }) {
       onEventClick({
         showFicheRdv: true,
         infoRdv: {
+          _id,
           patient,
           motif,
           timeStart,
@@ -74,6 +77,7 @@ function EventContent({ event }) {
           praticien: `${name} ${surname}`,
           profession,
           createdAt,
+          dateLong,
         },
       }),
     );
