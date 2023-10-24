@@ -1,8 +1,11 @@
-import { LOGIN_REQUEST } from './types';
+import { GET_ALL_USERS, LOGIN_REQUEST } from './types';
 
-const processLogin = (payload) => ({
+export const processLogin = (payload) => ({
   type: LOGIN_REQUEST,
   payload,
 });
 
-export default processLogin;
+export const getAllUser = (payload) => ({
+  type: GET_ALL_USERS,
+  payload,
+});

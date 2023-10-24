@@ -12,7 +12,7 @@ const idc = localStorage.getItem('idc');
 function* getAllPraticiens() {
   try {
     const res = yield getUnauthRequest(
-      `${REACT_APP_BASE_URL}/users/profession/?isPraticien=true&idCentre=${idc}`,
+      `${REACT_APP_BASE_URL}/users/?isPraticien=true&idCentre=${idc}`,
     );
     if (!res.success)
       yield put({
@@ -21,6 +21,7 @@ function* getAllPraticiens() {
           error: "Quelque chose s'est mal passé./nVeuillez réessayer plus tard",
         },
       });
+    console.log(res.data);
     yield put({ type: types.GET_ALL_PRATICIENS_SUCCESS, payload: res });
   } catch (error) {
     yield put({

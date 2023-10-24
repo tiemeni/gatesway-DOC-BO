@@ -10,9 +10,8 @@ import {
   GridItem,
 } from '@chakra-ui/react';
 import FormGenerator from '../FormGenerator';
-import { praticien } from '../../utils/data';
 
-function RessourceSearchLayout() {
+function RessourceSearchLayout({ data = {} }) {
   return (
     <Accordion allowToggle>
       <AccordionItem>
@@ -28,9 +27,9 @@ function RessourceSearchLayout() {
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4} w="100%">
-          <Grid templateColumns="repeat(4, 1fr)" gap={4}>
-            <GridItem colStart={2} colEnd={4} rowStart={1}>
-              <FormGenerator data={praticien} />
+          <Grid templateColumns="repeat(7, 1fr)" gap={4}>
+            <GridItem colStart={2} colEnd={6} rowStart={1}>
+              <FormGenerator data={data} />
             </GridItem>
           </Grid>
         </AccordionPanel>
