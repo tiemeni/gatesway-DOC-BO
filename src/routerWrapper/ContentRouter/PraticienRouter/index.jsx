@@ -7,7 +7,7 @@ function PraticienRouter() {
   return (
     <Routes>
       <Route path="/" element={<PraticienPage />} />
-      <Route path="/upsert/:id" element={<CreatePraticien />} />
+      <Route path="/upsert/*" element={<CreatePraticien />} />
     </Routes>
   );
 }

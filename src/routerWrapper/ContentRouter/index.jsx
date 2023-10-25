@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import MainPage from '../../pages/MainPage';
-import Header from '../../components/Header';
 import PraticienRouter from './PraticienRouter';
 import UserRouter from './UserRouter';
 import PatientRouter from './PatientRouter';
@@ -13,7 +12,7 @@ import StructureRouter from './StructureRouter';
 function ContentRouter() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/praticien/*" element={<PraticienRouter />} />

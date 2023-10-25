@@ -7,15 +7,15 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { praticien } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataPraticien } from '../../utils/dataFields';
-import { getPraticiens } from '../../redux/praticiens/actions';
+import { getAllPraticiens } from '../../redux/praticiens/actions';
 
 function PraticienPage() {
   const dispatch = useDispatch();
 
-  const praticiens = useSelector((state) => state.Praticiens.datas);
+  const praticiens = useSelector((state) => state.Praticiens.praticiens);
   useEffect(() => {
     if (praticiens.length === 0) {
-      dispatch(getPraticiens());
+      dispatch(getAllPraticiens());
     }
   }, []);
 

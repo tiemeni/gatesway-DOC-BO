@@ -24,7 +24,7 @@ import {
 } from '../../utils/dataFormater';
 
 function TableGenerator({ data, entityType }) {
-  const praticiens = useSelector((state) => state.Praticiens.datas);
+  const praticiens = useSelector((state) => state.Praticiens.praticiens);
   const users = useSelector((state) => state.User.users);
   const patients = useSelector((state) => state.Patient.patients);
   const lieux = useSelector((state) => state.Lieux.lieux);
@@ -104,7 +104,7 @@ function TableGenerator({ data, entityType }) {
 
   return (
     <TableContainer w="100%">
-      <Table size="sm" variant="striped" colorScheme="gray">
+      <Table size="sm">
         <Thead bgColor="dark.500">
           <Tr>
             {data1.cols.map((c) => (
