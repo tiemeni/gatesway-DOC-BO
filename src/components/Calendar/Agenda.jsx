@@ -116,7 +116,7 @@ function Agenda() {
         slotLabelFormat={slotLabelFormat}
         eventSources={[
           {
-            url: `${process.env.REACT_APP_LOCAL_URL}/appointments/`,
+            url: `${process.env.REACT_APP_BASE_URL}/appointments/`,
             extraParams: {
               idCentre: idc,
               idp: practitionersCheckedList.idsList,

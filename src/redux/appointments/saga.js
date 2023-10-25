@@ -20,7 +20,7 @@ function* updateAppointment({ payload }) {
       duration: payload.duration,
       status: payload.status,
     };
-    const url = `${process.env.REACT_APP_LOCAL_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
+    const url = `${process.env.REACT_APP_BASE_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
     const result = yield putUnauthRequest(url, query);
 
     if (!result.success)
