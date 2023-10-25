@@ -5,20 +5,23 @@
     "jest": true
   },
   "extends": ["airbnb", "prettier", "plugin:import/recommended"],
-//   "plugins": "eslint-plugin-import",
+  //   "plugins": "eslint-plugin-import",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "rules": {
     "import/no-extraneous-dependencies": "off",
+    "react/prop-types": "off",
     "default-param-last": "off",
     "no-underscore-dangle": "off",
+    "react/jsx-props-no-spreading": "off",
     "import/no-unresolved": [
       "error",
       {
-        "ignore": ["^@iconscout/.+"]
+        "ignore": ["^@iconscout/.+", "^socket.io-client"]
       }
-    ]
+    ],
+    "react/no-unescaped-entities": 0
   }
 }

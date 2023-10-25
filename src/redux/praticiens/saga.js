@@ -10,7 +10,8 @@ const idc = localStorage.getItem('idc');
 /**
  * @description ici le saga reducer de l'evenement RESET_APP
  */
-function* getAllPraticiens() {
+
+function* getPraticiens() {
   try {
     const res = yield getUnauthRequest(
       `${REACT_APP_BASE_URL}/users/profession/?isPraticien=true&idCentre=${idc}`,
@@ -23,7 +24,7 @@ function* getAllPraticiens() {
         },
       });
     }
-      
+
     const storedList = localStorage.getItem(`practitionerCheckedList${idc}`);
     let selectedPractitioner = '';
     let selectedValues = {};
@@ -59,9 +60,33 @@ function* getAllPraticiens() {
       selectedValues.namesList.join(';'),
     );
 
-    yield put({ type: types.GET_ALL_PRATICIENS_SUCCESS, payload: { res, selectedValues } });
+    yield put({
+      type: types.GET_ALL_PRATICIENS_SUCCESS,
+      payload: { res, selectedValues },
+    });
   } catch (error) {
-    console.error("error", error)
+    console.error('error', error);
+    yield put({
+      type: types.GET_ALL_PRATICIENS_FAILED,
+      payload: { error: error?.message },
+    });
+  }
+}
+
+function* getAllPraticiens() {
+  try {
+    const res = yield getUnauthRequest(
+      `${REACT_APP_BASE_URL}/users/?isPraticien=true&idCentre=${idc}`,
+    );
+    if (!res.success)
+      yield put({
+        type: types.GET_ALL_PRATICIENS_FAILED,
+        payload: {
+          error: "Quelque chose s'est mal passé./nVeuillez réessayer plus tard",
+        },
+      });
+    yield put({ type: types.GET_ALL_PRATICIENS_SUCCESS, payload: res });
+  } catch (error) {
     yield put({
       type: types.GET_ALL_PRATICIENS_FAILED,
       payload: { error: error?.message },
@@ -70,5 +95,6 @@ function* getAllPraticiens() {
 }
 
 export default function* PraticiensSaga() {
+  yield takeLatest(types.GET_PRATICIENS_REQUEST, getPraticiens);
   yield takeLatest(types.GET_ALL_PRATICIENS_REQUEST, getAllPraticiens);
 }

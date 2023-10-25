@@ -9,6 +9,7 @@ const initialState = {
   userInfo: {},
   loginSuccess: false,
   loginErrorMessage: null,
+  users: [],
 };
 
 const UserReducers = (state = initialState, action = undefined) => {
@@ -39,6 +40,22 @@ const UserReducers = (state = initialState, action = undefined) => {
         loginLoading: false,
         loginErrorMessage: action.payload,
         loginSuccess: false,
+      };
+    case types.GET_ALL_USERS:
+      return {
+        ...state,
+        loadingUsers: true,
+      };
+    case types.GET_ALL_USERS_SUCCESS:
+      return {
+        ...state,
+        loadingUsers: false,
+        users: action.payload,
+      };
+    case types.GET_ALL_USERS_FAILED:
+      return {
+        ...state,
+        loadingUsers: false,
       };
     default:
       return state;

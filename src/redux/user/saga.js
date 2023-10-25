@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { postUnauthRequest } from '../../utils/api';
+import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -33,6 +33,23 @@ function* login({ payload }) {
   }
 }
 
+function* getAllUsers() {
+  const idc = localStorage.getItem('idc');
+  try {
+    const result = yield getUnauthRequest(
+      `${REACT_APP_BASE_URL}/users/?idCentre=${idc}`,
+    );
+    if (result.success) {
+      yield put({ type: types.GET_ALL_USERS_SUCCESS, payload: result.data });
+    } else {
+      yield put({ type: types.GET_ALL_USERS_FAILED, payload: result.message });
+    }
+  } catch (error) {
+    yield put({ type: types.GET_ALL_USERS_FAILED, payload: error.message });
+  }
+}
+
 export default function* UserSaga() {
   yield takeLatest(types.LOGIN_REQUEST, login);
+  yield takeLatest(types.GET_ALL_USERS, getAllUsers);
 }

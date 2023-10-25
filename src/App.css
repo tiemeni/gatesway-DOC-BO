@@ -1,6 +1,6 @@
 /* Largeur de la scrollbar */
 ::-webkit-scrollbar {
-  width: .4em;
+  width: 0.4em;
 }
 
 /* Couleur de fond de la scrollbar */
@@ -10,7 +10,7 @@
 
 /* Style de la poignée (thumb) de la scrollbar */
 ::-webkit-scrollbar-thumb {
-  background-color: #04B7C9;
+  background-color: #04b7c9;
   border-radius: 4px;
 }
 
@@ -66,7 +66,7 @@ button.fc-button.fc-button-primary {
 }
 
 .fc-direction-ltr .fc-timegrid-col-events {
-  margin: 0px .8em 0px .2em;
+  margin: 0px 0.8em 0px 0.2em;
 }
 
 @keyframes App-logo-spin {
@@ -76,4 +76,12 @@ button.fc-button.fc-button-primary {
   to {
     transform: rotate(360deg);
   }
+}
+
+.css-j2ph2z {
+  color: white !important;
+}
+
+.css-186l2rg {
+  color: white !important;
 }
