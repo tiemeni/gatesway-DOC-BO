@@ -2,12 +2,10 @@ import React, { useRef } from 'react';
 import {
   Box,
   Divider,
-  HStack,
-  Icon,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
+  Portal,
   Text,
   Tooltip,
   useDisclosure,
@@ -26,6 +24,8 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { onDeleteEvent, onEventClick } from '../../redux/common/actions';
 import TooltipContent from './TooltipContent';
+import Item from './Item';
+import { copyAppointmentId } from '../../redux/appointments/actions';
 
 function EventContent({ event }) {
   const {
@@ -73,7 +73,7 @@ function EventContent({ event }) {
           date: dateRdv,
           duree,
           status,
-          lieu: lieu.label,
+          lieu: lieu?.label,
           praticien: `${name} ${surname}`,
           profession,
           createdAt,
@@ -84,6 +84,56 @@ function EventContent({ event }) {
   };
 
   const onDelete = () => dispatch(onDeleteEvent(true));
+  const onCopyPaste = () => dispatch(copyAppointmentId(_id));
+
+  const itemsList = [
+    {
+      key: 1,
+      icon: UilCopy,
+      intitule: 'Copier-coller le rdv',
+      func: onCopyPaste
+    },
+    {
+      key: 2,
+      icon: UilArrowRight,
+      intitule: 'Déplacer le rdv',
+    },
+    {
+      key: 3,
+      icon: UilTrashAlt,
+      intitule: 'Supprimer le rdv',
+      color: 'red.500',
+      textColor: 'red.500',
+      func: onDelete,
+    },
+    {
+      key: 4,
+      icon: UilPrint,
+      intitule: 'Imprimer le rdv',
+    },
+    {
+      key: 5,
+      icon: UilInvoice,
+      intitule: 'Encaissement',
+      divider: true,
+    },
+    {
+      key: 7,
+      icon: UilCheck,
+      intitule: 'Absence excusée',
+    },
+    {
+      key: 8,
+      icon: UilTimes,
+      intitule: 'Absence non excusée',
+    },
+    {
+      key: 8,
+      icon: UilPhoneAlt,
+      intitule: 'Appel Urgence',
+      divider: true,
+    },
+  ];
 
   return (
     <Menu
@@ -139,60 +189,22 @@ function EventContent({ event }) {
       </Tooltip>
 
       {/* Content menu */}
-      <MenuList minW="20em" boxShadow="lg" zIndex={10}>
-        <MenuItem ref={initialRef}>
-          <HStack w="full" gap={4}>
-            <Icon as={UilCopy} color="primary.500" fontSize="xl" />
-            <Text fontSize="small">Copier-coller le rdv</Text>
-          </HStack>
-        </MenuItem>
-        <MenuItem>
-          <HStack w="full" gap={4}>
-            <Icon as={UilArrowRight} color="primary.500" fontSize="xl" />
-            <Text fontSize="small">Deplacer le rdv</Text>
-          </HStack>
-        </MenuItem>
-        <MenuItem onClick={onDelete}>
-          <HStack w="full" gap={4}>
-            <Icon as={UilTrashAlt} color="red.500" fontSize="xl" />
-            <Text fontSize="small" color="red.500">
-              Supprimer le rdv
-            </Text>
-          </HStack>
-        </MenuItem>
-        <MenuItem>
-          <HStack w="full" gap={4}>
-            <Icon as={UilPrint} color="primary.500" fontSize="xl" />
-            <Text fontSize="small">Imprimer le rdv</Text>
-          </HStack>
-        </MenuItem>
-        <MenuItem>
-          <HStack w="full" gap={4}>
-            <Icon as={UilInvoice} color="primary.500" fontSize="xl" />
-            <Text fontSize="small">Encaissement</Text>
-          </HStack>
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <HStack w="full" gap={4}>
-            <Icon as={UilCheck} color="primary.500" fontSize="xl" />
-            <Text fontSize="small">Absence excusée</Text>
-          </HStack>
-        </MenuItem>
-        <MenuItem>
-          <HStack w="full" gap={4}>
-            <Icon as={UilTimes} color="primary.500" fontSize="xl" />
-            <Text fontSize="small">Absence non excusée</Text>
-          </HStack>
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <HStack w="full" gap={4}>
-            <Icon as={UilPhoneAlt} color="primary.500" fontSize="xl" />
-            <Text fontSize="small">Appel Urgence</Text>
-          </HStack>
-        </MenuItem>
-      </MenuList>
+      <Portal>
+        <MenuList minW="20em" boxShadow="lg" zIndex={9999999999}>
+          {itemsList.map((item) => (
+            <>
+              {item?.divider && <Divider />}
+              <Item
+                icon={item.icon}
+                intitule={item.intitule}
+                color={item?.color}
+                textColor={item?.textColor}
+                func={item?.func}
+              />
+            </>
+          ))}
+        </MenuList>
+      </Portal>
     </Menu>
   );
 }

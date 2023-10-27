@@ -4,6 +4,7 @@ const iniatialState = {
   isLoading: false,
   isFailed: false,
   success: false,
+  copyId: null,
 };
 
 const AppointmentReducer = (state = iniatialState, action) => {
@@ -27,6 +28,11 @@ const AppointmentReducer = (state = iniatialState, action) => {
         isLoading: false,
         isFailed: false,
         success: true,
+      };
+    case types.COPY_APPOINTMENT_ID:
+      return {
+        ...state,
+        copyId: action.payload,
       };
     default:
       return state;
