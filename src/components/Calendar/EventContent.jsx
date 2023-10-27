@@ -83,7 +83,7 @@ function EventContent({ event }) {
     );
   };
 
-  const onDelete = () => dispatch(onDeleteEvent(true));
+  const onDelete = () => dispatch(onDeleteEvent({ open: true, idRdv: _id }));
   const onCopyPaste = () => dispatch(copyAppointmentId(_id));
 
   const itemsList = [
@@ -91,7 +91,7 @@ function EventContent({ event }) {
       key: 1,
       icon: UilCopy,
       intitule: 'Copier-coller le rdv',
-      func: onCopyPaste
+      func: onCopyPaste,
     },
     {
       key: 2,

@@ -1,9 +1,10 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import { incrementTime } from '../../utils/helpers';
-import { putUnauthRequest } from '../../utils/api';
+import { deleteUnauthRequest, putUnauthRequest } from '../../utils/api';
 
 const idc = localStorage.getItem('idc');
+const BASE_URL = process.env.REACT_APP_LOCAL_URL;
 
 /**
  * update informations about the current appointment.
@@ -20,7 +21,7 @@ function* updateAppointment({ payload }) {
       duration: payload.duration,
       status: payload.status,
     };
-    const url = `${process.env.REACT_APP_BASE_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
+    const url = `${BASE_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
     const result = yield putUnauthRequest(url, query);
 
     if (!result.success)
@@ -35,6 +36,20 @@ function* updateAppointment({ payload }) {
   }
 }
 
+function* deleteAppointment({ payload }) {
+  try {
+    const result = yield deleteUnauthRequest(
+      `${BASE_URL}/appointments/${payload}/?idCentre=${idc}`,
+    );
+
+    if (!result.success) yield put({ type: types.DELETE_APPOINTMENT_FAILED });
+    yield put({ type: types.DELETE_APPOINTMENT_SUCCESS });
+  } catch (error) {
+    yield put({ type: types.DELETE_APPOINTMENT_FAILED });
+  }
+}
+
 export default function* AppointmentsSaga() {
   yield takeLatest(types.UPDATE_APPOINTMENT_REQUEST, updateAppointment);
+  yield takeLatest(types.DELETE_APPOINTMENT_REQUEST, deleteAppointment);
 }

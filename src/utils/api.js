@@ -42,3 +42,4 @@ export const putUnauthRequest = (url, data) =>
 export const putRequestFormData = (url, data) =>
   unFormDataRequest(multPart, 'PUT', url, data);
 export const getUnauthRequest = (url) => unAuthRequest(json, 'GET', url);
+export const deleteUnauthRequest = (url) => unAuthRequest(json, 'DELETE', url);
