@@ -15,7 +15,13 @@ export const dataPraticien = {
     { label: 'Temps par defaut', fname: 'timeSlot' },
   ],
   rows: [],
-  actions: [{ label: 'modifier', action: () => console.log('modifier') }],
+  actions: [
+    {
+      label: 'modifier',
+      action: () => console.log('modifier'),
+      editePath: '/content/praticien/upsert/',
+    },
+  ],
 };
 
 export const dataUSer = {
@@ -31,7 +37,13 @@ export const dataUSer = {
     { label: 'Actif', fname: 'active' },
   ],
   rows: [],
-  actions: [{ label: 'modifier', action: () => console.log('modifier') }],
+  actions: [
+    {
+      label: 'modifier',
+      action: () => console.log('modifier'),
+      editePath: '/content/user/upsert/',
+    },
+  ],
 };
 
 export const dataLieux = {
@@ -43,11 +55,15 @@ export const dataLieux = {
     { label: 'Ville', fname: 'ville' },
     { label: 'Reference', fname: 'reference' },
     { label: 'initiales', fname: 'initiales' },
-    { label: 'Reference', fname: 'active' },
+    { label: 'Active', fname: 'active' },
   ],
   rows: [],
   actions: [
-    { label: 'modifier', action: () => console.log('modifier') },
+    {
+      label: 'modifier',
+      action: () => console.log('modifier'),
+      editePath: '/content/lieu/upsert/',
+    },
     { label: 'Supprimer', action: () => console.log('Supprimer') },
   ],
 };
@@ -60,22 +76,13 @@ export const dataMotifs = {
     { label: 'Reference', fname: 'reference' },
     { label: 'Active', fname: 'active' },
   ],
-  rows: [
-    {
-      nom: 'nom motif',
-      default_time: '15 minutes',
-      reference: 'reference',
-      active: 'active',
-    },
-    {
-      nom: 'nom motif',
-      default_time: '15 minutes',
-      reference: 'reference',
-      active: 'active',
-    },
-  ],
+  rows: [],
   actions: [
-    { label: 'modifier', action: () => console.log('modifier') },
+    {
+      label: 'modifier',
+      action: () => console.log('modifier'),
+      editePath: '/content/motif/upsert/',
+    },
     { label: 'Supprimer', action: () => console.log('Supprimer') },
   ],
 };
@@ -93,31 +100,14 @@ export const dataPatient = {
     { label: 'Actif', fname: 'active' },
     { label: 'Group', fname: 'groups' },
   ],
-  rows: [
+  rows: [],
+  actions: [
     {
-      civility: 'tiemeni',
-      name: 'chr',
-      surname: 'sur',
-      birthdate: 'homme',
-      telephone: '658686162',
-      email: 'tiemanirocket@gmail.com',
-      initiales: 'tiom',
-      active: 'true',
-      groups: 'Administrateur',
-    },
-    {
-      civility: 'yomani',
-      name: 'rodrigue',
-      surname: 'rodrigue',
-      birthdate: '17/01/2002',
-      telephone: '658686162',
-      email: 'tiemanirocket@gmail.com',
-      initiales: 'tiom',
-      active: 'true',
-      groups: 'Administrateur',
+      label: 'modifier',
+      action: () => console.log('modifier'),
+      editePath: '/content/patient/upsert/',
     },
   ],
-  actions: [{ label: 'modifier', action: () => console.log('modifier') }],
 };
 
 export const dataSpeciality = {
@@ -140,7 +130,11 @@ export const dataSpeciality = {
     },
   ],
   actions: [
-    { label: 'modifier', action: () => console.log('modifier') },
+    {
+      label: 'modifier',
+      action: () => console.log('modifier'),
+      editePath: '/content/speciality/upsert/',
+    },
     { label: 'Supprimer', action: () => console.log('Supprimer') },
   ],
 };

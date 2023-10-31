@@ -7,7 +7,7 @@ function LieuxRouter() {
   return (
     <Routes>
       <Route path="/" element={<LieuPage />} />
-      <Route path="/upsert" element={<CreateLieux />} />
+      <Route path="/upsert/:id?" element={<CreateLieux />} />
     </Routes>
   );
 }

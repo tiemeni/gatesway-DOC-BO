@@ -18,7 +18,7 @@ function* getPraticiens() {
     );
     if (!res.success) {
       yield put({
-        type: types.GET_ALL_PRATICIENS_FAILED,
+        type: types.GET_PRATICIENS_FAILED,
         payload: {
           error: "Quelque chose s'est mal passé./nVeuillez réessayer plus tard",
         },
@@ -61,13 +61,13 @@ function* getPraticiens() {
     );
 
     yield put({
-      type: types.GET_ALL_PRATICIENS_SUCCESS,
+      type: types.GET_PRATICIENS_SUCCESS,
       payload: { res, selectedValues },
     });
   } catch (error) {
     console.error('error', error);
     yield put({
-      type: types.GET_ALL_PRATICIENS_FAILED,
+      type: types.GET_PRATICIENS_FAILED,
       payload: { error: error?.message },
     });
   }

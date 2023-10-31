@@ -102,6 +102,7 @@ export const praticien = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Rechercher',
+        color: '#04B7C9',
       },
       onBack: {
         action: () => console.log('on back'),
@@ -483,8 +484,28 @@ export const praticienCreateOrEdite = {
           },
           {
             _id: 2,
+            name: '20',
+            label: '20',
+          },
+          {
+            _id: 3,
+            name: '25',
+            label: '25',
+          },
+          {
+            _id: 4,
             name: '30',
             label: '30',
+          },
+          {
+            _id: 5,
+            name: '35',
+            label: '35',
+          },
+          {
+            _id: 6,
+            name: '40',
+            label: '40',
           },
         ],
       },
@@ -863,6 +884,41 @@ export const upsertMotifs = {
         required: false,
         type: 'text',
         id: 4,
+      },
+      {
+        name: 'idProfession',
+        placeholder: 'Profession liée',
+        required: true,
+        type: 'picklist',
+        id: 9,
+        options: [
+          {
+            _id: '64c3c11375bd57ec005d880a',
+            label: 'Specialiste',
+            nom: 'Specialiste',
+          },
+          {
+            _id: '64c3c10875bd57ec005d8807',
+            label: 'Generaliste',
+            nom: 'Generaliste',
+          },
+        ],
+      },
+      {
+        name: 'idLieux',
+        placeholder: 'Lieu lié',
+        required: false,
+        type: 'picklist',
+        id: 10,
+        options: [],
+      },
+      {
+        name: 'idSpeciality',
+        placeholder: 'Specialité liée',
+        required: true,
+        type: 'picklist',
+        id: 11,
+        options: [],
       },
       {
         name: 'active',

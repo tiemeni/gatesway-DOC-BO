@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Button,
+  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -14,9 +14,10 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import { UilEllipsisV } from '@iconscout/react-unicons';
 import { useSelector } from 'react-redux';
 import {
+  lieuxFormater,
   motifFormater,
   patientFormater,
   pratFormater,
@@ -30,7 +31,6 @@ function TableGenerator({ data, entityType }) {
   const lieux = useSelector((state) => state.Lieux.lieux);
   const motifs = useSelector((state) => state.Motifs.motifs);
   const specialities = useSelector((state) => state.Specialities.specialities);
-
   const [data1, setData1] = useState(data);
   const [loading, setLoading] = useState(true);
 
@@ -79,7 +79,7 @@ function TableGenerator({ data, entityType }) {
         });
       } else if (entityType === 'lieu') {
         lieux.forEach((e) => {
-          formatedData.push(e);
+          formatedData.push(lieuxFormater(e));
         });
       } else if (entityType === 'motif') {
         motifs.forEach((e) => {
@@ -104,8 +104,8 @@ function TableGenerator({ data, entityType }) {
 
   return (
     <TableContainer w="100%">
-      <Table size="sm">
-        <Thead bgColor="dark.500">
+      <Table size="sm" variant="striped" colorScheme="gray">
+        <Thead bgColor="dark.500" height="30px">
           <Tr>
             {data1.cols.map((c) => (
               <Th key={c.label} color="white">
@@ -117,33 +117,33 @@ function TableGenerator({ data, entityType }) {
         <Tbody>
           {data1?.rows?.map((r, e) => (
             <Tr key={r?._id || r + e}>
-              <Td>
+              <Td fontSize="sm">
                 <Menu>
                   <MenuButton
-                    borderWidth={1}
-                    borderColor="gray"
-                    backgroundColor="white"
-                    fontSize={15}
-                    height={30}
-                    as={Button}
-                    rightIcon={<ChevronDownIcon />}
-                  >
-                    Actions
-                  </MenuButton>
+                    as={IconButton}
+                    size="xs"
+                    variant="unstyled"
+                    icon={<UilEllipsisV color="dark.500" size={20} />}
+                  />
                   <MenuList>
-                    {data1.actions.map((a) => (
-                      <Link
-                        key={a.label}
-                        to={`/content/praticien/upsert/${r?._id}`}
-                      >
-                        <MenuItem onClick={a.action()}>{a.label}</MenuItem>
-                      </Link>
-                    ))}
+                    {data1.actions.map(
+                      (a) =>
+                        a.editePath && (
+                          <Link key={a.label} to={`${a.editePath}${r?._id}`}>
+                            <MenuItem onClick={a.action()}>{a.label}</MenuItem>
+                          </Link>
+                        ),
+                    )}
                   </MenuList>
                 </Menu>
               </Td>
               {data1?.cols?.map(
-                (col, i) => i > 0 && <Td key={r[col.fname]}>{r[col.fname]}</Td>,
+                (col, i) =>
+                  i > 0 && (
+                    <Td fontSize="sm" key={r[col.fname]}>
+                      {r[col.fname]}
+                    </Td>
+                  ),
               )}
             </Tr>
           ))}

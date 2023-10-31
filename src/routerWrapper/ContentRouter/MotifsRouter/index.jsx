@@ -7,7 +7,7 @@ function MotifsRouter() {
   return (
     <Routes>
       <Route path="/" element={<MotifsPage />} />
-      <Route path="/upsert" element={<CreateMotif />} />
+      <Route path="/upsert/:id?" element={<CreateMotif />} />
     </Routes>
   );
 }

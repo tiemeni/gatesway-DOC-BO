@@ -7,7 +7,7 @@ function UserRouter() {
   return (
     <Routes>
       <Route path="/" element={<UsersPage />} />
-      <Route path="/upsert" element={<CreateUser />} />
+      <Route path="/upsert/:id?" element={<CreateUser />} />
     </Routes>
   );
 }

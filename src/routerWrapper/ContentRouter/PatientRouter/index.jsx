@@ -7,7 +7,7 @@ function PatientRouter() {
   return (
     <Routes>
       <Route path="/" element={<PatientPage />} />
-      <Route path="/upsert" element={<CreatePatient />} />
+      <Route path="/upsert/:id?" element={<CreatePatient />} />
     </Routes>
   );
 }

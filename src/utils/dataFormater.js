@@ -2,11 +2,13 @@
  * praticien formater
  */
 
+import moment from 'moment';
+
 export const pratFormater = (data) => ({
   civility: 'M',
   name: data.name,
   surname: data.surname,
-  birthdate: data.birthdate,
+  birthdate: moment(data.birthdate).format('DD/MM/YYYY'),
   telephone: data.telephone,
   email: data.email,
   initiales: data.initiales,
@@ -19,7 +21,7 @@ export const userFormater = (data) => ({
   civility: 'M',
   name: data.name,
   surname: data.surname,
-  birthdate: data.birthdate,
+  birthdate: moment(data.birthdate).format('DD/MM/YYYY'),
   telephone: data.telephone,
   email: data.email,
   initiales: data.initiales,
@@ -31,7 +33,7 @@ export const patientFormater = (data) => ({
   civility: data?.civility?.label,
   name: data.name,
   surname: data.surname,
-  birthdate: data.birthdate,
+  birthdate: moment(data.birthdate).format('DD/MM/YYYY'),
   telephone: data.telephone,
   email: data.email,
   initiales: data.initiales,
@@ -46,5 +48,16 @@ export const motifFormater = (data) => ({
   default_time: data.default_time,
   reference: data.reference,
   active: data.active?.toString(),
+  _id: data._id,
+});
+
+export const lieuxFormater = (data) => ({
+  active: data.active?.toString(),
+  codePostal: data.codePostal,
+  initiales: data.initiales,
+  label: data.label,
+  reference: data.reference,
+  region: data.region,
+  ville: data.ville,
   _id: data._id,
 });

@@ -4,7 +4,6 @@ import {
   Button,
   Checkbox,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   Radio,
@@ -14,7 +13,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
+import { useFormik } from 'formik';
 
 function FormGenerator({ data, editeData = {} }) {
   const [dataCp, setDataCp] = useState({});
@@ -34,26 +33,35 @@ function FormGenerator({ data, editeData = {} }) {
     return state;
   });
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm();
+  useEffect(() => {
+    if (Object.keys(editeData).length > 0) {
+      setFormData(() => {
+        const state = {};
+        data.dataFields.data.forEach((e) => {
+          if (e.type === 'checkbox') {
+            state[e.name] = editeData[e.name] ?? [];
+          } else {
+            state[e.name] = editeData[e.name] ?? '';
+          }
+        });
+        return state;
+      });
+    }
+  }, [editeData]);
+
   useEffect(() => {
     const temp = data;
     setDataCp(temp);
   }, [specialities]);
 
-  const handleChange = (event, ref) => {
-    const actualObjct = data.dataFields.data.filter((e) => e.name === ref)[0];
-    setFormData({
-      ...formData,
-      [ref]:
-        actualObjct.type === 'checkbox'
-          ? [...formData[ref], event.target.value]
-          : event.target.value,
-    });
-  };
+  const formik = useFormik({
+    initialValues: {
+      ...editeData,
+    },
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   const generatePickListData = (name, e) => {
     let result;
@@ -62,13 +70,14 @@ function FormGenerator({ data, editeData = {} }) {
         result = (
           <Select
             id={e.name}
-            onChange={(event) => handleChange(event, e.name?.toString())}
+            // onChange={(event) => handleChange(event, e.name?.toString())}
             placeholder="Select option"
-            // value={formData?.civility}
-            {...register(e.name, {
-              required: e.required ? 'required field' : false,
-              // required: 'This is required',
-            })}
+            onChange={formik.handleChange}
+            value={formik.values[e.name]}
+            // {...register(e.name, {
+            //   required: e.required ? 'required field' : false,
+            //   // required: 'This is required',
+            // })}
           >
             {civilities.map((op) => (
               <option key={op._id} value={op._id}>
@@ -82,12 +91,13 @@ function FormGenerator({ data, editeData = {} }) {
         result = (
           <Select
             id={e.name}
-            onChange={(event) => handleChange(event, e.name?.toString())}
+            // onChange={(event) => handleChange(event, e.name?.toString())}
             placeholder="Select option"
-            // value={formData?.groups}
-            {...register(e.name, {
-              required: e.required ? 'required field' : false,
-            })}
+            onChange={formik.handleChange}
+            value={formik.values[e.name]}
+            // {...register(e.name, {
+            //   required: e.required ? 'required field' : false,
+            // })}
           >
             {groupes.map((op) => (
               <option key={op._id} value={op._id}>
@@ -101,13 +111,14 @@ function FormGenerator({ data, editeData = {} }) {
         result = (
           <Select
             id={e.name}
-            onChange={(event) => handleChange(event, e.name?.toString())}
+            // onChange={(event) => handleChange(event, e.name?.toString())}
             placeholder="Select option"
-            // value={formData?.job}
-            {...register(e.name, {
-              required: e.required ? 'required field' : false,
-              // required: 'This is required',
-            })}
+            onChange={formik.handleChange}
+            value={formik.values[e.name]}
+            // {...register(e.name, {
+            //   required: e.required ? 'required field' : false,
+            //   // required: 'This is required',
+            // })}
           >
             {specialities.map((op) => (
               <option key={op._id} value={op._id}>
@@ -122,15 +133,58 @@ function FormGenerator({ data, editeData = {} }) {
           <Select
             id={e.name}
             multiple={false}
-            onChange={(event) => handleChange(event, e.name?.toString())}
+            // onChange={(event) => handleChange(event, e.name?.toString())}
             placeholder="Select option"
-            // value={formData?.affectation}
-            {...register(e.name, {
-              required: e.required ? 'required field' : false,
-              // required: 'This is required',
-            })}
+            onChange={formik.handleChange}
+            value={formik.values[e.name]}
+            // {...register(e.name, {
+            //   required: e.required ? 'required field' : false,
+            //   // required: 'This is required',
+            // })}
           >
             {lieux.map((op) => (
+              <option key={op._id} value={op._id}>
+                {op.title || op.label}
+              </option>
+            ))}
+          </Select>
+        );
+        break;
+      case 'idLieux':
+        result = (
+          <Select
+            id={e.name}
+            multiple={false}
+            placeholder="Select option"
+            onChange={formik.handleChange}
+            value={formik.values[e.name]}
+            // {...register(e.name, {
+            //   required: e.required ? 'required field' : false,
+            //   // required: 'This is required',
+            // })}
+          >
+            {lieux.map((op) => (
+              <option key={op._id} value={op._id}>
+                {op.title || op.label}
+              </option>
+            ))}
+          </Select>
+        );
+        break;
+      case 'idSpeciality':
+        result = (
+          <Select
+            id={e.name}
+            multiple={false}
+            placeholder="Select option"
+            onChange={formik.handleChange}
+            value={formik.values[e.name]}
+            // {...register(e.name, {
+            //   required: e.required ? 'required field' : false,
+            //   // required: 'This is required',
+            // })}
+          >
+            {specialities.map((op) => (
               <option key={op._id} value={op._id}>
                 {op.title || op.label}
               </option>
@@ -142,11 +196,13 @@ function FormGenerator({ data, editeData = {} }) {
         result = (
           <Select
             id={e.name}
-            onChange={(event) => handleChange(event, e.name?.toString())}
+            // onChange={(event) => handleChange(event, e.name?.toString())}
             placeholder="Select option"
-            {...register(e.name, {
-              required: e.required ? 'required field' : false,
-            })}
+            onChange={formik.handleChange}
+            value={formik.values[e.name]}
+            // {...register(e.name, {
+            //   required: e.required ? 'required field' : false,
+            // })}
           >
             {e.options.map((op) => (
               <option key={op._id} value={op._id}>
@@ -159,16 +215,6 @@ function FormGenerator({ data, editeData = {} }) {
     return result;
   };
 
-  function onSubmit(values) {
-    console.log(errors);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        resolve();
-      }, 3000);
-    });
-  }
-
   const flexDesign = {
     display: 'inline-block',
   };
@@ -176,7 +222,7 @@ function FormGenerator({ data, editeData = {} }) {
   return (
     <VStack spacing={5}>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={formik.handleSubmit}
         style={{ width: '100%', display: 'grid' }}
       >
         {dataCp?.dataFields?.data.map((e) => {
@@ -185,7 +231,7 @@ function FormGenerator({ data, editeData = {} }) {
             case 'text':
               result = (
                 <FormControl
-                  isInvalid={errors[e.name]}
+                  // isInvalid={errors[e.name]}
                   marginBottom={5}
                   key={e.id}
                   isRequired={e.required}
@@ -205,19 +251,23 @@ function FormGenerator({ data, editeData = {} }) {
                       id={e.name}
                       type="text"
                       placeholder={e.placeholder}
-                      value={formData[e.name]}
+                      // value={formData[e.name]}
                       required={e.required}
-                      {...register(e.name, {
-                        required: e.required ? 'ce champs est requi' : false,
-                      })}
-                      onChange={(event) =>
-                        handleChange(event, e.name?.toString())
-                      }
+                      // {...register(e.name, {
+                      //   required: e.required
+                      //     ? 'ce champs est requi'
+                      //     : false,
+                      // })}
+                      // onChange={(event) =>
+                      //   handleChange(event, e.name?.toString())
+                      // }
+                      onChange={formik.handleChange}
+                      value={formik.values[e.name]}
                     />
                   </Stack>
-                  <FormErrorMessage marginLeft="190px">
+                  {/* <FormErrorMessage marginLeft="210px">
                     {errors[e.name] && errors[e.name].message}
-                  </FormErrorMessage>
+                  </FormErrorMessage> */}
                 </FormControl>
               );
               break;
@@ -227,7 +277,7 @@ function FormGenerator({ data, editeData = {} }) {
                   marginBottom={5}
                   key={e.id}
                   isRequired={e.required}
-                  isInvalid={errors[e.name]}
+                  // isInvalid={errors[e.name]}
                 >
                   <Stack
                     style={{
@@ -244,23 +294,27 @@ function FormGenerator({ data, editeData = {} }) {
                       id={e.name}
                       type="date"
                       placeholder={e.placeholder}
-                      value={formData[e.name]}
+                      // value={formData[e.name]}
                       required={e.required}
-                      {...register(e.name, {
-                        required: e.required ? 'ce champs est requi' : false,
-                        minLength: {
-                          value: 4,
-                          message: 'Minimum length should be 4',
-                        },
-                      })}
-                      onChange={(event) =>
-                        handleChange(event, e.name?.toString())
-                      }
+                      // {...register(e.name, {
+                      //   required: e.required
+                      //     ? 'ce champs est requi'
+                      //     : false,
+                      //   minLength: {
+                      //     value: 4,
+                      //     message: 'Minimum length should be 4',
+                      //   },
+                      // })}
+                      // onChange={(event) =>
+                      //   handleChange(event, e.name?.toString())
+                      // }
+                      onChange={formik.handleChange}
+                      value={formik.values[e.name]}
                     />
                   </Stack>
-                  <FormErrorMessage>
+                  {/* <FormErrorMessage marginLeft="200px">
                     {errors[e.name] && errors[e.name].message}
-                  </FormErrorMessage>
+                  </FormErrorMessage> */}
                 </FormControl>
               );
               break;
@@ -270,7 +324,7 @@ function FormGenerator({ data, editeData = {} }) {
                   marginBottom={5}
                   key={e.id}
                   isRequired={e.required}
-                  isInvalid={errors[e.name]}
+                  // isInvalid={errors[e.name]}
                 >
                   <Stack
                     style={{
@@ -287,23 +341,27 @@ function FormGenerator({ data, editeData = {} }) {
                       id={e.name}
                       type="email"
                       placeholder={e.placeholder}
-                      value={formData[e.name]}
+                      // value={formData[e.name]}
                       required={e.required}
-                      {...register(e.name, {
-                        required: e.required ? 'ce champs est requi' : false,
-                        minLength: {
-                          value: 4,
-                          message: 'Minimum length should be 4',
-                        },
-                      })}
-                      onChange={(event) =>
-                        handleChange(event, e.name?.toString())
-                      }
+                      // {...register(e.name, {
+                      //   required: e.required
+                      //     ? 'ce champs est requi'
+                      //     : false,
+                      //   minLength: {
+                      //     value: 4,
+                      //     message: 'Minimum length should be 4',
+                      //   },
+                      // })}
+                      // onChange={(event) =>
+                      //   handleChange(event, e.name?.toString())
+                      // }
+                      onChange={formik.handleChange}
+                      value={formik.values[e.name]}
                     />
                   </Stack>
-                  <FormErrorMessage>
+                  {/* <FormErrorMessage marginLeft="200px">
                     {errors[e.name] && errors[e.name].message}
-                  </FormErrorMessage>
+                  </FormErrorMessage> */}
                 </FormControl>
               );
               break;
@@ -328,23 +386,27 @@ function FormGenerator({ data, editeData = {} }) {
                     <Input
                       type="number"
                       placeholder={e.placeholder}
-                      value={formData[e.name]}
+                      // value={formData[e.name]}
                       required={e.required}
-                      {...register(e.name, {
-                        required: e.required ? 'ce champs est requi' : false,
-                        minLength: {
-                          value: 4,
-                          message: 'Minimum length should be 4',
-                        },
-                      })}
-                      onChange={(event) =>
-                        handleChange(event, e.name?.toString())
-                      }
+                      // {...register(e.name, {
+                      //   required: e.required
+                      //     ? 'ce champs est requi'
+                      //     : false,
+                      //   minLength: {
+                      //     value: 4,
+                      //     message: 'Minimum length should be 4',
+                      //   },
+                      // })}
+                      // onChange={(event) =>
+                      //   handleChange(event, e.name?.toString())
+                      // }
+                      onChange={formik.handleChange}
+                      value={formik.values[e.name]}
                     />
                   </Stack>
-                  <FormErrorMessage>
+                  {/* <FormErrorMessage marginLeft="200px">
                     {errors[e.name] && errors[e.name].message}
-                  </FormErrorMessage>
+                  </FormErrorMessage> */}
                 </FormControl>
               );
               break;
@@ -353,7 +415,7 @@ function FormGenerator({ data, editeData = {} }) {
                 <FormControl
                   marginBottom={5}
                   key={e.id}
-                  isInvalid={errors[e.name]}
+                  // isInvalid={errors[e.name]}
                   isRequired={e.required}
                 >
                   <Stack
@@ -369,9 +431,9 @@ function FormGenerator({ data, editeData = {} }) {
                     </FormLabel>
                     {generatePickListData(e.name, e)}
                   </Stack>
-                  <FormErrorMessage>
+                  {/* <FormErrorMessage marginLeft="200px">
                     {errors[e.name] && errors[e.name].message}
-                  </FormErrorMessage>
+                  </FormErrorMessage> */}
                 </FormControl>
               );
               break;
@@ -395,13 +457,15 @@ function FormGenerator({ data, editeData = {} }) {
                     </FormLabel>
                     <RadioGroup
                       w="100%"
-                      onChange={(v) => {
-                        handleChange(
-                          { target: { value: v } },
-                          e.name.toString(),
-                        );
-                      }}
-                      value={formData[e.name]}
+                      // onChange={(v) => {
+                      //   handleChange(
+                      //     { target: { value: v } },
+                      //     e.name.toString(),
+                      //   );
+                      // }}
+                      // value={formData[e.name]}
+                      // onChange={formik.handleChange}
+                      // value={formik.values[e.name]}
                     >
                       <Stack direction="row">
                         {e.options.map((op) => (
@@ -412,9 +476,9 @@ function FormGenerator({ data, editeData = {} }) {
                       </Stack>
                     </RadioGroup>
                   </Stack>
-                  <FormErrorMessage>
+                  {/* <FormErrorMessage marginLeft="200px">
                     {errors[e.name] && errors[e.name].message}
-                  </FormErrorMessage>
+                  </FormErrorMessage> */}
                 </FormControl>
               );
               break;
@@ -467,9 +531,9 @@ function FormGenerator({ data, editeData = {} }) {
                       ))}
                     </Stack>
                   </Stack>
-                  <FormErrorMessage>
+                  {/* <FormErrorMessage marginLeft="200px">
                     {errors[e.name] && errors[e.name].message}
-                  </FormErrorMessage>
+                  </FormErrorMessage> */}
                 </FormControl>
               );
               break;
@@ -482,7 +546,7 @@ function FormGenerator({ data, editeData = {} }) {
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
               type={i === 0 ? 'submit' : null}
-              isLoading={i === 0 ? isSubmitting : false}
+              isLoading={false}
               onClick={() =>
                 i === 1 ? data.dataFields.callBacks[key].action() : null
               }
@@ -492,7 +556,7 @@ function FormGenerator({ data, editeData = {} }) {
               // onClick={() => {
               //   data.dataFields.callBacks[key].action(formData);
               // }}
-              colorScheme="blue"
+              textColor="white"
             >
               {data.dataFields.callBacks[key].label}
             </Button>

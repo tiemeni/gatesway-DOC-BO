@@ -7,7 +7,7 @@ function SpecialityRouter() {
   return (
     <Routes>
       <Route path="/" element={<SpecialityPage />} />
-      <Route path="/upsert" element={<CreateSpeciality />} />
+      <Route path="/upsert/:id?" element={<CreateSpeciality />} />
     </Routes>
   );
 }
