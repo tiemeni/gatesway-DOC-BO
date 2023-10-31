@@ -154,6 +154,7 @@ export const speciality = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Rechercher',
+        color: '#04B7C9',
       },
       onBack: {
         action: () => console.log('on back'),
@@ -193,6 +194,7 @@ export const lieu = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Rechercher',
+        color: '#04B7C9',
       },
       onBack: {
         action: () => console.log('on back'),
@@ -263,6 +265,7 @@ export const motif = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Rechercher',
+        color: '#04B7C9',
       },
       onBack: {
         action: () => console.log('on back'),
@@ -308,7 +311,7 @@ export const praticienCreateOrEdite = {
         label: 'Enregistrer',
       },
       onBack: {
-        action: () => console.log('on back'),
+        action: () => window.history.back(),
         label: 'Retour',
         color: 'red',
       },
@@ -350,14 +353,14 @@ export const praticienCreateOrEdite = {
       {
         name: 'birthdate',
         placeholder: 'date de naissance',
-        required: false,
+        required: true,
         type: 'date',
         id: 4,
       },
       {
         name: 'telephone',
         placeholder: 'portable',
-        required: false,
+        required: true,
         type: 'number',
         id: 5,
       },
@@ -435,7 +438,7 @@ export const praticienCreateOrEdite = {
       {
         name: 'job',
         placeholder: 'job',
-        required: false,
+        required: true,
         type: 'picklist',
         id: 11,
         options: [
@@ -525,7 +528,7 @@ export const userCreateOrEdite = {
         label: 'Enregistrer',
       },
       onBack: {
-        action: () => console.log('on back'),
+        action: () => window.history.back(),
         label: 'Retour',
         color: 'red',
       },
@@ -646,7 +649,7 @@ export const patientCreateOrEdite = {
         label: 'Enregistrer',
       },
       onBack: {
-        action: () => console.log('on back'),
+        action: () => window.history.back(),
         label: 'Retour',
         color: 'red',
       },
@@ -767,7 +770,7 @@ export const upsertSpeciality = {
         label: 'Enregistrer',
       },
       onBack: {
-        action: () => console.log('on back'),
+        action: () => window.history.back(),
         label: 'Retour',
         color: 'red',
       },
@@ -824,7 +827,7 @@ export const upsertMotifs = {
         label: 'Enregistrer',
       },
       onBack: {
-        action: () => console.log('on back'),
+        action: () => window.history.back(),
         label: 'Retour',
         color: 'red',
       },
@@ -955,7 +958,7 @@ export const upsertLieux = {
         label: 'Enregistrer',
       },
       onBack: {
-        action: () => console.log('on back'),
+        action: () => window.history.back(),
         label: 'Retour',
         color: 'red',
       },
@@ -1076,7 +1079,7 @@ export const upsertStructure = {
         label: 'Enregistrer',
       },
       onBack: {
-        action: () => console.log('on back'),
+        action: () => window.history.back(),
         label: 'Retour',
         color: 'red',
       },

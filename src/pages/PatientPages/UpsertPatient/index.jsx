@@ -18,7 +18,7 @@ const patientAPIformatter = (data) => ({
   telephone: data.telephone,
   email: data.email,
   initiales: data.initiales,
-  active: data.active ? 1 : 0,
+  active: data.active ? 1 : 2,
   rights: data?.rights?.length > 0 ? data?.rights[0] : null,
   _id: data._id,
 });

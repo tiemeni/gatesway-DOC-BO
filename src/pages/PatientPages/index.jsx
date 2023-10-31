@@ -23,7 +23,11 @@ function PatientPage() {
         {patients.length} patients correspondent a votre recherche
       </p>
       <Link to="upsert">
-        <Button style={{ marginTop: 15 }} colorScheme="blue">
+        <Button
+          style={{ marginTop: 15 }}
+          backgroundColor="#04B7C9"
+          colorScheme="blue"
+        >
           <UilPlus />
           Creer un patient
         </Button>

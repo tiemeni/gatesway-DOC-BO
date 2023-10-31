@@ -23,7 +23,11 @@ function SpecialityPage() {
         {specialities.length} specialités correspondent a votre recherche
       </p>
       <Link to="upsert">
-        <Button style={{ marginTop: 15 }} colorScheme="blue">
+        <Button
+          style={{ marginTop: 15 }}
+          backgroundColor="#04B7C9"
+          colorScheme="blue"
+        >
           <UilPlus />
           Creer une specialité
         </Button>

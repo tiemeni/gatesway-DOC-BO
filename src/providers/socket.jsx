@@ -3,7 +3,8 @@ import io from 'socket.io-client';
 import PropTypes from 'prop-types';
 
 // Define your server URL here
-const serverUrl = process.env.REACT_APP_LOCAL_URL;
+const serverUrl = '';
+// const serverUrl = process.env.REACT_APP_LOCAL_URL;
 
 const SocketContext = createContext();
 
