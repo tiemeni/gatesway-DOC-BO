@@ -64,7 +64,7 @@ function TableGenerator({ data, entityType }) {
   useEffect(() => {
     setData1((v) => {
       const ancien = v;
-      const formatedData = [];
+      let formatedData = [];
       if (entityType === 'praticien') {
         praticiens.forEach((e) => {
           formatedData.push(pratFormater(e));
@@ -74,6 +74,7 @@ function TableGenerator({ data, entityType }) {
           formatedData.push(userFormater(e));
         });
       } else if (entityType === 'patient') {
+        formatedData = [];
         patients.forEach((e) => {
           formatedData.push(patientFormater(e));
         });
@@ -140,7 +141,7 @@ function TableGenerator({ data, entityType }) {
               {data1?.cols?.map(
                 (col, i) =>
                   i > 0 && (
-                    <Td fontSize="sm" key={r[col.fname]}>
+                    <Td fontSize="sm" key={`${r[col.fname]}${i}`}>
                       {r[col.fname]}
                     </Td>
                   ),
