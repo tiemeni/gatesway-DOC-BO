@@ -19,3 +19,8 @@ export const postPraticien = (praticien) => ({
   type: types.POST_PRATICIEN_REQUEST,
   praticien,
 });
+
+export const updatePraticien = (praticien) => ({
+  type: types.UPDATE_PRATICIEN_REQUEST,
+  praticien,
+});

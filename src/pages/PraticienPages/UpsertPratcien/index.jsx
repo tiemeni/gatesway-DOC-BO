@@ -9,7 +9,10 @@ import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
-import { postPraticien } from '../../../redux/praticiens/actions';
+import {
+  postPraticien,
+  updatePraticien,
+} from '../../../redux/praticiens/actions';
 
 const pratAPIformatter = (data) => ({
   civility: data.civility,
@@ -20,7 +23,7 @@ const pratAPIformatter = (data) => ({
   email: data.email,
   password: data?.password,
   initiales: data.initiales,
-  active: data.active ? 1 : 0,
+  active: data.active ? 1 : 2,
   timeSlot: Math.ceil((data.timeSlot - 5) / 5),
   _id: data._id,
   job: data.job?._id,
@@ -39,6 +42,7 @@ function CreatePraticien() {
   useEffect(() => {
     praticiens.forEach((p) => {
       if (p?._id === id) {
+        console.log('------------------', p);
         setPratToUpdate(p);
         setLaunchPrat(false);
       }
@@ -55,7 +59,7 @@ function CreatePraticien() {
 
   const handlePost = (praticien) => {
     if (id) {
-      console.log('editing');
+      dispatch(updatePraticien(praticien));
     } else {
       dispatch(postPraticien(praticien));
     }

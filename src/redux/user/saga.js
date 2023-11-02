@@ -1,6 +1,10 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
+import {
+  getUnauthRequest,
+  patchUnauthRequest,
+  postUnauthRequest,
+} from '../../utils/api';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -89,8 +93,48 @@ function* postUser({ user }) {
   }
 }
 
+function* updateUser({ user }) {
+  const idc = localStorage.getItem('idc');
+  const payload = {
+    civility: user?.civility,
+    name: user.name,
+    surname: user.surname,
+    birthdate: user.birthdate,
+    telephone: user.telephone,
+    email: user.email,
+    password: user?.password,
+    initiales: user.initiales,
+    active: user.active === '1',
+    groups: user?.groups,
+  };
+  try {
+    const result = yield patchUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/users/${user?._id}/?idCentre=${idc}`,
+      payload,
+    );
+    if (result.success) {
+      yield put({
+        type: types.UPDATE_USER_REQUEST_SUCCESS,
+      });
+      yield put({ type: types.GET_ALL_USERS });
+      window.history.back();
+    } else {
+      yield put({
+        type: types.UPDATE_USER_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.UPDATE_USER_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* UserSaga() {
   yield takeLatest(types.LOGIN_REQUEST, login);
   yield takeLatest(types.GET_ALL_USERS, getAllUsers);
   yield takeLatest(types.POST_USER_REQUEST, postUser);
+  yield takeLatest(types.UPDATE_USER_REQUEST, updateUser);
 }

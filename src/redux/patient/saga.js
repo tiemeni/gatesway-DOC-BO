@@ -1,6 +1,10 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
+import {
+  getUnauthRequest,
+  postUnauthRequest,
+  putUnauthRequest,
+} from '../../utils/api';
 
 /**
  * @description ici le saga reducer
@@ -63,7 +67,45 @@ function* postPatient({ patient }) {
   }
 }
 
+function* updatePatient({ patient }) {
+  const idc = localStorage.getItem('idc');
+  const payload = {
+    civility: patient?.civility,
+    name: patient.name,
+    surname: patient.surname,
+    birthdate: patient.birthdate,
+    telephone: patient.telephone,
+    email: patient.email,
+    initiales: patient.initiales,
+    active: patient.active === '1',
+  };
+  try {
+    const result = yield putUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/patients/${patient?._id}/?idCentre=${idc}`,
+      payload,
+    );
+    if (result.success) {
+      yield put({
+        type: types.UPDATE_PATIENT_REQUEST_SUCCESS,
+      });
+      yield put({ type: types.GET_ALL_PATIENT });
+      window.history.back();
+    } else {
+      yield put({
+        type: types.UPDATE_PATIENT_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.UPDATE_PATIENT_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* PatientSaga() {
   yield takeLatest(types.GET_ALL_PATIENT, getAllPatients);
   yield takeLatest(types.POST_PATIENT_REQUEST, postPatient);
+  yield takeLatest(types.UPDATE_PATIENT_REQUEST, updatePatient);
 }

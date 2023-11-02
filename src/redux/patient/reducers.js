@@ -43,6 +43,22 @@ const PatientReducers = (state = initialState, action = undefined) => {
         postingPatient: false,
         errorPostingPatient: action.payload,
       };
+    case types.UPDATE_PATIENT_REQUEST:
+      return {
+        ...state,
+        UpdatingPatient: true,
+      };
+    case types.UPDATE_PATIENT_REQUEST_SUCCESS:
+      return {
+        ...state,
+        UpdatingPatient: false,
+      };
+    case types.UPDATE_PATIENT_REQUEST_FAILED:
+      return {
+        ...state,
+        UpdatingPatient: false,
+        errorUpdatingPatient: action.payload,
+      };
     default:
       return state;
   }

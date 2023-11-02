@@ -1,6 +1,10 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
+import {
+  getUnauthRequest,
+  patchUnauthRequest,
+  postUnauthRequest,
+} from '../../utils/api';
 import { convertIndexIntoNumber, formatUserName } from '../../utils/helpers';
 
 const { REACT_APP_BASE_URL } = process.env;
@@ -136,8 +140,51 @@ function* postPraticien({ praticien }) {
   }
 }
 
+function* updatePraticien({ praticien }) {
+  const payload = {
+    civility: praticien?.civility,
+    name: praticien.name,
+    surname: praticien.surname,
+    birthdate: praticien.birthdate,
+    telephone: praticien.telephone,
+    email: praticien.email,
+    password: praticien?.password,
+    initiales: praticien.initiales,
+    job: praticien?.job,
+    timeSlot: convertIndexIntoNumber(praticien?.timeSlot),
+    active: parseInt(praticien.active, 10) === 1,
+    groups: [praticien?.groups],
+    affectation: [praticien?.affectation],
+    isPraticien: true,
+  };
+  try {
+    const result = yield patchUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/users/${praticien?._id}/?idCentre=${idc}&isPraticien=true`,
+      payload,
+    );
+    if (result.success) {
+      yield put({
+        type: types.UPDATE_PRATICIEN_REQUEST_SUCCESS,
+      });
+      yield put({ type: types.GET_ALL_PRATICIENS_REQUEST });
+      window.history.back();
+    } else {
+      yield put({
+        type: types.UPDATE_PRATICIEN_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.UPDATE_PRATICIEN_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* PraticiensSaga() {
   yield takeLatest(types.GET_PRATICIENS_REQUEST, getPraticiens);
   yield takeLatest(types.GET_ALL_PRATICIENS_REQUEST, getAllPraticiens);
   yield takeLatest(types.POST_PRATICIEN_REQUEST, postPraticien);
+  yield takeLatest(types.UPDATE_PRATICIEN_REQUEST, updatePraticien);
 }

@@ -73,6 +73,22 @@ const UserReducers = (state = initialState, action = undefined) => {
         postingUser: false,
         errorPostingUser: action.payload,
       };
+    case types.UPDATE_USER_REQUEST:
+      return {
+        ...state,
+        updatingUser: true,
+      };
+    case types.UPDATE_USER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        updatingUser: false,
+      };
+    case types.UPDATE_USER_REQUEST_FAILED:
+      return {
+        ...state,
+        updatingUser: false,
+        errorUpdatingUser: action.payload,
+      };
     default:
       return state;
   }

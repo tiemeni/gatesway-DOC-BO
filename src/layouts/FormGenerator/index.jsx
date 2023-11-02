@@ -27,6 +27,11 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
   const postingPraticien = useSelector(
     (state) => state.Praticiens.postingPraticien,
   );
+  const UpdatingPatient = useSelector((state) => state.Patient.UpdatingPatient);
+  const UpdatingPraticien = useSelector(
+    (state) => state.Praticiens.UpdatingPraticien,
+  );
+  const updatingUser = useSelector((state) => state.User.updatingUser);
   const postingMotif = useSelector((state) => state.Motifs.postingMotif);
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
@@ -616,7 +621,10 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
                   postingMotif ||
                   postingPatient ||
                   postingUser ||
-                  postingPraticien)
+                  postingPraticien ||
+                  updatingUser ||
+                  UpdatingPatient ||
+                  UpdatingPraticien)
               }
               onClick={() =>
                 i === 1 ? data.dataFields.callBacks[key].action() : null

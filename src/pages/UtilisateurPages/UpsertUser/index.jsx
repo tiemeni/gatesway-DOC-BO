@@ -9,7 +9,7 @@ import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
 import { userCreateOrEdite } from '../../../utils/data';
 import FormGenerator from '../../../layouts/FormGenerator';
-import { postUser } from '../../../redux/user/actions';
+import { postUser, updateUser } from '../../../redux/user/actions';
 
 const userApiFormatter = (data) => ({
   civility: data.civility,
@@ -51,7 +51,7 @@ function CreateUser() {
 
   const handlePost = (user) => {
     if (id) {
-      console.log('editing');
+      dispatch(updateUser(user));
     } else {
       dispatch(postUser(user));
     }

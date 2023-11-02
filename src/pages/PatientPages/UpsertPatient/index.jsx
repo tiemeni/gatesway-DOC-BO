@@ -9,7 +9,7 @@ import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
-import { postPatient } from '../../../redux/patient/actions';
+import { postPatient, updatePatient } from '../../../redux/patient/actions';
 
 const patientAPIformatter = (data) => ({
   civility: data?.civility?._id,
@@ -50,7 +50,7 @@ function CreatePatient() {
 
   const handlePost = (patient) => {
     if (id) {
-      console.log('ediing');
+      dispatch(updatePatient(patient));
     } else {
       dispatch(postPatient(patient));
     }
