@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 import { Grid, GridItem } from '@chakra-ui/react';
 import FormGenerator from '../../../layouts/FormGenerator';
 import { upsertMotifs } from '../../../utils/data';
-import getAllLieux from '../../../redux/lieux/actions';
 import getAllSpecialities from '../../../redux/speciality/actions';
+import { getAllLieux } from '../../../redux/lieux/actions';
 
 const motifAPIformatter = (data) => ({
   nom: data.nom,

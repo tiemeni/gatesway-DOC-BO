@@ -25,6 +25,7 @@ import {
 } from '../../utils/dataFormater';
 
 function TableGenerator({ data, entityType }) {
+  const gettingAllLieux = useSelector((state) => state.Lieux.gettingAllLieux);
   const praticiens = useSelector((state) => state.Praticiens.praticiens);
   const users = useSelector((state) => state.User.users);
   const patients = useSelector((state) => state.Patient.patients);
@@ -34,7 +35,7 @@ function TableGenerator({ data, entityType }) {
   const [data1, setData1] = useState(data);
   const [loading, setLoading] = useState(true);
 
-  const truthinessToRenderTable = (truth) => {
+  const truthinessToRenderTable = (truth, loadingRessource) => {
     let result = [];
     switch (truth) {
       case 'praticien':
@@ -47,7 +48,11 @@ function TableGenerator({ data, entityType }) {
         result = patients;
         break;
       case 'lieu':
-        result = lieux;
+        if (loadingRessource) {
+          result = [];
+        } else {
+          result = lieux;
+        }
         break;
       case 'motif':
         result = motifs;
@@ -79,6 +84,7 @@ function TableGenerator({ data, entityType }) {
           formatedData.push(patientFormater(e));
         });
       } else if (entityType === 'lieu') {
+        formatedData = [];
         lieux.forEach((e) => {
           formatedData.push(lieuxFormater(e));
         });
@@ -94,7 +100,7 @@ function TableGenerator({ data, entityType }) {
       ancien.rows = formatedData;
       return ancien;
     });
-    if (truthinessToRenderTable(entityType)) {
+    if (truthinessToRenderTable(entityType, gettingAllLieux)) {
       setLoading(false);
     }
   }, [data1, praticiens, users, patients, lieux, motifs, specialities]);

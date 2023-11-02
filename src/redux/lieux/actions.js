@@ -1,7 +1,10 @@
-import { GET_ALL_LIEUX } from './types';
+import { GET_ALL_LIEUX, POST_LIEU_REQUEST } from './types';
 
-const getAllLieux = () => ({
+export const getAllLieux = () => ({
   type: GET_ALL_LIEUX,
 });
 
-export default getAllLieux;
+export const postLieuCallout = (lieu) => ({
+  type: POST_LIEU_REQUEST,
+  lieu,
+});

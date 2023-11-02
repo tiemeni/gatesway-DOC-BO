@@ -8,7 +8,7 @@ import { praticienCreateOrEdite } from '../../../utils/data';
 import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
 import getAllSpecialities from '../../../redux/speciality/actions';
-import getAllLieux from '../../../redux/lieux/actions';
+import { getAllLieux } from '../../../redux/lieux/actions';
 
 const pratAPIformatter = (data) => ({
   civility: data.civility,

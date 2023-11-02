@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { lieu } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataLieux } from '../../utils/dataFields';
-import getAllLieux from '../../redux/lieux/actions';
+import { getAllLieux } from '../../redux/lieux/actions';
 
 function LieuPage() {
   const dispatch = useDispatch();

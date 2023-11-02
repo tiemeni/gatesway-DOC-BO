@@ -6,7 +6,7 @@ import { Grid, GridItem } from '@chakra-ui/react';
 import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
 import getAllSpecialities from '../../../redux/speciality/actions';
-import getAllLieux from '../../../redux/lieux/actions';
+import { getAllLieux } from '../../../redux/lieux/actions';
 import { userCreateOrEdite } from '../../../utils/data';
 import FormGenerator from '../../../layouts/FormGenerator';
 

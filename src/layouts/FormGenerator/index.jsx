@@ -15,7 +15,10 @@ import {
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-function FormGenerator({ data, editeData = {} }) {
+function FormGenerator({ data, editeData = {}, handlePost = null }) {
+  const loadingPostLieu = useSelector(
+    (state) => state.Lieux.postingLieuLoading,
+  );
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
   const groupes = useSelector((state) => state.Groupes.groups);
@@ -55,11 +58,18 @@ function FormGenerator({ data, editeData = {} }) {
   }, [specialities]);
 
   const formik = useFormik({
-    initialValues: {
-      ...editeData,
-    },
+    initialValues:
+      Object.keys(editeData).length > 0
+        ? {
+            ...editeData,
+          }
+        : { ...formData },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      if (handlePost) {
+        handlePost(values);
+      } else {
+        alert(JSON.stringify(values, null, 2));
+      }
     },
   });
 
@@ -546,7 +556,7 @@ function FormGenerator({ data, editeData = {} }) {
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
               type={i === 0 ? 'submit' : null}
-              isLoading={false}
+              isLoading={i === 0 && loadingPostLieu}
               onClick={() =>
                 i === 1 ? data.dataFields.callBacks[key].action() : null
               }

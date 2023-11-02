@@ -107,3 +107,33 @@ export const incrementTime = (start, duration) => {
   // Retourner l'heure d'arrivée au format hh:mm
   return `${formattedEndHour}:${formattedEndMinute}`;
 };
+
+export const convertNumberToRegion = (region) => {
+  let result;
+  switch (region) {
+    case '1':
+      result = 'centre';
+      break;
+    case '2':
+      result = 'garoua';
+      break;
+    default:
+      break;
+  }
+  return result;
+};
+
+export const convertNumberToVille = (region) => {
+  let result;
+  switch (region) {
+    case '1':
+      result = 'yaounde';
+      break;
+    case '2':
+      result = 'douala';
+      break;
+    default:
+      break;
+  }
+  return result;
+};

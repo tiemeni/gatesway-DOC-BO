@@ -7,7 +7,7 @@ import { upsertLieux } from '../../../utils/data';
 import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
 import getAllSpecialities from '../../../redux/speciality/actions';
-import getAllLieux from '../../../redux/lieux/actions';
+import { getAllLieux, postLieuCallout } from '../../../redux/lieux/actions';
 
 const convertRegionToNumber = (region) => {
   let result;
@@ -76,10 +76,22 @@ function CreateLieux() {
     return 'launching lieux';
   }
 
+  const handlePost = (payload) => {
+    if (id) {
+      console.log('edite : ', id);
+    } else {
+      dispatch(postLieuCallout(payload));
+    }
+  };
+
   return (
     <Grid templateColumns="repeat(7, 1fr)" gap={4} mt={10} mb={20}>
       <GridItem colStart={2} colEnd={6} rowStart={1}>
-        <FormGenerator editeData={lieuApiFormatter(lieuToUpdate)} data={data} />
+        <FormGenerator
+          handlePost={handlePost}
+          editeData={lieuApiFormatter(lieuToUpdate)}
+          data={data}
+        />
       </GridItem>
     </Grid>
   );
