@@ -57,6 +57,23 @@ const PraticiensReducer = (state = initialState, action = undefined) => {
         allPratsuccess: false,
         message: action.payload.error,
       };
+
+    case types.POST_PRATICIEN_REQUEST:
+      return {
+        ...state,
+        postingPraticien: true,
+      };
+    case types.POST_PRATICIEN_REQUEST_SUCCESS:
+      return {
+        ...state,
+        postingPraticien: false,
+      };
+    case types.POST_PRATICIEN_REQUEST_FAILED:
+      return {
+        ...state,
+        postingPraticien: false,
+        errorPostingPraticien: action.payload,
+      };
     default:
       return state;
   }

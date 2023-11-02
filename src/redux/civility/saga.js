@@ -8,7 +8,9 @@ import { getUnauthRequest } from '../../utils/api';
 
 function* getAllCivilities() {
   try {
-    const result = yield getUnauthRequest('http://localhost:3500/civilites/');
+    const result = yield getUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/civilites/`,
+    );
     if (result.success) {
       yield put({
         type: types.GET_ALL_CIVILITIES_SUCCESS,

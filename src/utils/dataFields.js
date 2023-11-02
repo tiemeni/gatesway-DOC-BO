@@ -73,6 +73,7 @@ export const dataMotifs = {
     { label: 'Actions', fname: 'Action' },
     { label: 'Nom', fname: 'nom' },
     { label: 'Temps par defaut', fname: 'default_time' },
+    { label: 'Couleur', fname: 'couleur' },
     { label: 'Reference', fname: 'reference' },
     { label: 'Active', fname: 'active' },
   ],

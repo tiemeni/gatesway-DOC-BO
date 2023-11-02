@@ -19,6 +19,15 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
   const loadingPostLieu = useSelector(
     (state) => state.Lieux.postingLieuLoading,
   );
+  const postingUser = useSelector((state) => state.User.postingUser);
+  const postingPatient = useSelector((state) => state.Patient.postingPatient);
+  const postingSpecs = useSelector(
+    (state) => state.Specialities.loadingSpecialities,
+  );
+  const postingPraticien = useSelector(
+    (state) => state.Praticiens.postingPraticien,
+  );
+  const postingMotif = useSelector((state) => state.Motifs.postingMotif);
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
   const groupes = useSelector((state) => state.Groupes.groups);
@@ -281,6 +290,49 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
                 </FormControl>
               );
               break;
+            case 'password':
+              result = (
+                <FormControl
+                  // isInvalid={errors[e.name]}
+                  marginBottom={5}
+                  key={e.id}
+                  isRequired={e.required}
+                >
+                  <Stack
+                    style={{
+                      ...flexDesign,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FormLabel width="250px" textAlign="right" htmlFor={e.name}>
+                      {e.placeholder}
+                    </FormLabel>
+                    <Input
+                      id={e.name}
+                      type="password"
+                      placeholder={e.placeholder}
+                      // value={formData[e.name]}
+                      required={e.required}
+                      // {...register(e.name, {
+                      //   required: e.required
+                      //     ? 'ce champs est requi'
+                      //     : false,
+                      // })}
+                      // onChange={(event) =>
+                      //   handleChange(event, e.name?.toString())
+                      // }
+                      onChange={formik.handleChange}
+                      value={formik.values[e.name]}
+                    />
+                  </Stack>
+                  {/* <FormErrorMessage marginLeft="210px">
+                    {errors[e.name] && errors[e.name].message}
+                  </FormErrorMessage> */}
+                </FormControl>
+              );
+              break;
             case 'date':
               result = (
                 <FormControl
@@ -394,6 +446,7 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
                       {e.placeholder}
                     </FormLabel>
                     <Input
+                      id={e?.name}
                       type="number"
                       placeholder={e.placeholder}
                       // value={formData[e.name]}
@@ -556,7 +609,15 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
           {Object.keys(data.dataFields.callBacks)?.map((key, i) => (
             <Button
               type={i === 0 ? 'submit' : null}
-              isLoading={i === 0 && loadingPostLieu}
+              isLoading={
+                i === 0 &&
+                (loadingPostLieu ||
+                  postingSpecs ||
+                  postingMotif ||
+                  postingPatient ||
+                  postingUser ||
+                  postingPraticien)
+              }
               onClick={() =>
                 i === 1 ? data.dataFields.callBacks[key].action() : null
               }

@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { getUnauthRequest } from '../../utils/api';
+import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
+import { convertIndexIntoNumber } from '../../utils/helpers';
 
 /**
  * @description ici le saga reducer
@@ -22,6 +23,47 @@ function* getAllMotifs() {
   }
 }
 
+function* postMotif({ motif }) {
+  const idc = localStorage.getItem('idc');
+  const payload = {
+    active: motif?.active === 1,
+    couleur: motif?.couleur,
+    default_time: convertIndexIntoNumber(motif?.default_time),
+    idLieux: [motif?.idLieux],
+    idProfession: motif?.idProfession,
+    label: motif?.label,
+    nom: motif?.nom,
+    idSpeciality: motif?.idSpeciality,
+    reference: motif?.reference,
+    idCentre: idc,
+  };
+  try {
+    const result = yield postUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/motif/register`,
+      payload,
+    );
+    if (result.success) {
+      yield put({
+        type: types.POST_MOTIF_REQUEST_SUCCESS,
+      });
+      yield put({ type: types.GET_ALL_MOTIFS });
+      window.history.back();
+    } else {
+      yield put({
+        type: types.POST_MOTIF_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    yield put({
+      type: types.POST_MOTIF_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* MotifSaga() {
   yield takeLatest(types.GET_ALL_MOTIFS, getAllMotifs);
+  yield takeLatest(types.POST_MOTIF_REQUEST, postMotif);
 }

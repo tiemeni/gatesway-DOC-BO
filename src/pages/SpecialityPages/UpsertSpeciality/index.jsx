@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, GridItem } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FormGenerator from '../../../layouts/FormGenerator';
 import { upsertSpeciality } from '../../../utils/data';
+import { postSpeciality } from '../../../redux/speciality/actions';
 
 const specialityAPIformatter = (data) => ({
   idProfession: data?.idProfession,
@@ -16,6 +17,7 @@ const specialityAPIformatter = (data) => ({
 
 function CreateSpeciality() {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const specs = useSelector((state) => state.Specialities.specialities);
   const [launchSpeciality, setLaunchSpeciality] = useState(true);
   const [specToUpdate, setSpecToUpdate] = useState({});
@@ -33,10 +35,19 @@ function CreateSpeciality() {
     return 'launching specs';
   }
 
+  const handlePost = (spec) => {
+    if (id) {
+      console.log('updating');
+    } else {
+      dispatch(postSpeciality(spec));
+    }
+  };
+
   return (
     <Grid templateColumns="repeat(7, 1fr)" gap={4} mt={10} mb={20}>
       <GridItem colStart={2} colEnd={6} rowStart={1}>
         <FormGenerator
+          handlePost={handlePost}
           editeData={specialityAPIformatter(specToUpdate)}
           data={data}
         />

@@ -28,8 +28,10 @@ function* postLieu({ lieu }) {
   const payload = {
     active: lieu?.active === '1',
     codePostal: lieu?.codePostal,
-    latitude: lieu?.latitude || lieu['field-:rf:'],
-    longitude: lieu?.longitude || lieu['field-:rd:'],
+    location: JSON.stringify({
+      longitude: lieu.longitude,
+      latitude: lieu.latitude,
+    }),
     initiales: lieu?.initiales,
     label: lieu?.label,
     reference: lieu?.reference,

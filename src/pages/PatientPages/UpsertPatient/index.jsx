@@ -7,8 +7,9 @@ import FormGenerator from '../../../layouts/FormGenerator';
 import { patientCreateOrEdite } from '../../../utils/data';
 import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
-import getAllSpecialities from '../../../redux/speciality/actions';
+import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
+import { postPatient } from '../../../redux/patient/actions';
 
 const patientAPIformatter = (data) => ({
   civility: data?.civility?._id,
@@ -26,12 +27,12 @@ const patientAPIformatter = (data) => ({
 function CreatePatient() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const motif = useSelector((state) => state.Patient.patients);
+  const patients = useSelector((state) => state.Patient.patients);
   const [launchPatients, setLaunchPatients] = useState(true);
   const [patientToUpdate, setPatientToUpdate] = useState({});
   const [data] = useState(patientCreateOrEdite);
   useEffect(() => {
-    motif.forEach((m) => {
+    patients.forEach((m) => {
       if (m?._id === id) {
         setPatientToUpdate(m);
         setLaunchPatients(false);
@@ -47,10 +48,19 @@ function CreatePatient() {
     return 'launching patients';
   }
 
+  const handlePost = (patient) => {
+    if (id) {
+      console.log('ediing');
+    } else {
+      dispatch(postPatient(patient));
+    }
+  };
+
   return (
     <Grid templateColumns="repeat(7, 1fr)" gap={4} mt={10} mb={20}>
       <GridItem colStart={2} colEnd={6} rowStart={1}>
         <FormGenerator
+          handlePost={handlePost}
           editeData={patientAPIformatter(patientToUpdate)}
           data={data}
         />

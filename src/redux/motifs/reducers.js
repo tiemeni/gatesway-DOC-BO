@@ -27,6 +27,22 @@ const MotifReducers = (state = initialState, action = undefined) => {
         ...state,
         loadingMotifs: false,
       };
+    case types.POST_MOTIF_REQUEST:
+      return {
+        ...state,
+        postingMotif: true,
+      };
+    case types.POST_MOTIF_REQUEST_SUCCESS:
+      return {
+        ...state,
+        postingMotif: false,
+      };
+    case types.POST_MOTIF_REQUEST_FAILED:
+      return {
+        ...state,
+        postingMotif: false,
+        errorPostingMotif: action.payload,
+      };
     default:
       return state;
   }

@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { praticien } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataPatient } from '../../utils/dataFields';
-import getAllPatients from '../../redux/patient/actions';
+import { getAllPatients } from '../../redux/patient/actions';
 
 function PatientPage() {
   const dispatch = useDispatch();

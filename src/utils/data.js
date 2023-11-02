@@ -309,6 +309,7 @@ export const praticienCreateOrEdite = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Enregistrer',
+        color: '#04B7C9',
       },
       onBack: {
         action: () => window.history.back(),
@@ -370,6 +371,13 @@ export const praticienCreateOrEdite = {
         required: true,
         type: 'email',
         id: 6,
+      },
+      {
+        name: 'password',
+        placeholder: 'Mot de passe',
+        required: true,
+        type: 'password',
+        id: 30,
       },
       {
         name: 'initiales',
@@ -526,6 +534,7 @@ export const userCreateOrEdite = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Enregistrer',
+        color: '#04B7C9',
       },
       onBack: {
         action: () => window.history.back(),
@@ -589,6 +598,13 @@ export const userCreateOrEdite = {
         id: 6,
       },
       {
+        name: 'password',
+        placeholder: 'Mot de passe',
+        required: true,
+        type: 'password',
+        id: 30,
+      },
+      {
         name: 'initiales',
         placeholder: 'initiales',
         required: false,
@@ -647,6 +663,7 @@ export const patientCreateOrEdite = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Enregistrer',
+        color: '#04B7C9',
       },
       onBack: {
         action: () => window.history.back(),
@@ -735,25 +752,6 @@ export const patientCreateOrEdite = {
           },
         ],
       },
-      {
-        name: 'groups',
-        placeholder: 'droits',
-        required: false,
-        type: 'picklist',
-        id: 9,
-        options: [
-          {
-            label: 'grpe 1',
-            name: 'grpe 1',
-            _id: 1,
-          },
-          {
-            label: 'grpe 2',
-            name: 'grpe 2',
-            _id: 2,
-          },
-        ],
-      },
     ],
   },
 };
@@ -768,6 +766,7 @@ export const upsertSpeciality = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Enregistrer',
+        color: '#04B7C9',
       },
       onBack: {
         action: () => window.history.back(),
@@ -825,6 +824,7 @@ export const upsertMotifs = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Enregistrer',
+        color: '#04B7C9',
       },
       onBack: {
         action: () => window.history.back(),
@@ -887,6 +887,13 @@ export const upsertMotifs = {
         required: false,
         type: 'text',
         id: 4,
+      },
+      {
+        name: 'couleur',
+        placeholder: 'couleur',
+        required: false,
+        type: 'text',
+        id: 20,
       },
       {
         name: 'idProfession',

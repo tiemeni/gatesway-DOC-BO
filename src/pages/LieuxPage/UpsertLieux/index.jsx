@@ -6,7 +6,7 @@ import FormGenerator from '../../../layouts/FormGenerator';
 import { upsertLieux } from '../../../utils/data';
 import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
-import getAllSpecialities from '../../../redux/speciality/actions';
+import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux, postLieuCallout } from '../../../redux/lieux/actions';
 
 const convertRegionToNumber = (region) => {

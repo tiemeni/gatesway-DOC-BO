@@ -7,8 +7,9 @@ import FormGenerator from '../../../layouts/FormGenerator';
 import { praticienCreateOrEdite } from '../../../utils/data';
 import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
-import getAllSpecialities from '../../../redux/speciality/actions';
+import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
+import { postPraticien } from '../../../redux/praticiens/actions';
 
 const pratAPIformatter = (data) => ({
   civility: data.civility,
@@ -17,6 +18,7 @@ const pratAPIformatter = (data) => ({
   birthdate: moment(data.birthdate).format('YYYY-MM-DD'),
   telephone: data.telephone,
   email: data.email,
+  password: data?.password,
   initiales: data.initiales,
   active: data.active ? 1 : 0,
   timeSlot: Math.ceil((data.timeSlot - 5) / 5),
@@ -51,10 +53,22 @@ function CreatePraticien() {
     return 'launching praticiens';
   }
 
+  const handlePost = (praticien) => {
+    if (id) {
+      console.log('editing');
+    } else {
+      dispatch(postPraticien(praticien));
+    }
+  };
+
   return (
     <Grid templateColumns="repeat(7, 1fr)" gap={4} mt={10} mb={20}>
       <GridItem colStart={2} colEnd={6} rowStart={1}>
-        <FormGenerator editeData={pratAPIformatter(pratToUpdate)} data={data} />
+        <FormGenerator
+          handlePost={handlePost}
+          editeData={pratAPIformatter(pratToUpdate)}
+          data={data}
+        />
       </GridItem>
     </Grid>
   );

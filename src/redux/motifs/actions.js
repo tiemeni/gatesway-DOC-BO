@@ -1,7 +1,10 @@
-import { GET_ALL_MOTIFS } from './types';
+import { GET_ALL_MOTIFS, POST_MOTIF_REQUEST } from './types';
 
-const getAllMotifs = () => ({
+export const getAllMotifs = () => ({
   type: GET_ALL_MOTIFS,
 });
 
-export default getAllMotifs;
+export const postMotif = (motif) => ({
+  type: POST_MOTIF_REQUEST,
+  motif,
+});

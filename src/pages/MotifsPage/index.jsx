@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { motif } from '../../utils/data';
 import { dataMotifs } from '../../utils/dataFields';
 import TableGenerator from '../../layouts/TableGenerator';
-import getAllMotifs from '../../redux/motifs/actions';
+import { getAllMotifs } from '../../redux/motifs/actions';
 
 function MotifsPage() {
   const dispatch = useDispatch();

@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import { Grid, GridItem } from '@chakra-ui/react';
 import FormGenerator from '../../../layouts/FormGenerator';
 import { upsertMotifs } from '../../../utils/data';
-import getAllSpecialities from '../../../redux/speciality/actions';
+import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
+import { postMotif } from '../../../redux/motifs/actions';
 
 const motifAPIformatter = (data) => ({
   nom: data.nom,
@@ -18,6 +19,7 @@ const motifAPIformatter = (data) => ({
   idLieux: data?.idLieux?.length > 0 ? data?.idLieux[0] : null,
   idSpeciality: data.idSpeciality,
   reference: data.reference,
+  couleur: data?.couleur,
 });
 
 function CreateMotif() {
@@ -43,10 +45,19 @@ function CreateMotif() {
     return 'launching motifs';
   }
 
+  const handlePost = (m) => {
+    if (id) {
+      console.log('edite motif');
+    } else {
+      dispatch(postMotif(m));
+    }
+  };
+
   return (
     <Grid templateColumns="repeat(7, 1fr)" gap={4} mt={10} mb={20}>
       <GridItem colStart={2} colEnd={6} rowStart={1}>
         <FormGenerator
+          handlePost={handlePost}
           editeData={motifAPIformatter(motifToUpdate)}
           data={data}
         />

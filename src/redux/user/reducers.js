@@ -57,6 +57,22 @@ const UserReducers = (state = initialState, action = undefined) => {
         ...state,
         loadingUsers: false,
       };
+    case types.POST_USER_REQUEST:
+      return {
+        ...state,
+        postingUser: true,
+      };
+    case types.POST_USER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        postingUser: false,
+      };
+    case types.POST_USER_REQUEST_FAILED:
+      return {
+        ...state,
+        postingUser: false,
+        errorPostingUser: action.payload,
+      };
     default:
       return state;
   }

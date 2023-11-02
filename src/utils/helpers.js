@@ -137,3 +137,5 @@ export const convertNumberToVille = (region) => {
   }
   return result;
 };
+
+export const convertIndexIntoNumber = (index) => 5 * index + 5;

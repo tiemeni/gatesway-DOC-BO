@@ -1,7 +1,10 @@
-import { GET_ALL_PATIENT } from './types';
+import { GET_ALL_PATIENT, POST_PATIENT_REQUEST } from './types';
 
-const getAllPatients = () => ({
+export const getAllPatients = () => ({
   type: GET_ALL_PATIENT,
 });
 
-export default getAllPatients;
+export const postPatient = (patient) => ({
+  type: POST_PATIENT_REQUEST,
+  patient,
+});

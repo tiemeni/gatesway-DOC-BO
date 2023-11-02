@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { speciality } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataSpeciality } from '../../utils/dataFields';
-import getAllSpecialities from '../../redux/speciality/actions';
+import { getAllSpecialities } from '../../redux/speciality/actions';
 
 function SpecialityPage() {
   const dispatch = useDispatch();
