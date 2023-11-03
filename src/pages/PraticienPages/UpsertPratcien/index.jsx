@@ -42,7 +42,6 @@ function CreatePraticien() {
   useEffect(() => {
     praticiens.forEach((p) => {
       if (p?._id === id) {
-        console.log('------------------', p);
         setPratToUpdate(p);
         setLaunchPrat(false);
       }
