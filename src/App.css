@@ -85,3 +85,11 @@ button.fc-button.fc-button-primary {
 .css-186l2rg {
   color: white !important;
 }
+
+.iframe-parent {
+  height: 100vh;
+}
+iframe {
+  width: 100%;
+  height: 100vh;
+}

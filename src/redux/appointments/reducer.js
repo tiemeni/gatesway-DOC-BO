@@ -7,6 +7,10 @@ const iniatialState = {
   copyId: null,
   deleting: false,
   isDeleted: false,
+  duration: null,
+  pasteProcessing: false,
+  pasteSuccess: false,
+  pasteFailed: false,
 };
 
 const AppointmentReducer = (state = iniatialState, action) => {
@@ -23,6 +27,7 @@ const AppointmentReducer = (state = iniatialState, action) => {
         ...state,
         isLoading: false,
         isFailed: true,
+        success: false,
       };
     case types.UPDATE_APPOINTMENT_SUCCESS:
       return {
@@ -36,26 +41,48 @@ const AppointmentReducer = (state = iniatialState, action) => {
         ...state,
         deleting: true,
         isDeleted: false,
-        isFailed: false
+        isFailed: false,
       };
     case types.DELETE_APPOINTMENT_FAILED:
       return {
         ...state,
         deleting: false,
         isDeleted: false,
-        isFailed: true
+        isFailed: true,
       };
     case types.DELETE_APPOINTMENT_SUCCESS:
       return {
         ...state,
         deleting: false,
         isDeleted: true,
-        isFailed: false
+        isFailed: false,
       };
     case types.COPY_APPOINTMENT_ID:
       return {
         ...state,
-        copyId: action.payload,
+        copyId: action.payload.id,
+        duration: action.payload.duration,
+      };
+    case types.DUPLICATE_APPOINTMENT_REQUEST:
+      return {
+        ...state,
+        pasteProcessing: true,
+        pasteSuccess: false,
+        pasteFailed: false,
+      };
+    case types.DUPLICATE_APPOINTMENT_FAILED:
+      return {
+        ...state,
+        pasteProcessing: false,
+        pasteFailed: true,
+        pasteSuccess: false,
+      };
+    case types.DUPLICATE_APPOINTMENT_SUCCESS:
+      return {
+        ...state,
+        pasteProcessing: false,
+        pasteFailed: false,
+        pasteSuccess: true,
       };
     default:
       return state;

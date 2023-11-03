@@ -84,7 +84,8 @@ function EventContent({ event }) {
   };
 
   const onDelete = () => dispatch(onDeleteEvent({ open: true, idRdv: _id }));
-  const onCopyPaste = () => dispatch(copyAppointmentId(_id));
+  const onCopyPaste = () => dispatch(copyAppointmentId({id: _id, duration: duree}));
+  const onPrint = () => window.open('http://localhost:3000/print-pdf', '_blank');
 
   const itemsList = [
     {
@@ -110,6 +111,7 @@ function EventContent({ event }) {
       key: 4,
       icon: UilPrint,
       intitule: 'Imprimer le rdv',
+      func: onPrint
     },
     {
       key: 5,
