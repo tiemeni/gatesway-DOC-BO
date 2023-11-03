@@ -94,7 +94,6 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
         result = (
           <Select
             id={e.name}
-            // onChange={(event) => handleChange(event, e.name?.toString())}
             placeholder="Select option"
             onChange={formik.handleChange}
             value={formik.values[e.name]}
