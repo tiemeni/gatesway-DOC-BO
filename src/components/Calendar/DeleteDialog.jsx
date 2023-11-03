@@ -13,16 +13,48 @@ import {
   Icon,
   Text,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
 import { UilTrashAlt, UilExclamationTriangle } from '@iconscout/react-unicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { onDeleteEvent } from '../../redux/common/actions';
+import { onDeleteAppointment } from '../../redux/appointments/actions';
 
 function DeleteDialog() {
   const dispatch = useDispatch();
   const cancelRef = React.useRef();
-  const { openDeletion } = useSelector((state) => state.Common);
-  const onClose = () => dispatch(onDeleteEvent(false));
+  const { openDeletion, eventId } = useSelector((state) => state.Common);
+  const { deleting, isDeleted, isFailed } = useSelector(
+    (state) => state.Appointments,
+  );
+  const onClose = () => dispatch(onDeleteEvent({ open: false, idRdv: '' }));
+  const toast = useToast();
+
+  const onDelete = () => dispatch(onDeleteAppointment(eventId));
+
+  const loadingText = (
+    <Text fontSize="sm" fontWeight="normal">
+      Patientez...
+    </Text>
+  );
+
+  React.useEffect(() => {
+    if (isDeleted || (!isDeleted && isFailed)) {
+      const status = !isDeleted && isFailed ? 'danger' : 'success';
+      const titleText = isDeleted
+        ? `Le rendez-vous a bien été supprimé`
+        : 'Une erreur est survenue lors de la mise à jour du rendez-vous';
+      const title = <Text fontSize="sm">{titleText}</Text>;
+      onClose();
+      toast({
+        title,
+        status,
+        variant: 'solid',
+        position: 'top-right',
+        isClosable: true,
+      });
+    }
+  }, [isDeleted]);
 
   return (
     <AlertDialog
@@ -78,10 +110,16 @@ function DeleteDialog() {
           </AlertDialogBody>
 
           <AlertDialogFooter justifyContent="center">
-            <Button onClick={onClose} ref={cancelRef}>
+            <Button onClick={onClose} ref={cancelRef} isDisabled={deleting}>
               <Text fontSize="sm">Annuler</Text>
             </Button>
-            <Button colorScheme="red" ml={3}>
+            <Button
+              isLoading={deleting}
+              colorScheme="red"
+              ml={3}
+              onClick={onDelete}
+              loadingText={loadingText}
+            >
               <Text fontSize="sm">Supprimer</Text>
             </Button>
           </AlertDialogFooter>

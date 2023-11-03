@@ -33,6 +33,7 @@ import { Formik, Field } from 'formik';
 import moment from 'moment';
 import { onDeleteEvent, onEventClick } from '../../redux/common/actions';
 import { onUpdateAppointment } from '../../redux/appointments/actions';
+import LoadingText from '../elements/WaitingMessage';
 
 function RdvInfo() {
   return (
@@ -173,7 +174,7 @@ function FicheRdv() {
 
   useEffect(() => {
     if (success || (!success && isFailed)) {
-      const status = !success && isFailed ? 'danger' : 'success';
+      const status = !success && isFailed ? 'error' : 'success';
       const titleText = success
         ? `Le rendez-vous à bien été mis à jour`
         : 'Une erreur est survenue lors de la mise à jour du rendez-vous';
@@ -187,13 +188,7 @@ function FicheRdv() {
         isClosable: true,
       });
     }
-  }, [success]);
-
-  const loadingText = (
-    <Text fontSize="sm" fontWeight="normal">
-      Patientez...
-    </Text>
-  );
+  }, [success, isFailed]);
 
   return (
     <Modal
@@ -357,7 +352,7 @@ function FicheRdv() {
                                   size="md"
                                   colorScheme="primary"
                                   isLoading={isLoading}
-                                  loadingText={loadingText}
+                                  loadingText={LoadingText}
                                 >
                                   <Text fontSize="sm" fontWeight="normal">
                                     Modifier
@@ -370,7 +365,7 @@ function FicheRdv() {
                                   size="md"
                                   onClick={onClose}
                                   isDisabled={isLoading}
-                                  loadingText={loadingText}
+                                  loadingText={LoadingText}
                                 >
                                   <Text
                                     fontSize="sm"
@@ -387,7 +382,7 @@ function FicheRdv() {
                                   size="md"
                                   onClick={onDelete}
                                   isDisabled={isLoading}
-                                  loadingText={loadingText}
+                                  loadingText={LoadingText}
                                 >
                                   <Text
                                     fontSize="sm"

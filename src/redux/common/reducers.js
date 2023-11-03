@@ -12,6 +12,7 @@ const initialState = {
   showFicheRdv: false,
   infoRdv: {},
   openDeletion: false,
+  eventId: ''
 };
 
 const CommonReducer = (state = initialState, action = undefined) => {
@@ -41,7 +42,8 @@ const CommonReducer = (state = initialState, action = undefined) => {
     case types.DELETE_EVENT:
       return {
         ...state,
-        openDeletion: action.payload,
+        openDeletion: action.payload.open,
+        eventId: action.payload.idRdv
       };
     default:
       return state;

@@ -1,9 +1,15 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
+import { AGENDA_DATE_CLICK } from '../common/types';
 import { incrementTime } from '../../utils/helpers';
-import { putUnauthRequest } from '../../utils/api';
+import {
+  deleteUnauthRequest,
+  putUnauthRequest,
+  postUnauthRequest,
+} from '../../utils/api';
 
 const idc = localStorage.getItem('idc');
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 /**
  * update informations about the current appointment.
@@ -20,14 +26,16 @@ function* updateAppointment({ payload }) {
       duration: payload.duration,
       status: payload.status,
     };
-    const url = `${process.env.REACT_APP_BASE_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
+    const url = `${BASE_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
     const result = yield putUnauthRequest(url, query);
 
-    if (!result.success)
+    if (!result.success) {
       yield put({
         type: types.UPDATE_APPOINTMENT_FAILED,
         error: "Une erreur est survenue lors de l'exécution de la requête",
       });
+      return;
+    }
 
     yield put({ type: types.UPDATE_APPOINTMENT_SUCCESS });
   } catch (error) {
@@ -35,6 +43,44 @@ function* updateAppointment({ payload }) {
   }
 }
 
+function* deleteAppointment({ payload }) {
+  try {
+    const result = yield deleteUnauthRequest(
+      `${BASE_URL}/appointments/${payload}/?idCentre=${idc}`,
+    );
+
+    if (!result.success) {
+      yield put({ type: types.DELETE_APPOINTMENT_FAILED });
+      return;
+    }
+    yield put({ type: types.DELETE_APPOINTMENT_SUCCESS });
+  } catch (error) {
+    yield put({ type: types.DELETE_APPOINTMENT_FAILED });
+  }
+}
+
+function* pasteAppointment({ payload }) {
+  try {
+    const url = `${BASE_URL}/appointments/duplicate/?idCentre=${idc}`;
+    const result = yield postUnauthRequest(url, payload);
+
+    if(!result.success) {
+      yield put({type: types.DUPLICATE_APPOINTMENT_FAILED, error: "Erreur lors de l'execution"})
+      return
+    }
+    yield put({ type: types.DUPLICATE_APPOINTMENT_SUCCESS })
+    yield put({ type: types.COPY_APPOINTMENT_ID, payload: { id: null, duration: null }})
+    yield put( { type: AGENDA_DATE_CLICK, payload: { date: '', isOpen: false } })
+  } catch (error) {
+    yield put({
+      type: types.DUPLICATE_APPOINTMENT_REQUEST,
+      error: 'Une erreur est survenue lors du traitement de votre demande.',
+    });
+  }
+}
+
 export default function* AppointmentsSaga() {
   yield takeLatest(types.UPDATE_APPOINTMENT_REQUEST, updateAppointment);
+  yield takeLatest(types.DELETE_APPOINTMENT_REQUEST, deleteAppointment);
+  yield takeLatest(types.DUPLICATE_APPOINTMENT_REQUEST, pasteAppointment);
 }
