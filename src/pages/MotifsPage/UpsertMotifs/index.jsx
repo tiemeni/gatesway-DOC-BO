@@ -6,13 +6,13 @@ import FormGenerator from '../../../layouts/FormGenerator';
 import { upsertMotifs } from '../../../utils/data';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
 import { getAllLieux } from '../../../redux/lieux/actions';
-import { postMotif } from '../../../redux/motifs/actions';
+import { postMotif, updateMotif } from '../../../redux/motifs/actions';
 
 const motifAPIformatter = (data) => ({
   nom: data.nom,
   label: data.label,
   initiales: data.initiales,
-  active: data.active ? 1 : 0,
+  active: data.active ? 1 : 2,
   default_time: Math.ceil((data.default_time - 5) / 5),
   _id: data._id,
   idProfession: data.idProfession,
@@ -47,7 +47,7 @@ function CreateMotif() {
 
   const handlePost = (m) => {
     if (id) {
-      console.log('edite motif');
+      dispatch(updateMotif(m));
     } else {
       dispatch(postMotif(m));
     }

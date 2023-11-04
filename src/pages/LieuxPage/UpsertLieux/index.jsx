@@ -7,7 +7,11 @@ import { upsertLieux } from '../../../utils/data';
 import getAllCivilities from '../../../redux/civility/actions';
 import getAllGroupes from '../../../redux/groupes/actions';
 import { getAllSpecialities } from '../../../redux/speciality/actions';
-import { getAllLieux, postLieuCallout } from '../../../redux/lieux/actions';
+import {
+  getAllLieux,
+  postLieuCallout,
+  updateLieu,
+} from '../../../redux/lieux/actions';
 
 const convertRegionToNumber = (region) => {
   let result;
@@ -78,7 +82,7 @@ function CreateLieux() {
 
   const handlePost = (payload) => {
     if (id) {
-      console.log('edite : ', id);
+      dispatch(updateLieu(payload));
     } else {
       dispatch(postLieuCallout(payload));
     }

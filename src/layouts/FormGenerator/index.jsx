@@ -19,6 +19,9 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
   const loadingPostLieu = useSelector(
     (state) => state.Lieux.postingLieuLoading,
   );
+  const updatingLieuLoading = useSelector(
+    (state) => state.Lieux.updatingLieuLoading,
+  );
   const postingUser = useSelector((state) => state.User.postingUser);
   const postingPatient = useSelector((state) => state.Patient.postingPatient);
   const postingSpecs = useSelector(
@@ -33,6 +36,7 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
   );
   const updatingUser = useSelector((state) => state.User.updatingUser);
   const postingMotif = useSelector((state) => state.Motifs.postingMotif);
+  const updatingMotif = useSelector((state) => state.Motifs.updatingMotif);
   const [dataCp, setDataCp] = useState({});
   const civilities = useSelector((state) => state.Civilities.civilities);
   const groupes = useSelector((state) => state.Groupes.groups);
@@ -623,7 +627,9 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
                   postingPraticien ||
                   updatingUser ||
                   UpdatingPatient ||
-                  UpdatingPraticien)
+                  UpdatingPraticien ||
+                  updatingLieuLoading ||
+                  updatingMotif)
               }
               onClick={() =>
                 i === 1 ? data.dataFields.callBacks[key].action() : null

@@ -40,6 +40,24 @@ const LieuxReducers = (state = initialState, action = undefined) => {
         errorPostingLieu: action.payload,
         isErrorPostingLieu: true,
       };
+    case types.UPDATE_LIEU_REQUEST:
+      return {
+        ...state,
+        updatingLieuLoading: true,
+      };
+    case types.UPDATE_LIEU_REQUEST_SUCCESS:
+      return {
+        ...state,
+        updatingLieuLoading: false,
+        isErrorupdatingLieu: false,
+      };
+    case types.UPDATE_LIEU_REQUEST_FAILED:
+      return {
+        ...state,
+        updatingLieuLoading: false,
+        errorupdatingLieu: action.payload,
+        isErrorupdatingLieu: true,
+      };
     default:
       return state;
   }

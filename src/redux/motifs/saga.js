@@ -1,6 +1,10 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
+import {
+  getUnauthRequest,
+  postUnauthRequest,
+  putUnauthRequest,
+} from '../../utils/api';
 import { convertIndexIntoNumber } from '../../utils/helpers';
 
 /**
@@ -63,7 +67,47 @@ function* postMotif({ motif }) {
   }
 }
 
+function* updateMotif({ motif }) {
+  const idc = localStorage.getItem('idc');
+  const payload = {
+    reference: motif.reference,
+    default_time: convertIndexIntoNumber(motif.default_time),
+    idProfession: motif.idProfession,
+    idLieux: [motif.idLieux],
+    idSpeciality: motif.idSpeciality,
+    couleur: motif.couleur,
+    nom: motif.nom,
+    label: motif.label,
+    initiales: motif.initiales,
+    active: motif.active === '1',
+  };
+  try {
+    const result = yield putUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/motif/${motif?._id}/?idCentre=${idc}`,
+      payload,
+    );
+    if (result.success) {
+      yield put({
+        type: types.UPDATING_MOTIF_REQUEST_SUCCESS,
+      });
+      yield put({ type: types.GET_ALL_MOTIFS });
+      window.history.back();
+    } else {
+      yield put({
+        type: types.UPDATING_MOTIF_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.UPDATING_MOTIF_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* MotifSaga() {
   yield takeLatest(types.GET_ALL_MOTIFS, getAllMotifs);
   yield takeLatest(types.POST_MOTIF_REQUEST, postMotif);
+  yield takeLatest(types.UPDATING_MOTIF_REQUEST, updateMotif);
 }

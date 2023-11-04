@@ -1,6 +1,10 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
+import {
+  getUnauthRequest,
+  postUnauthRequest,
+  putUnauthRequest,
+} from '../../utils/api';
 import {
   convertNumberToRegion,
   convertNumberToVille,
@@ -55,7 +59,48 @@ function* postLieu({ lieu }) {
   }
 }
 
+function* updateLieu({ lieu }) {
+  const idc = localStorage.getItem('idc');
+  const payload = {
+    label: lieu.label,
+    region: convertNumberToRegion(lieu.region),
+    ville: convertNumberToVille(lieu.ville),
+    reference: lieu.reference,
+    initiales: lieu.initiales,
+    location: JSON.stringify({
+      longitude: lieu.longitude,
+      latitude: lieu.latitude,
+    }),
+    codePostal: lieu.codePostal,
+    active: lieu.active === '1',
+  };
+  try {
+    const result = yield putUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/lieu/${lieu?._id}/?idCentre=${idc}`,
+      payload,
+    );
+    if (result.success) {
+      yield put({
+        type: types.UPDATE_LIEU_REQUEST_SUCCESS,
+      });
+      yield put({ type: types.GET_ALL_LIEUX });
+      window.history.back();
+    } else {
+      yield put({
+        type: types.UPDATE_LIEU_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.UPDATE_LIEU_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* LieuxSaga() {
   yield takeLatest(types.GET_ALL_LIEUX, getAllLieux);
   yield takeLatest(types.POST_LIEU_REQUEST, postLieu);
+  yield takeLatest(types.UPDATE_LIEU_REQUEST, updateLieu);
 }

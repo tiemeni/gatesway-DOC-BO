@@ -1,4 +1,8 @@
-import { GET_ALL_MOTIFS, POST_MOTIF_REQUEST } from './types';
+import {
+  GET_ALL_MOTIFS,
+  POST_MOTIF_REQUEST,
+  UPDATING_MOTIF_REQUEST,
+} from './types';
 
 export const getAllMotifs = () => ({
   type: GET_ALL_MOTIFS,
@@ -6,5 +10,10 @@ export const getAllMotifs = () => ({
 
 export const postMotif = (motif) => ({
   type: POST_MOTIF_REQUEST,
+  motif,
+});
+
+export const updateMotif = (motif) => ({
+  type: UPDATING_MOTIF_REQUEST,
   motif,
 });
