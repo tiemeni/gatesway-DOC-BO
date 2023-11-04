@@ -1,4 +1,8 @@
-import { GET_ALL_SPECIALITIES, POST_SPEC_REQUEST } from './types';
+import {
+  GET_ALL_SPECIALITIES,
+  POST_SPEC_REQUEST,
+  UPDATE_SPECIALITY_REQUEST,
+} from './types';
 
 export const getAllSpecialities = () => ({
   type: GET_ALL_SPECIALITIES,
@@ -6,5 +10,10 @@ export const getAllSpecialities = () => ({
 
 export const postSpeciality = (spec) => ({
   type: POST_SPEC_REQUEST,
+  spec,
+});
+
+export const updateSpec = (spec) => ({
+  type: UPDATE_SPECIALITY_REQUEST,
   spec,
 });

@@ -27,6 +27,9 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
   const postingSpecs = useSelector(
     (state) => state.Specialities.loadingSpecialities,
   );
+  const updatingSpecialities = useSelector(
+    (state) => state.Specialities.updatingSpecialities,
+  );
   const postingPraticien = useSelector(
     (state) => state.Praticiens.postingPraticien,
   );
@@ -629,7 +632,8 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
                   UpdatingPatient ||
                   UpdatingPraticien ||
                   updatingLieuLoading ||
-                  updatingMotif)
+                  updatingMotif ||
+                  updatingSpecialities)
               }
               onClick={() =>
                 i === 1 ? data.dataFields.callBacks[key].action() : null

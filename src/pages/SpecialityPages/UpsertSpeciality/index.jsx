@@ -4,13 +4,14 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FormGenerator from '../../../layouts/FormGenerator';
 import { upsertSpeciality } from '../../../utils/data';
-import { postSpeciality } from '../../../redux/speciality/actions';
+import { postSpeciality, updateSpec } from '../../../redux/speciality/actions';
 
 const specialityAPIformatter = (data) => ({
   idProfession: data?.idProfession,
   label: data.label,
   secretaryAlert: data.secretaryAlert,
   title: data.title,
+  reference: data.reference,
   webAlert: data.webAlert,
   _id: data._id,
 });
@@ -37,7 +38,7 @@ function CreateSpeciality() {
 
   const handlePost = (spec) => {
     if (id) {
-      console.log('updating');
+      dispatch(updateSpec(spec));
     } else {
       dispatch(postSpeciality(spec));
     }

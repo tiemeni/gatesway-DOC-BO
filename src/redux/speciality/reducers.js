@@ -33,6 +33,22 @@ const SpecialityReducers = (state = initialState, action = undefined) => {
         loadingSpecialities: false,
         loadingSpecsError: action.payload,
       };
+    case types.UPDATE_SPECIALITY_REQUEST:
+      return {
+        ...state,
+        updatingSpecialities: true,
+      };
+    case types.UPDATE_SPECIALITY_REQUEST_SUCCESS:
+      return {
+        ...state,
+        updatingSpecialities: false,
+      };
+    case types.UPDATE_SPECIALITY_REQUEST_FAILED:
+      return {
+        ...state,
+        updatingSpecialities: false,
+        updatingSpecsError: action.payload,
+      };
     default:
       return state;
   }

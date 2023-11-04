@@ -1,6 +1,10 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
+import {
+  getUnauthRequest,
+  patchUnauthRequest,
+  postUnauthRequest,
+} from '../../utils/api';
 
 /**
  * @description ici le saga reducer
@@ -51,7 +55,43 @@ function* postSpecialities({ spec }) {
   }
 }
 
+function* updateSpec({ spec }) {
+  const idc = localStorage.getItem('idc');
+  const payload = {
+    idProfession: spec.idProfession,
+    label: spec.label,
+    reference: spec.reference,
+    secretaryAlert: spec.secretaryAlert,
+    title: spec.title,
+    webAlert: spec.webAlert,
+  };
+  try {
+    const result = yield patchUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/specialites/${spec?._id}/?idCentre=${idc}`,
+      payload,
+    );
+    if (result.success) {
+      yield put({
+        type: types.UPDATE_SPECIALITY_REQUEST_SUCCESS,
+      });
+      yield put({ type: types.GET_ALL_SPECIALITIES });
+      window.history.back();
+    } else {
+      yield put({
+        type: types.UPDATE_SPECIALITY_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.UPDATE_SPECIALITY_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* SpecialitySaga() {
   yield takeLatest(types.GET_ALL_SPECIALITIES, getAllSpecialities);
   yield takeLatest(types.POST_SPEC_REQUEST, postSpecialities);
+  yield takeLatest(types.UPDATE_SPECIALITY_REQUEST, updateSpec);
 }
