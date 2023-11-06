@@ -9,7 +9,7 @@ import {
 } from '../../utils/api';
 
 const idc = localStorage.getItem('idc');
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_LOCAL_URL;
 
 /**
  * update informations about the current appointment.

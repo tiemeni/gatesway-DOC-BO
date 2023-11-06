@@ -35,8 +35,6 @@ function MenuItem(props) {
     else handleSelection(tabIds, tabNames, 'remove');
   };
 
-  console.log("item rerendered")
-
   return (
     <AccordionItem>
       <HStack alignItems="center">

@@ -11,6 +11,8 @@ const iniatialState = {
   pasteProcessing: false,
   pasteSuccess: false,
   pasteFailed: false,
+  openReport: false,
+  reportId: null,
 };
 
 const AppointmentReducer = (state = iniatialState, action) => {
@@ -83,6 +85,12 @@ const AppointmentReducer = (state = iniatialState, action) => {
         pasteProcessing: false,
         pasteFailed: false,
         pasteSuccess: true,
+      };
+    case types.OPEN_REPORT_MODAL:
+      return {
+        ...state,
+        openReport: action.payload.isOpen,
+        reportId: action.payload.id,
       };
     default:
       return state;

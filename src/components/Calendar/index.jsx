@@ -5,6 +5,7 @@ import CalendarAppointment from './CalendarAppointment';
 import Agenda from './Agenda';
 import FicheRdv from './FicheRdv';
 import DeleteDialog from './DeleteDialog';
+import ReportAppointment from './ReportAppointment';
 
 function Calendar() {
   const [calendarTItle, setCalendarTItle] = useState();
@@ -39,6 +40,7 @@ function Calendar() {
       <CalendarAppointment />
       <FicheRdv />
       <DeleteDialog />
+      <ReportAppointment />
     </Box>
   );
 }

@@ -25,7 +25,10 @@ import { useDispatch } from 'react-redux';
 import { onDeleteEvent, onEventClick } from '../../redux/common/actions';
 import TooltipContent from './TooltipContent';
 import Item from './Item';
-import { copyAppointmentId } from '../../redux/appointments/actions';
+import {
+  copyAppointmentId,
+  openReportModal,
+} from '../../redux/appointments/actions';
 
 function EventContent({ event }) {
   const {
@@ -83,9 +86,15 @@ function EventContent({ event }) {
     );
   };
 
+  const onReport = () => dispatch(openReportModal({ isOpen: true, id: _id }));
   const onDelete = () => dispatch(onDeleteEvent({ open: true, idRdv: _id }));
-  const onCopyPaste = () => dispatch(copyAppointmentId({id: _id, duration: duree}));
-  const onPrint = () => window.open('http://localhost:3000/print-pdf', '_blank');
+  const onCopyPaste = () =>
+    dispatch(copyAppointmentId({ id: _id, duration: duree }));
+  const onPrint = () => {
+    const currentURL = window.location.href;
+    const url = currentURL.replace('/content', '/print-pdf');
+    window.open(url, '_blank');
+  };
 
   const itemsList = [
     {
@@ -98,6 +107,7 @@ function EventContent({ event }) {
       key: 2,
       icon: UilArrowRight,
       intitule: 'Déplacer le rdv',
+      func: onReport,
     },
     {
       key: 3,
@@ -111,7 +121,7 @@ function EventContent({ event }) {
       key: 4,
       icon: UilPrint,
       intitule: 'Imprimer le rdv',
-      func: onPrint
+      func: onPrint,
     },
     {
       key: 5,
