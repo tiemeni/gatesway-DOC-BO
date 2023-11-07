@@ -46,6 +46,7 @@ function EventContent({ event }) {
     surname,
     profession,
     dateLong,
+    idp,
   } = event.extendedProps;
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
@@ -77,7 +78,7 @@ function EventContent({ event }) {
           duree,
           status,
           lieu: lieu?.label,
-          praticien: `${name} ${surname}`,
+          praticien: `${name.toUpperCase()} ${surname}`,
           profession,
           createdAt,
           dateLong,
@@ -86,7 +87,16 @@ function EventContent({ event }) {
     );
   };
 
-  const onReport = () => dispatch(openReportModal({ isOpen: true, id: _id }));
+  const onReport = () =>
+    dispatch(
+      openReportModal({
+        isOpen: true,
+        id: _id,
+        idp,
+        praticien: `${name} ${surname}`,
+        duration: duree
+      }),
+    );
   const onDelete = () => dispatch(onDeleteEvent({ open: true, idRdv: _id }));
   const onCopyPaste = () =>
     dispatch(copyAppointmentId({ id: _id, duration: duree }));

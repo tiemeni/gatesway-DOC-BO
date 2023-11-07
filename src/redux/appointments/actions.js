@@ -29,3 +29,8 @@ export const reportAppointment = (payload) => ({
   type: types.REPORT_APPOINTMENT_REQUEST,
   payload,
 });
+
+export const onSearchDispo = (payload) => ({
+  type: types.GET_DISPO_REQUEST,
+  payload,
+});

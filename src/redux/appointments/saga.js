@@ -6,10 +6,11 @@ import {
   deleteUnauthRequest,
   putUnauthRequest,
   postUnauthRequest,
+  getUnauthRequest,
 } from '../../utils/api';
 
 const idc = localStorage.getItem('idc');
-const BASE_URL = process.env.REACT_APP_LOCAL_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 /**
  * update informations about the current appointment.
@@ -21,10 +22,10 @@ function* updateAppointment({ payload }) {
       startTime: payload.heureDebut,
       endTime: incrementTime(payload.heureDebut, payload.duration),
       date: payload.date,
-      centre: payload.idCentre,
+      centre: payload.idCentre ?? idc,
       date_long: payload.date_long,
       duration: payload.duration,
-      status: payload.status,
+      status: payload?.status,
     };
     const url = `${BASE_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
     const result = yield putUnauthRequest(url, query);
@@ -64,13 +65,22 @@ function* pasteAppointment({ payload }) {
     const url = `${BASE_URL}/appointments/duplicate/?idCentre=${idc}`;
     const result = yield postUnauthRequest(url, payload);
 
-    if(!result.success) {
-      yield put({type: types.DUPLICATE_APPOINTMENT_FAILED, error: "Erreur lors de l'execution"})
-      return
+    if (!result.success) {
+      yield put({
+        type: types.DUPLICATE_APPOINTMENT_FAILED,
+        error: "Erreur lors de l'execution",
+      });
+      return;
     }
-    yield put({ type: types.DUPLICATE_APPOINTMENT_SUCCESS })
-    yield put({ type: types.COPY_APPOINTMENT_ID, payload: { id: null, duration: null }})
-    yield put( { type: AGENDA_DATE_CLICK, payload: { date: '', isOpen: false } })
+    yield put({ type: types.DUPLICATE_APPOINTMENT_SUCCESS });
+    yield put({
+      type: types.COPY_APPOINTMENT_ID,
+      payload: { id: null, duration: null },
+    });
+    yield put({
+      type: AGENDA_DATE_CLICK,
+      payload: { date: '', isOpen: false },
+    });
   } catch (error) {
     yield put({
       type: types.DUPLICATE_APPOINTMENT_REQUEST,
@@ -79,8 +89,28 @@ function* pasteAppointment({ payload }) {
   }
 }
 
+function* reportAppointment({ payload }) {
+  const query = new URLSearchParams({ ...payload, idCentre: idc });
+  try {
+    const url = `${BASE_URL}/appointments/rechercher_dispo?${query.toString()}`;
+    const result = yield getUnauthRequest(url);
+
+    if (!result.success) {
+      yield put({ type: types.GET_DISPO_SUCCESS, payload: [] });
+      return;
+    }
+    yield put({ type: types.GET_DISPO_SUCCESS, payload: result.data });
+  } catch (error) {
+    yield put({
+      type: types.GET_DISPO_FAILED,
+      payload: { message: error.message },
+    });
+  }
+}
+
 export default function* AppointmentsSaga() {
   yield takeLatest(types.UPDATE_APPOINTMENT_REQUEST, updateAppointment);
   yield takeLatest(types.DELETE_APPOINTMENT_REQUEST, deleteAppointment);
   yield takeLatest(types.DUPLICATE_APPOINTMENT_REQUEST, pasteAppointment);
+  yield takeLatest(types.GET_DISPO_REQUEST, reportAppointment);
 }
