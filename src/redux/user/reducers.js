@@ -51,6 +51,7 @@ const UserReducers = (state = initialState, action = undefined) => {
         ...state,
         loadingUsers: false,
         users: action.payload,
+        loadingUserSuccess: true,
       };
     case types.GET_ALL_USERS_FAILED:
       return {
@@ -88,6 +89,23 @@ const UserReducers = (state = initialState, action = undefined) => {
         ...state,
         updatingUser: false,
         errorUpdatingUser: action.payload,
+      };
+    case types.DELETE_USER_REQUEST:
+      return {
+        ...state,
+        deletingUser: true,
+      };
+    case types.DELETE_USER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        deletingUser: false,
+        deleteUserSuccess: true,
+      };
+    case types.DELETE_USER_REQUEST_FAILED:
+      return {
+        ...state,
+        deletingUser: false,
+        errorDeletingUser: action.payload,
       };
     default:
       return state;

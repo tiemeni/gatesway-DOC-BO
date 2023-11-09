@@ -1,4 +1,5 @@
 import {
+  DELETE_USER_REQUEST,
   GET_ALL_USERS,
   LOGIN_REQUEST,
   POST_USER_REQUEST,
@@ -23,4 +24,9 @@ export const postUser = (user) => ({
 export const updateUser = (user) => ({
   type: UPDATE_USER_REQUEST,
   user,
+});
+
+export const deleteUser = (id) => ({
+  type: DELETE_USER_REQUEST,
+  id,
 });

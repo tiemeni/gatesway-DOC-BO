@@ -12,11 +12,16 @@ const initialState = {
   showFicheRdv: false,
   infoRdv: {},
   openDeletion: false,
-  eventId: ''
+  eventId: '',
 };
 
 const CommonReducer = (state = initialState, action = undefined) => {
   switch (action.type) {
+    case types.SHOW_MODAL_DEL_RESSOURCE:
+      return {
+        ...state,
+        showModRessource: action.truth,
+      };
     case types.RESET_APP:
       return {
         ...state,
@@ -43,7 +48,7 @@ const CommonReducer = (state = initialState, action = undefined) => {
       return {
         ...state,
         openDeletion: action.payload.open,
-        eventId: action.payload.idRdv
+        eventId: action.payload.idRdv,
       };
     default:
       return state;

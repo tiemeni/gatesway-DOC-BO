@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { praticien } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataUSer } from '../../utils/dataFields';
-import { getAllUser } from '../../redux/user/actions';
+import { deleteUser, getAllUser } from '../../redux/user/actions';
 
 function UserPage() {
   const users = useSelector((state) => state.User.users);
@@ -15,6 +15,10 @@ function UserPage() {
   useEffect(() => {
     dispatch(getAllUser());
   }, []);
+
+  const handleDeleteEntity = (id) => {
+    dispatch(deleteUser(id));
+  };
   return (
     <Box p={5} spacing={5}>
       <RessourceSearchLayout data={praticien} />
@@ -32,7 +36,13 @@ function UserPage() {
         </Button>
       </Link>
       <Box marginTop="20px">
-        <TableGenerator entityType="user" data={dataUSer} />
+        <TableGenerator
+          titleModalDelete="Supprimer un utilisateur"
+          bodyModalDelete="Etes-vous sur de vouloir supprimer cet utilisateur ?"
+          entityType="user"
+          handleDeleteEntity={handleDeleteEntity}
+          data={dataUSer}
+        />
       </Box>
     </Box>
   );

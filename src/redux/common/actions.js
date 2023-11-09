@@ -23,3 +23,8 @@ export const onDeleteEvent = (payload) => ({
   type: types.DELETE_EVENT,
   payload,
 });
+
+export const showModalDeleteRessource = (truth) => ({
+  type: types.SHOW_MODAL_DEL_RESSOURCE,
+  truth,
+});

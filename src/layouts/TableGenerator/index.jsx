@@ -15,7 +15,7 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { UilEllipsisV } from '@iconscout/react-unicons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   lieuxFormater,
   motifFormater,
@@ -23,8 +23,19 @@ import {
   pratFormater,
   userFormater,
 } from '../../utils/dataFormater';
+import DeleteRessourceDialogue from '../../components/Ressource/DeleteRessource';
+import { showModalDeleteRessource } from '../../redux/common/actions';
 
-function TableGenerator({ data, entityType }) {
+function TableGenerator({
+  data,
+  entityType,
+  handleDeleteEntity,
+  titleModalDelete,
+  bodyModalDelete,
+}) {
+  const showModal = useSelector((state) => state.Common.showModRessource);
+  const dispatch = useDispatch();
+  const [entityIdToDelete, setEntityIdToDelete] = useState();
   const loadingUsers = useSelector((state) => state.User.loadingUsers);
   const gettingAllLieux = useSelector((state) => state.Lieux.gettingAllLieux);
   const loadingPatients = useSelector((state) => state.Patient.loadingPatients);
@@ -43,8 +54,15 @@ function TableGenerator({ data, entityType }) {
   const specialities = useSelector((state) => state.Specialities.specialities);
   const [data1, setData1] = useState(data);
   const [loading, setLoading] = useState(true);
-
+  // const reRenderTable = () =>
+  //   !!gettingAllLieux ||
+  //   !!gettingAllSpecs ||
+  //   !!loadingMotifs ||
+  //   !!loadingPatients ||
+  //   !!loadingUsers ||
+  //   !!allPratloading;
   const truthinessToRenderTable = (truth, loadingRessource) => {
+    console.log(truth, loadingRessource);
     let result = [];
     switch (truth) {
       case 'praticien':
@@ -97,7 +115,7 @@ function TableGenerator({ data, entityType }) {
 
   useEffect(() => {
     setData1((v) => {
-      const ancien = v;
+      let ancien = {};
       let formatedData = [];
       if (entityType === 'praticien') {
         formatedData = [];
@@ -105,6 +123,7 @@ function TableGenerator({ data, entityType }) {
           formatedData.push(pratFormater(e));
         });
       } else if (entityType === 'user') {
+        console.log('enterd : ---- ', users);
         formatedData = [];
         users.forEach((e) => {
           formatedData.push(userFormater(e));
@@ -129,8 +148,8 @@ function TableGenerator({ data, entityType }) {
           formatedData.push(e);
         });
       }
-      ancien.rows = formatedData;
-      return ancien;
+      ancien = { ...v, rows: formatedData };
+      return { ...ancien };
     });
     if (
       truthinessToRenderTable(
@@ -145,7 +164,7 @@ function TableGenerator({ data, entityType }) {
     ) {
       setLoading(false);
     }
-  }, [data1, praticiens, users, patients, lieux, motifs, specialities]);
+  }, [praticiens, users, patients, lieux, motifs, specialities]);
 
   if (loading) {
     return 'loading...';
@@ -177,9 +196,26 @@ function TableGenerator({ data, entityType }) {
                   <MenuList>
                     {data1.actions.map(
                       (a) =>
-                        a.editePath && (
-                          <Link key={a.label} to={`${a.editePath}${r?._id}`}>
-                            <MenuItem onClick={a.action()}>{a.label}</MenuItem>
+                        (a.editePath || a.label === 'supprimer') && (
+                          <Link
+                            key={a.label}
+                            to={a.editePath ? `${a.editePath}${r?._id}` : null}
+                          >
+                            <MenuItem
+                              onClick={() => {
+                                const onDelete = () => {
+                                  dispatch(showModalDeleteRessource(true));
+                                };
+                                if (a.editePath) {
+                                  a.action();
+                                } else {
+                                  setEntityIdToDelete(r?._id);
+                                  a.action(onDelete);
+                                }
+                              }}
+                            >
+                              {a.label}
+                            </MenuItem>
                           </Link>
                         ),
                     )}
@@ -198,6 +234,15 @@ function TableGenerator({ data, entityType }) {
           ))}
         </Tbody>
       </Table>
+      <DeleteRessourceDialogue
+        onDelete={() => {
+          handleDeleteEntity(entityIdToDelete);
+        }}
+        open={showModal}
+        title={titleModalDelete}
+        body={bodyModalDelete}
+        onClose={() => dispatch(showModalDeleteRessource(false))}
+      />
     </TableContainer>
   );
 }

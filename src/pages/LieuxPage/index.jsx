@@ -14,7 +14,9 @@ function LieuPage() {
   const lieux = useSelector((state) => state.Lieux.lieux);
 
   useEffect(() => {
-    dispatch(getAllLieux());
+    if (lieux.length === 0) {
+      dispatch(getAllLieux());
+    }
   }, []);
   return (
     <Box p={5} spacing={5}>

@@ -43,6 +43,10 @@ export const dataUSer = {
       action: () => console.log('modifier'),
       editePath: '/content/user/upsert/',
     },
+    {
+      label: 'supprimer',
+      action: (fn) => fn(),
+    },
   ],
 };
 

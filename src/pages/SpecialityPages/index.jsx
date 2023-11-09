@@ -14,7 +14,9 @@ function SpecialityPage() {
   const specialities = useSelector((state) => state.Specialities.specialities);
 
   useEffect(() => {
-    dispatch(getAllSpecialities());
+    if (specialities.length === 0) {
+      dispatch(getAllSpecialities());
+    }
   }, []);
   return (
     <Box p={5} spacing={5}>

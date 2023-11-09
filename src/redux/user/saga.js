@@ -1,10 +1,12 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
+  deleteUnauthRequest,
   getUnauthRequest,
   patchUnauthRequest,
   postUnauthRequest,
 } from '../../utils/api';
+import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -132,9 +134,36 @@ function* updateUser({ user }) {
   }
 }
 
+function* deleteUser({ id }) {
+  const idc = localStorage.getItem('idc');
+  try {
+    const result = yield deleteUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/users/${id}?idCentre=${idc}`,
+    );
+    if (result.success) {
+      yield put({
+        type: types.DELETE_USER_REQUEST_SUCCESS,
+      });
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
+      yield put({ type: types.GET_ALL_USERS });
+    } else {
+      yield put({
+        type: types.DELETE_USER_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.DELETE_USER_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* UserSaga() {
   yield takeLatest(types.LOGIN_REQUEST, login);
   yield takeLatest(types.GET_ALL_USERS, getAllUsers);
   yield takeLatest(types.POST_USER_REQUEST, postUser);
   yield takeLatest(types.UPDATE_USER_REQUEST, updateUser);
+  yield takeLatest(types.DELETE_USER_REQUEST, deleteUser);
 }
