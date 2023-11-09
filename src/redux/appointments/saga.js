@@ -10,7 +10,7 @@ import {
 } from '../../utils/api';
 
 const idc = localStorage.getItem('idc');
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_LOCAL_URL;
 
 /**
  * update informations about the current appointment.
@@ -27,6 +27,7 @@ function* updateAppointment({ payload }) {
       duration: payload.duration,
       status: payload?.status,
     };
+    if(payload.wasMoved) query.wasMoved = payload.wasMoved;
     const url = `${BASE_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
     const result = yield putUnauthRequest(url, query);
 

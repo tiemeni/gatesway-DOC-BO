@@ -114,9 +114,10 @@ function Agenda() {
         dateClick={onDateClick}
         headerToolbar={headerToolbar}
         slotLabelFormat={slotLabelFormat}
+        eventClassNames="calendar-event"
         eventSources={[
           {
-            url: `${process.env.REACT_APP_BASE_URL}/appointments/`,
+            url: `${process.env.REACT_APP_LOCAL_URL}/appointments/`,
             extraParams: {
               idCentre: idc,
               idp: practitionersCheckedList.idsList,

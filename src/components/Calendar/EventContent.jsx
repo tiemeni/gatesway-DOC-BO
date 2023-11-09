@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import {
   Box,
   Divider,
+  Icon,
   Menu,
   MenuButton,
   MenuList,
@@ -19,6 +20,7 @@ import {
   UilTimes,
   UilInvoice,
   UilPhoneAlt,
+  UilShare
 } from '@iconscout/react-unicons';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -30,6 +32,14 @@ import {
   openReportModal,
 } from '../../redux/appointments/actions';
 
+
+const styles = {
+  icon: {
+    position: 'absolute',
+    right: 1,
+    top: 1
+  }
+}
 function EventContent({ event }) {
   const {
     _id,
@@ -47,6 +57,7 @@ function EventContent({ event }) {
     profession,
     dateLong,
     idp,
+    wasMoved
   } = event.extendedProps;
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
@@ -165,6 +176,7 @@ function EventContent({ event }) {
       placement="bottom-start"
       initialFocusRef={initialRef}
       isLazy
+      key={_id}
     >
       <Tooltip
         label={
@@ -190,10 +202,12 @@ function EventContent({ event }) {
           overflow="hidden"
           bg={bgColor}
           p={1}
-          roundedRight="0.5em"
+          roundedRight="0.3em"
           onContextMenu={openMenu}
           onClick={eventClick}
+          position="relative"
         >
+          {wasMoved && <Icon as={UilShare} boxSize={3} color="white" style={styles.icon} />}
           <Text color={event.textColor} fontSize="small">
             {timeStart}
           </Text>
@@ -202,6 +216,7 @@ function EventContent({ event }) {
             whiteSpace="nowrap"
             textOverflow="unset"
             color={event.textColor}
+            textDecoration={status === 'Absence non excusée' ? 'line-through' : 'none'}
           >
             {patient.civ ?? ''}
             <strong>{patient.name}</strong>

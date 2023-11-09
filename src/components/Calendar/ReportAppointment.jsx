@@ -93,7 +93,8 @@ function ReportAppointment() {
       date: combineState.selected.date,
       date_long: combineState.selected.date_long,
       duration,
-      _id: reportId
+      _id: reportId,
+      wasMoved: true
     };
     dispatch(onUpdateAppointment(payload));
   };
@@ -236,7 +237,7 @@ function ReportAppointment() {
                             loadingText={LoadingText}
                             fontSize="sm"
                             fontWeight="normal"
-                            isDisabled={searching}
+                            isDisabled={searching || isLoading}
                           >
                             <Text>Rechercher</Text>
                           </Button>

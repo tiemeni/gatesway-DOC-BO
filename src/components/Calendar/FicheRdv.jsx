@@ -47,7 +47,7 @@ function RdvInfo() {
             <option value="Annulé">Annulé</option>
             <option value="Planifié">Planifié</option>
             <option value="Absence excusée">Absence excusée</option>
-            <option value="Absence non excusé">Absence non excusé</option>
+            <option value="Absence non excusée">Absence non excusé</option>
             <option value="En salle d&apos;attente">En salle d&apos;attente</option>
             <option value="Traité">Traité</option>
           </Field>
