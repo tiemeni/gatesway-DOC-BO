@@ -7,7 +7,10 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { praticien } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataPraticien } from '../../utils/dataFields';
-import { getAllPraticiens } from '../../redux/praticiens/actions';
+import {
+  deletePraticien,
+  getAllPraticiens,
+} from '../../redux/praticiens/actions';
 
 function PraticienPage() {
   const dispatch = useDispatch();
@@ -17,6 +20,10 @@ function PraticienPage() {
       dispatch(getAllPraticiens());
     }
   }, []);
+
+  const handleDeleteEntity = (id) => {
+    dispatch(deletePraticien(id));
+  };
 
   return (
     <Box p={5} spacing={5}>
@@ -35,7 +42,13 @@ function PraticienPage() {
         </Button>
       </Link>
       <Box marginTop="20px" width="100%">
-        <TableGenerator entityType="praticien" data={dataPraticien} />
+        <TableGenerator
+          titleModalDelete="Supprimer un praticien"
+          bodyModalDelete="Etes-vous sur de vouloir supprimer ce praticien ?"
+          entityType="praticien"
+          data={dataPraticien}
+          handleDeleteEntity={handleDeleteEntity}
+        />
       </Box>
     </Box>
   );

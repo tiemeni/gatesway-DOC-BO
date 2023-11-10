@@ -21,6 +21,10 @@ export const dataPraticien = {
       action: () => console.log('modifier'),
       editePath: '/content/praticien/upsert/',
     },
+    {
+      label: 'supprimer',
+      action: (fn) => fn(),
+    },
   ],
 };
 

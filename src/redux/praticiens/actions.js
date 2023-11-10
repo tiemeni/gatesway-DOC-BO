@@ -24,3 +24,8 @@ export const updatePraticien = (praticien) => ({
   type: types.UPDATE_PRATICIEN_REQUEST,
   praticien,
 });
+
+export const deletePraticien = (id) => ({
+  type: types.DELETE_PRATICIEN_REQUEST,
+  id,
+});

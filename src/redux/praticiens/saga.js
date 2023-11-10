@@ -1,11 +1,13 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
+  deleteUnauthRequest,
   getUnauthRequest,
   patchUnauthRequest,
   postUnauthRequest,
 } from '../../utils/api';
 import { convertIndexIntoNumber, formatUserName } from '../../utils/helpers';
+import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -182,9 +184,35 @@ function* updatePraticien({ praticien }) {
   }
 }
 
+function* deletePraticien({ id }) {
+  try {
+    const result = yield deleteUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/users/${id}?idCentre=${idc}&isPraticien=true`,
+    );
+    if (result.success) {
+      yield put({
+        type: types.DELETE_PRATICIEN_REQUEST_SUCCESS,
+      });
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
+      yield put({ type: types.GET_ALL_PRATICIENS_REQUEST });
+    } else {
+      yield put({
+        type: types.DELETE_PRATICIEN_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.DELETE_PRATICIEN_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* PraticiensSaga() {
   yield takeLatest(types.GET_PRATICIENS_REQUEST, getPraticiens);
   yield takeLatest(types.GET_ALL_PRATICIENS_REQUEST, getAllPraticiens);
   yield takeLatest(types.POST_PRATICIEN_REQUEST, postPraticien);
   yield takeLatest(types.UPDATE_PRATICIEN_REQUEST, updatePraticien);
+  yield takeLatest(types.DELETE_PRATICIEN_REQUEST, deletePraticien);
 }

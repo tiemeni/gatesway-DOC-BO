@@ -19,10 +19,12 @@ import { useSelector } from 'react-redux';
 
 function DeleteRessourceDialogue({ open, onClose, title, body, onDelete }) {
   const cancelRef = React.useRef();
-
   const deletingUser = useSelector((state) => state.User.deletingUser);
   const deletingSpecialities = useSelector(
     (state) => state.Specialities.deletingSpecialities,
+  );
+  const deletingPraticien = useSelector(
+    (state) => state.Praticiens.deletingPraticien,
   );
 
   return (
@@ -87,7 +89,9 @@ function DeleteRessourceDialogue({ open, onClose, title, body, onDelete }) {
               <Text fontSize="sm">Annuler</Text>
             </Button>
             <Button
-              isLoading={deletingUser || deletingSpecialities}
+              isLoading={
+                deletingUser || deletingSpecialities || deletingPraticien
+              }
               onClick={() => onDelete()}
               colorScheme="red"
               ml={3}
