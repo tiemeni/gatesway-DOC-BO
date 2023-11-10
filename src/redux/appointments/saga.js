@@ -12,13 +12,12 @@ import {
 const idc = localStorage.getItem('idc');
 const BASE_URL = process.env.REACT_APP_LOCAL_URL;
 
-/**
- * update informations about the current appointment.
- * @param {*} idCentre, date_long, date, startTime, endTIme
- */
-function* updateAppointment({ payload }) {
-  try {
-    const query = {
+function extractQuery(payload) {
+  let query = {};
+  if (payload.isMenu) {
+    query.status = payload.status;
+  } else {
+    query = {
       startTime: payload.heureDebut,
       endTime: incrementTime(payload.heureDebut, payload.duration),
       date: payload.date,
@@ -27,7 +26,19 @@ function* updateAppointment({ payload }) {
       duration: payload.duration,
       status: payload?.status,
     };
-    if(payload.wasMoved) query.wasMoved = payload.wasMoved;
+  }
+  if (payload.wasMoved) query.wasMoved = payload.wasMoved;
+
+  return query;
+}
+
+/**
+ * update informations about the current appointment.
+ * @param {*} idCentre, date_long, date, startTime, endTIme
+ */
+function* updateAppointment({ payload }) {
+  try {
+    const query = extractQuery(payload);
     const url = `${BASE_URL}/appointments/update/${payload._id}/?idCentre=${idc}`;
     const result = yield putUnauthRequest(url, query);
 

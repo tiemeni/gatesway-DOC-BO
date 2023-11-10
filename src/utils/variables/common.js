@@ -16,3 +16,8 @@ export const dayOptions = [
   { value: '5', label: 'Vendredi' },
   { value: '6', label: 'Samedi' },
 ];
+
+export const dialogMode = {
+  DELETE: 'delete',
+  ALERT: 'alert',
+};

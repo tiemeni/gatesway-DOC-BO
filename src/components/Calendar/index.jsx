@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import CalendarAppointment from './CalendarAppointment';
 import Agenda from './Agenda';
 import FicheRdv from './FicheRdv';
-import DeleteDialog from './DeleteDialog';
 import ReportAppointment from './ReportAppointment';
+import Dialog from './Dialog';
 
 function Calendar() {
   const [calendarTItle, setCalendarTItle] = useState();
@@ -39,7 +39,7 @@ function Calendar() {
       <Agenda />
       <CalendarAppointment />
       <FicheRdv />
-      <DeleteDialog />
+      <Dialog />
       <ReportAppointment />
     </Box>
   );
