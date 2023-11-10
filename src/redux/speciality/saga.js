@@ -1,10 +1,12 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
+  deleteUnauthRequest,
   getUnauthRequest,
   patchUnauthRequest,
   postUnauthRequest,
 } from '../../utils/api';
+import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
 /**
  * @description ici le saga reducer
@@ -90,8 +92,35 @@ function* updateSpec({ spec }) {
   }
 }
 
+function* deleteSpec({ id }) {
+  const idc = localStorage.getItem('idc');
+  try {
+    const result = yield deleteUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/specialites/${id}?idCentre=${idc}`,
+    );
+    if (result.success) {
+      yield put({
+        type: types.DELETE_SPEC_REQUEST_SUCCESS,
+      });
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
+      yield put({ type: types.GET_ALL_SPECIALITIES });
+    } else {
+      yield put({
+        type: types.DELETE_SPEC_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.DELETE_SPEC_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* SpecialitySaga() {
   yield takeLatest(types.GET_ALL_SPECIALITIES, getAllSpecialities);
   yield takeLatest(types.POST_SPEC_REQUEST, postSpecialities);
   yield takeLatest(types.UPDATE_SPECIALITY_REQUEST, updateSpec);
+  yield takeLatest(types.DELETE_SPEC_REQUEST, deleteSpec);
 }

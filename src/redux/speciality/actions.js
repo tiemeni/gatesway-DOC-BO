@@ -1,4 +1,5 @@
 import {
+  DELETE_SPEC_REQUEST,
   GET_ALL_SPECIALITIES,
   POST_SPEC_REQUEST,
   UPDATE_SPECIALITY_REQUEST,
@@ -16,4 +17,9 @@ export const postSpeciality = (spec) => ({
 export const updateSpec = (spec) => ({
   type: UPDATE_SPECIALITY_REQUEST,
   spec,
+});
+
+export const deleteSpec = (id) => ({
+  type: DELETE_SPEC_REQUEST,
+  id,
 });

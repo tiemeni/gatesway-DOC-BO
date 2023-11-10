@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -21,7 +21,9 @@ function DeleteRessourceDialogue({ open, onClose, title, body, onDelete }) {
   const cancelRef = React.useRef();
 
   const deletingUser = useSelector((state) => state.User.deletingUser);
-  useEffect(() => {}, []);
+  const deletingSpecialities = useSelector(
+    (state) => state.Specialities.deletingSpecialities,
+  );
 
   return (
     <AlertDialog
@@ -85,7 +87,7 @@ function DeleteRessourceDialogue({ open, onClose, title, body, onDelete }) {
               <Text fontSize="sm">Annuler</Text>
             </Button>
             <Button
-              isLoading={deletingUser}
+              isLoading={deletingUser || deletingSpecialities}
               onClick={() => onDelete()}
               colorScheme="red"
               ml={3}

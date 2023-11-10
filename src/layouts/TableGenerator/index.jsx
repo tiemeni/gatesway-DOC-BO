@@ -123,7 +123,6 @@ function TableGenerator({
           formatedData.push(pratFormater(e));
         });
       } else if (entityType === 'user') {
-        console.log('enterd : ---- ', users);
         formatedData = [];
         users.forEach((e) => {
           formatedData.push(userFormater(e));

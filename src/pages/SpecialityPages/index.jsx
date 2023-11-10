@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { speciality } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataSpeciality } from '../../utils/dataFields';
-import { getAllSpecialities } from '../../redux/speciality/actions';
+import { deleteSpec, getAllSpecialities } from '../../redux/speciality/actions';
 
 function SpecialityPage() {
   const dispatch = useDispatch();
@@ -18,6 +18,11 @@ function SpecialityPage() {
       dispatch(getAllSpecialities());
     }
   }, []);
+
+  const handleDeleteEntity = (id) => {
+    dispatch(deleteSpec(id));
+  };
+
   return (
     <Box p={5} spacing={5}>
       <RessourceSearchLayout data={speciality} />
@@ -35,7 +40,13 @@ function SpecialityPage() {
         </Button>
       </Link>
       <Box marginTop="20px">
-        <TableGenerator entityType="speciality" data={dataSpeciality} />
+        <TableGenerator
+          titleModalDelete="Supprimer une spécialité"
+          bodyModalDelete="Etes-vous sur de vouloir supprimer cette spécialité ?"
+          entityType="speciality"
+          handleDeleteEntity={handleDeleteEntity}
+          data={dataSpeciality}
+        />
       </Box>
     </Box>
   );

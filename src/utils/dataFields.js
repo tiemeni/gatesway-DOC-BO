@@ -140,6 +140,9 @@ export const dataSpeciality = {
       action: () => console.log('modifier'),
       editePath: '/content/speciality/upsert/',
     },
-    { label: 'Supprimer', action: () => console.log('Supprimer') },
+    {
+      label: 'supprimer',
+      action: (fn) => fn(),
+    },
   ],
 };

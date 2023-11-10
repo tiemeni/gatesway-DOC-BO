@@ -49,6 +49,22 @@ const SpecialityReducers = (state = initialState, action = undefined) => {
         updatingSpecialities: false,
         updatingSpecsError: action.payload,
       };
+    case types.DELETE_SPEC_REQUEST:
+      return {
+        ...state,
+        deletingSpecialities: true,
+      };
+    case types.DELETE_SPEC_REQUEST_SUCCESS:
+      return {
+        ...state,
+        deletingSpecialities: false,
+      };
+    case types.DELETE_SPEC_REQUEST_FAILED:
+      return {
+        ...state,
+        deletingSpecialities: false,
+        deletingSpecsError: action.payload,
+      };
     default:
       return state;
   }
