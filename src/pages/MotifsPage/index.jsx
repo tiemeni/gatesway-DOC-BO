@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { motif } from '../../utils/data';
 import { dataMotifs } from '../../utils/dataFields';
 import TableGenerator from '../../layouts/TableGenerator';
-import { getAllMotifs } from '../../redux/motifs/actions';
+import { deleteMotif, getAllMotifs } from '../../redux/motifs/actions';
 
 function MotifsPage() {
   const dispatch = useDispatch();
@@ -16,6 +16,10 @@ function MotifsPage() {
   useEffect(() => {
     dispatch(getAllMotifs());
   }, []);
+
+  const handleDeleteEntity = (id) => {
+    dispatch(deleteMotif(id));
+  };
   return (
     <Box p={5} spacing={5}>
       <RessourceSearchLayout data={motif} />
@@ -33,7 +37,13 @@ function MotifsPage() {
         </Button>
       </Link>
       <Box marginTop="20px">
-        <TableGenerator entityType="motif" data={dataMotifs} />
+        <TableGenerator
+          titleModalDelete="Supprimer un motif"
+          bodyModalDelete="Etes-vous sur de vouloir supprimer ce motif ?"
+          handleDeleteEntity={handleDeleteEntity}
+          entityType="motif"
+          data={dataMotifs}
+        />
       </Box>
     </Box>
   );

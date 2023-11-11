@@ -59,6 +59,22 @@ const MotifReducers = (state = initialState, action = undefined) => {
         updatingMotif: false,
         errorupdatingMotif: action.payload,
       };
+    case types.DELETE_MOTIF_REQUEST:
+      return {
+        ...state,
+        deletingMotif: true,
+      };
+    case types.DELETE_MOTIF_REQUEST_SUCCESS:
+      return {
+        ...state,
+        deletingMotif: false,
+      };
+    case types.DELETE_MOTIF_REQUEST_FAILED:
+      return {
+        ...state,
+        deletingMotif: false,
+        errordeletingMotif: action.payload,
+      };
     default:
       return state;
   }

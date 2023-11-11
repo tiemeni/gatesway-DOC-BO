@@ -1,4 +1,5 @@
 import {
+  DELETE_MOTIF_REQUEST,
   GET_ALL_MOTIFS,
   POST_MOTIF_REQUEST,
   UPDATING_MOTIF_REQUEST,
@@ -16,4 +17,9 @@ export const postMotif = (motif) => ({
 export const updateMotif = (motif) => ({
   type: UPDATING_MOTIF_REQUEST,
   motif,
+});
+
+export const deleteMotif = (id) => ({
+  type: DELETE_MOTIF_REQUEST,
+  id,
 });

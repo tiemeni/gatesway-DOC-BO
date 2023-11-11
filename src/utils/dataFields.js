@@ -95,7 +95,10 @@ export const dataMotifs = {
       action: () => console.log('modifier'),
       editePath: '/content/motif/upsert/',
     },
-    { label: 'Supprimer', action: () => console.log('Supprimer') },
+    {
+      label: 'supprimer',
+      action: (fn) => fn(),
+    },
   ],
 };
 
