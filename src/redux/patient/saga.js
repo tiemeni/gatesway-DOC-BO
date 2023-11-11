@@ -1,10 +1,12 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
+  deleteUnauthRequest,
   getUnauthRequest,
   postUnauthRequest,
   putUnauthRequest,
 } from '../../utils/api';
+import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
 /**
  * @description ici le saga reducer
@@ -104,8 +106,35 @@ function* updatePatient({ patient }) {
   }
 }
 
+function* deletePatient({ id }) {
+  const idc = localStorage.getItem('idc');
+  try {
+    const result = yield deleteUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/patients/${id}?idCentre=${idc}`,
+    );
+    if (result.success) {
+      yield put({
+        type: types.DELETE_PATIENT_REQUEST_SUCCESS,
+      });
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
+      yield put({ type: types.GET_ALL_PATIENT });
+    } else {
+      yield put({
+        type: types.DELETE_PATIENT_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.DELETE_PATIENT_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* PatientSaga() {
   yield takeLatest(types.GET_ALL_PATIENT, getAllPatients);
   yield takeLatest(types.POST_PATIENT_REQUEST, postPatient);
   yield takeLatest(types.UPDATE_PATIENT_REQUEST, updatePatient);
+  yield takeLatest(types.DELETE_PATIENT_REQUEST, deletePatient);
 }

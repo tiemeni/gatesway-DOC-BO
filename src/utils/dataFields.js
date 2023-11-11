@@ -119,6 +119,10 @@ export const dataPatient = {
       action: () => console.log('modifier'),
       editePath: '/content/patient/upsert/',
     },
+    {
+      label: 'supprimer',
+      action: (fn) => fn(),
+    },
   ],
 };
 

@@ -7,7 +7,7 @@ import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
 import { praticien } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataPatient } from '../../utils/dataFields';
-import { getAllPatients } from '../../redux/patient/actions';
+import { deletePatient, getAllPatients } from '../../redux/patient/actions';
 
 function PatientPage() {
   const dispatch = useDispatch();
@@ -16,6 +16,10 @@ function PatientPage() {
   useEffect(() => {
     dispatch(getAllPatients());
   }, []);
+
+  const handleDeleteEntity = (id) => {
+    dispatch(deletePatient(id));
+  };
   return (
     <Box p={5} spacing={5}>
       <RessourceSearchLayout data={praticien} />
@@ -33,7 +37,13 @@ function PatientPage() {
         </Button>
       </Link>
       <Box marginTop="20px">
-        <TableGenerator entityType="patient" data={dataPatient} />
+        <TableGenerator
+          titleModalDelete="Supprimer un patient"
+          bodyModalDelete="Etes-vous sur de vouloir supprimer ce patient ?"
+          entityType="patient"
+          handleDeleteEntity={handleDeleteEntity}
+          data={dataPatient}
+        />
       </Box>
     </Box>
   );

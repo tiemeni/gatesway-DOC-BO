@@ -1,4 +1,5 @@
 import {
+  DELETE_PATIENT_REQUEST,
   GET_ALL_PATIENT,
   POST_PATIENT_REQUEST,
   UPDATE_PATIENT_REQUEST,
@@ -16,4 +17,9 @@ export const postPatient = (patient) => ({
 export const updatePatient = (patient) => ({
   type: UPDATE_PATIENT_REQUEST,
   patient,
+});
+
+export const deletePatient = (id) => ({
+  type: DELETE_PATIENT_REQUEST,
+  id,
 });
