@@ -26,6 +26,9 @@ function DeleteRessourceDialogue({ open, onClose, title, body, onDelete }) {
   const deletingPraticien = useSelector(
     (state) => state.Praticiens.deletingPraticien,
   );
+  const deletingLieuLoading = useSelector(
+    (state) => state.Lieux.deletingLieuLoading,
+  );
 
   return (
     <AlertDialog
@@ -90,7 +93,10 @@ function DeleteRessourceDialogue({ open, onClose, title, body, onDelete }) {
             </Button>
             <Button
               isLoading={
-                deletingUser || deletingSpecialities || deletingPraticien
+                deletingUser ||
+                deletingSpecialities ||
+                deletingPraticien ||
+                deletingLieuLoading
               }
               onClick={() => onDelete()}
               colorScheme="red"

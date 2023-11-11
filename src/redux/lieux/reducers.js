@@ -58,6 +58,25 @@ const LieuxReducers = (state = initialState, action = undefined) => {
         errorupdatingLieu: action.payload,
         isErrorupdatingLieu: true,
       };
+
+    case types.DELETE_LIEU_REQUEST:
+      return {
+        ...state,
+        deletingLieuLoading: true,
+      };
+    case types.DELETE_LIEU_REQUEST_SUCCESS:
+      return {
+        ...state,
+        deletingLieuLoading: false,
+        isErrordeletingLieu: false,
+      };
+    case types.DELETE_LIEU_REQUEST_FAILED:
+      return {
+        ...state,
+        deletingLieuLoading: false,
+        errordeletingLieu: action.payload,
+        isErrordeletingLieu: true,
+      };
     default:
       return state;
   }

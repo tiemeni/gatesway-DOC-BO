@@ -72,7 +72,10 @@ export const dataLieux = {
       action: () => console.log('modifier'),
       editePath: '/content/lieu/upsert/',
     },
-    { label: 'Supprimer', action: () => console.log('Supprimer') },
+    {
+      label: 'supprimer',
+      action: (fn) => fn(),
+    },
   ],
 };
 

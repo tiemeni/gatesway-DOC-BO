@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
 import {
+  deleteUnauthRequest,
   getUnauthRequest,
   postUnauthRequest,
   putUnauthRequest,
@@ -9,6 +10,7 @@ import {
   convertNumberToRegion,
   convertNumberToVille,
 } from '../../utils/helpers';
+import { SHOW_MODAL_DEL_RESSOURCE } from '../common/types';
 
 /**
  * @description ici le saga reducer
@@ -99,8 +101,35 @@ function* updateLieu({ lieu }) {
   }
 }
 
+function* deleteLieu({ id }) {
+  const idc = localStorage.getItem('idc');
+  try {
+    const result = yield deleteUnauthRequest(
+      `${process.env.REACT_APP_BASE_URL}/lieu/${id}?idCentre=${idc}`,
+    );
+    if (result.success) {
+      yield put({
+        type: types.DELETE_LIEU_REQUEST_SUCCESS,
+      });
+      yield put({ type: SHOW_MODAL_DEL_RESSOURCE, truth: false });
+      yield put({ type: types.GET_ALL_LIEUX });
+    } else {
+      yield put({
+        type: types.DELETE_LIEU_REQUEST_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.DELETE_LIEU_REQUEST_FAILED,
+      payload: error.message,
+    });
+  }
+}
+
 export default function* LieuxSaga() {
   yield takeLatest(types.GET_ALL_LIEUX, getAllLieux);
   yield takeLatest(types.POST_LIEU_REQUEST, postLieu);
   yield takeLatest(types.UPDATE_LIEU_REQUEST, updateLieu);
+  yield takeLatest(types.DELETE_LIEU_REQUEST, deleteLieu);
 }
