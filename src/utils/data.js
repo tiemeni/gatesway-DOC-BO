@@ -148,6 +148,58 @@ export const praticien = {
   },
 };
 
+export const utilisateur = {
+  dataFields: {
+    callBacks: {
+      onUp: {
+        action: (d) => console.log(d),
+        label: 'Rechercher',
+        color: '#04B7C9',
+      },
+      onBack: {
+        action: (fn) => fn,
+        label: 'Annuler',
+        color: 'red',
+      },
+    },
+    data: [
+      {
+        name: 'nom',
+        placeholder: 'Nom',
+        required: true,
+        type: 'text',
+        id: 1,
+      },
+      {
+        name: 'email',
+        placeholder: 'E-mail',
+        required: false,
+        type: 'email',
+        id: 2,
+      },
+      {
+        name: 'civility',
+        placeholder: 'Civilité',
+        required: false,
+        type: 'picklist',
+        id: 3,
+        options: [
+          {
+            name: 'option1',
+            label: 'option1',
+            _id: 1,
+          },
+          {
+            name: 'option2',
+            label: 'option2',
+            _id: 2,
+          },
+        ],
+      },
+    ],
+  },
+};
+
 export const speciality = {
   dataFields: {
     callBacks: {

@@ -1,8 +1,10 @@
 import {
   DELETE_USER_REQUEST,
+  FILTERING_ON_USERS,
   GET_ALL_USERS,
   LOGIN_REQUEST,
   POST_USER_REQUEST,
+  UNFILTERED_ON_USERS,
   UPDATE_USER_REQUEST,
 } from './types';
 
@@ -29,4 +31,13 @@ export const updateUser = (user) => ({
 export const deleteUser = (id) => ({
   type: DELETE_USER_REQUEST,
   id,
+});
+
+export const filterOnUsers = (payload) => ({
+  type: FILTERING_ON_USERS,
+  payload,
+});
+
+export const unFilterOnUsers = () => ({
+  type: UNFILTERED_ON_USERS,
 });

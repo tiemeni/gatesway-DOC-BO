@@ -4,10 +4,15 @@ import { Link } from 'react-router-dom';
 import { Box, Button } from '@chakra-ui/react';
 import { UilPlus } from '@iconscout/react-unicons';
 import RessourceSearchLayout from '../../layouts/RessourceSearchLayout';
-import { praticien } from '../../utils/data';
+import { utilisateur } from '../../utils/data';
 import TableGenerator from '../../layouts/TableGenerator';
 import { dataUSer } from '../../utils/dataFields';
-import { deleteUser, getAllUser } from '../../redux/user/actions';
+import {
+  deleteUser,
+  filterOnUsers,
+  getAllUser,
+  unFilterOnUsers,
+} from '../../redux/user/actions';
 
 function UserPage() {
   const users = useSelector((state) => state.User.users);
@@ -19,9 +24,22 @@ function UserPage() {
   const handleDeleteEntity = (id) => {
     dispatch(deleteUser(id));
   };
+
+  const handlePost = (data) => {
+    dispatch(filterOnUsers(data));
+  };
+
+  const handleClearSearchForm = () => {
+    dispatch(unFilterOnUsers());
+  };
+
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={praticien} />
+      <RessourceSearchLayout
+        handleClearSearchForm={() => handleClearSearchForm()}
+        handlePost={handlePost}
+        data={utilisateur}
+      />
       <p style={{ marginTop: 15 }}>
         {users.length} Utilisateurs correspondent a votre recherche
       </p>

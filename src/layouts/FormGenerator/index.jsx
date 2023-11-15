@@ -15,7 +15,12 @@ import {
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
-function FormGenerator({ data, editeData = {}, handlePost = null }) {
+function FormGenerator({
+  data,
+  editeData = {},
+  handlePost = null,
+  // handleClearSearchForm = undefined,
+}) {
   const loadingPostLieu = useSelector(
     (state) => state.Lieux.postingLieuLoading,
   );
@@ -636,7 +641,11 @@ function FormGenerator({ data, editeData = {}, handlePost = null }) {
                   updatingSpecialities)
               }
               onClick={() =>
-                i === 1 ? data.dataFields.callBacks[key].action() : null
+                i === 1
+                  ? data.dataFields.callBacks[key].action()
+                  : data.dataFields.callBacks[key].action(() =>
+                      console.log('worked'),
+                    )
               }
               key={key}
               marginLeft={i !== 0 ? 5 : 0}

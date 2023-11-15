@@ -10,9 +10,12 @@ const initialState = {
   loginSuccess: false,
   loginErrorMessage: null,
   users: [],
+  filteredUsers: [],
 };
 
 const UserReducers = (state = initialState, action = undefined) => {
+  let allUsers = state.users;
+  let { filteredUsers } = state;
   switch (action.type) {
     case types.RESET_ALL_FIELD:
       return {
@@ -40,6 +43,24 @@ const UserReducers = (state = initialState, action = undefined) => {
         loginLoading: false,
         loginErrorMessage: action.payload,
         loginSuccess: false,
+      };
+    case types.UNFILTERED_ON_USERS:
+      return {
+        ...state,
+        filteredUsers: [],
+      };
+    case types.FILTERING_ON_USERS:
+      allUsers = state.users;
+      filteredUsers = allUsers.filter(
+        (u) =>
+          u?.name === action.payload?.nom ||
+          u?.email === action.payload?.email ||
+          u?.civility === action.payload?.civility,
+      );
+      return {
+        ...state,
+        users: allUsers,
+        filteredUsers: [...filteredUsers],
       };
     case types.GET_ALL_USERS:
       return {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Accordion,
   AccordionButton,
@@ -11,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import FormGenerator from '../FormGenerator';
 
-function RessourceSearchLayout({ data = {} }) {
+function RessourceSearchLayout({ data, handlePost, handleClearSearchForm }) {
   return (
     <Accordion allowToggle>
       <AccordionItem>
@@ -29,7 +30,11 @@ function RessourceSearchLayout({ data = {} }) {
         <AccordionPanel pb={4} w="100%">
           <Grid templateColumns="repeat(7, 1fr)" gap={4}>
             <GridItem colStart={2} colEnd={6} rowStart={1}>
-              <FormGenerator data={data} />
+              <FormGenerator
+                handleClearSearchForm={() => handleClearSearchForm()}
+                handlePost={handlePost}
+                data={data}
+              />
             </GridItem>
           </Grid>
         </AccordionPanel>
@@ -37,5 +42,17 @@ function RessourceSearchLayout({ data = {} }) {
     </Accordion>
   );
 }
+
+RessourceSearchLayout.propTypes = {
+  handlePost: PropTypes.func,
+  data: PropTypes.shape(),
+  handleClearSearchForm: PropTypes.func,
+};
+
+RessourceSearchLayout.defaultProps = {
+  handlePost: undefined,
+  data: {},
+  handleClearSearchForm: undefined,
+};
 
 export default RessourceSearchLayout;

@@ -25,9 +25,13 @@ function PraticienPage() {
     dispatch(deletePraticien(id));
   };
 
+  const handlePost = (data) => {
+    console.log(data);
+  };
+
   return (
     <Box p={5} spacing={5}>
-      <RessourceSearchLayout data={praticien} />
+      <RessourceSearchLayout handlePost={handlePost} data={praticien} />
       <p style={{ marginTop: 15 }}>
         {praticiens.length} praticiens correspondent a votre recherche
       </p>

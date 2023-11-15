@@ -47,22 +47,18 @@ function TableGenerator({
   );
   const loadingMotifs = useSelector((state) => state.Motifs.loadingMotifs);
   const praticiens = useSelector((state) => state.Praticiens.praticiens);
-  const users = useSelector((state) => state.User.users);
+  const filteredUsers = useSelector((state) => state.User.filteredUsers);
+  const users = useSelector((state) =>
+    filteredUsers.length > 0 ? state.User.filteredUsers : state.User.users,
+  );
   const patients = useSelector((state) => state.Patient.patients);
   const lieux = useSelector((state) => state.Lieux.lieux);
   const motifs = useSelector((state) => state.Motifs.motifs);
   const specialities = useSelector((state) => state.Specialities.specialities);
   const [data1, setData1] = useState(data);
   const [loading, setLoading] = useState(true);
-  // const reRenderTable = () =>
-  //   !!gettingAllLieux ||
-  //   !!gettingAllSpecs ||
-  //   !!loadingMotifs ||
-  //   !!loadingPatients ||
-  //   !!loadingUsers ||
-  //   !!allPratloading;
+
   const truthinessToRenderTable = (truth, loadingRessource) => {
-    console.log(truth, loadingRessource);
     let result = [];
     switch (truth) {
       case 'praticien':
