@@ -19,3 +19,18 @@ export const duplicateAppointment = (payload) => ({
   type: types.DUPLICATE_APPOINTMENT_REQUEST,
   payload,
 });
+
+export const openReportModal = (payload) => ({
+  type: types.OPEN_REPORT_MODAL,
+  payload,
+});
+
+export const reportAppointment = (payload) => ({
+  type: types.REPORT_APPOINTMENT_REQUEST,
+  payload,
+});
+
+export const onSearchDispo = (payload) => ({
+  type: types.GET_DISPO_REQUEST,
+  payload,
+});

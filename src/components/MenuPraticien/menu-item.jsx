@@ -35,16 +35,10 @@ function MenuItem(props) {
     else handleSelection(tabIds, tabNames, 'remove');
   };
 
-  console.log("item rerendered")
-
   return (
     <AccordionItem>
       <HStack alignItems="center">
-        <Checkbox
-          onChange={handleChange}
-          size="md"
-          colorScheme="primary"
-        />
+        <Checkbox onChange={handleChange} size="md" colorScheme="primary" />
         <AccordionButton
           px={0}
           _hover={{ bg: 'transparent' }}

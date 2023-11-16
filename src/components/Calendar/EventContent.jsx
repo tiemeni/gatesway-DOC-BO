@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import {
   Box,
   Divider,
+  Icon,
   Menu,
   MenuButton,
   MenuList,
@@ -19,14 +20,26 @@ import {
   UilTimes,
   UilInvoice,
   UilPhoneAlt,
+  UilShare,
 } from '@iconscout/react-unicons';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { onDeleteEvent, onEventClick } from '../../redux/common/actions';
+import { onOpenDialog, onEventClick } from '../../redux/common/actions';
 import TooltipContent from './TooltipContent';
 import Item from './Item';
-import { copyAppointmentId } from '../../redux/appointments/actions';
+import {
+  copyAppointmentId,
+  onUpdateAppointment,
+  openReportModal,
+} from '../../redux/appointments/actions';
 
+const styles = {
+  icon: {
+    position: 'absolute',
+    right: 1,
+    top: 1,
+  },
+};
 function EventContent({ event }) {
   const {
     _id,
@@ -43,6 +56,8 @@ function EventContent({ event }) {
     surname,
     profession,
     dateLong,
+    idp,
+    wasMoved,
   } = event.extendedProps;
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isVisible, setIsVisible] = React.useState(false);
@@ -74,7 +89,7 @@ function EventContent({ event }) {
           duree,
           status,
           lieu: lieu?.label,
-          praticien: `${name} ${surname}`,
+          praticien: `${name.toUpperCase()} ${surname}`,
           profession,
           createdAt,
           dateLong,
@@ -83,9 +98,27 @@ function EventContent({ event }) {
     );
   };
 
-  const onDelete = () => dispatch(onDeleteEvent({ open: true, idRdv: _id }));
-  const onCopyPaste = () => dispatch(copyAppointmentId({id: _id, duration: duree}));
-  const onPrint = () => window.open('http://localhost:3000/print-pdf', '_blank');
+  const onReport = () =>
+    dispatch(
+      openReportModal({
+        isOpen: true,
+        id: _id,
+        idp,
+        praticien: `${name} ${surname}`,
+        duration: duree,
+      }),
+    );
+  const onDelete = () =>
+    dispatch(onOpenDialog({ open: true, idRdv: _id, mode: 'delete' }));
+  const onCopyPaste = () =>
+    dispatch(copyAppointmentId({ id: _id, duration: duree }));
+  const onPrint = () => {
+    const currentURL = window.location.href;
+    const url = currentURL.replace('/content', '/print-pdf');
+    window.open(url, '_blank');
+  };
+  const onChangeStatus = (value) =>
+    dispatch(onUpdateAppointment({ _id, status: value, isMenu: true }));
 
   const itemsList = [
     {
@@ -98,6 +131,7 @@ function EventContent({ event }) {
       key: 2,
       icon: UilArrowRight,
       intitule: 'Déplacer le rdv',
+      func: onReport,
     },
     {
       key: 3,
@@ -111,7 +145,7 @@ function EventContent({ event }) {
       key: 4,
       icon: UilPrint,
       intitule: 'Imprimer le rdv',
-      func: onPrint
+      func: onPrint,
     },
     {
       key: 5,
@@ -123,11 +157,13 @@ function EventContent({ event }) {
       key: 7,
       icon: UilCheck,
       intitule: 'Absence excusée',
+      func: () => onChangeStatus('Absence excusée'),
     },
     {
       key: 8,
       icon: UilTimes,
       intitule: 'Absence non excusée',
+      func: () => onChangeStatus('Absence non excusée'),
     },
     {
       key: 8,
@@ -145,6 +181,7 @@ function EventContent({ event }) {
       placement="bottom-start"
       initialFocusRef={initialRef}
       isLazy
+      key={_id}
     >
       <Tooltip
         label={
@@ -170,10 +207,14 @@ function EventContent({ event }) {
           overflow="hidden"
           bg={bgColor}
           p={1}
-          roundedRight="0.5em"
+          roundedRight="0.3em"
           onContextMenu={openMenu}
           onClick={eventClick}
+          position="relative"
         >
+          {wasMoved && (
+            <Icon as={UilShare} boxSize={3} color="white" style={styles.icon} />
+          )}
           <Text color={event.textColor} fontSize="small">
             {timeStart}
           </Text>
@@ -182,6 +223,9 @@ function EventContent({ event }) {
             whiteSpace="nowrap"
             textOverflow="unset"
             color={event.textColor}
+            textDecoration={
+              status === 'Absence non excusée' ? 'line-through' : 'none'
+            }
           >
             {patient.civ ?? ''}
             <strong>{patient.name}</strong>

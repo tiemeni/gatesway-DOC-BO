@@ -11,6 +11,13 @@ const iniatialState = {
   pasteProcessing: false,
   pasteSuccess: false,
   pasteFailed: false,
+  openReport: false,
+  reportId: null,
+  praticien: null,
+  searching: false,
+  searchError: false,
+  availabilities: [],
+  pname: null,
 };
 
 const AppointmentReducer = (state = iniatialState, action) => {
@@ -83,6 +90,39 @@ const AppointmentReducer = (state = iniatialState, action) => {
         pasteProcessing: false,
         pasteFailed: false,
         pasteSuccess: true,
+      };
+    case types.OPEN_REPORT_MODAL:
+      return {
+        ...state,
+        openReport: action.payload.isOpen,
+        reportId: action.payload.id,
+        praticien: action.payload.idp,
+        pname: action.payload.praticien,
+        duration: action.payload.duration,
+      };
+    case types.GET_DISPO_REQUEST:
+      return {
+        ...state,
+        searching: true,
+        searchError: false,
+        errorMsg: null,
+        availabilities: [],
+      };
+    case types.GET_DISPO_SUCCESS:
+      return {
+        ...state,
+        searching: false,
+        searchError: false,
+        availabilities: [...action.payload],
+        errorMsg: null,
+      };
+    case types.GET_DISPO_FAILED:
+      return {
+        ...state,
+        searching: false,
+        searchError: true,
+        errorMsg: action.payload.message,
+        availabilities: [],
       };
     default:
       return state;

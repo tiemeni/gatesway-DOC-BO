@@ -7,8 +7,13 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { Box, Text } from '@chakra-ui/react';
 import Pikaday from 'pikaday';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import EventContent from './EventContent';
-import { onChangeCalendar, onDateSelected } from '../../redux/common/actions';
+import {
+  onChangeCalendar,
+  onDateSelected,
+  onOpenDialog,
+} from '../../redux/common/actions';
 import {
   headerToolbar,
   months,
@@ -36,6 +41,13 @@ function Agenda() {
 
   const onDateClick = (info) => {
     const { dateStr } = info;
+    const dateClicked = moment(dateStr);
+    if (dateClicked.isBefore(moment())) {
+      dispatch(
+        onOpenDialog({ open: true, idRdv: null, mode: 'alert', dateStr }),
+      );
+      return;
+    }
     dispatch(onDateSelected({ date: dateStr, isOpen: true }));
   };
   const renderEventContent = ({ event }) => <EventContent event={event} />;
@@ -114,9 +126,10 @@ function Agenda() {
         dateClick={onDateClick}
         headerToolbar={headerToolbar}
         slotLabelFormat={slotLabelFormat}
+        eventClassNames="calendar-event"
         eventSources={[
           {
-            url: `${process.env.REACT_APP_BASE_URL}/appointments/`,
+            url: `${process.env.REACT_APP_LOCAL_URL}/appointments/`,
             extraParams: {
               idCentre: idc,
               idp: practitionersCheckedList.idsList,

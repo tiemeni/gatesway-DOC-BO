@@ -31,7 +31,7 @@ import { UilUser, UilHistoryAlt, UilPen } from '@iconscout/react-unicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field } from 'formik';
 import moment from 'moment';
-import { onDeleteEvent, onEventClick } from '../../redux/common/actions';
+import { onOpenDialog, onEventClick } from '../../redux/common/actions';
 import { onUpdateAppointment } from '../../redux/appointments/actions';
 import LoadingText from '../elements/WaitingMessage';
 
@@ -47,8 +47,8 @@ function RdvInfo() {
             <option value="Annulé">Annulé</option>
             <option value="Planifié">Planifié</option>
             <option value="Absence excusée">Absence excusée</option>
-            <option value="Absence non excusé">Absence non excusé</option>
-            <option value="En salle d&apos;attente">En salle d&apos;attente</option>
+            <option value="Absence non excusée">Absence non excusé</option>
+            <option value="En salle d'attente">En salle d&apos;attente</option>
             <option value="Traité">Traité</option>
           </Field>
         </FormControl>
@@ -161,7 +161,7 @@ function FicheRdv() {
       }),
     );
 
-  const onDelete = () => dispatch(onDeleteEvent(true));
+  const onDelete = () => dispatch(onOpenDialog(true));
   const onSubmit = (data) => {
     dispatch(
       onUpdateAppointment({

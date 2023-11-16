@@ -19,7 +19,7 @@ export const onEventClick = (payload) => ({
   payload,
 });
 
-export const onDeleteEvent = (payload) => ({
+export const onOpenDialog = (payload) => ({
   type: types.DELETE_EVENT,
   payload,
 });

@@ -13,6 +13,7 @@ const initialState = {
   infoRdv: {},
   openDeletion: false,
   eventId: '',
+  mode: 'delete',
 };
 
 const CommonReducer = (state = initialState, action = undefined) => {
@@ -49,6 +50,8 @@ const CommonReducer = (state = initialState, action = undefined) => {
         ...state,
         openDeletion: action.payload.open,
         eventId: action.payload.idRdv,
+        mode: action.payload.mode,
+        dateSelected: action.payload?.dateStr,
       };
     default:
       return state;

@@ -108,7 +108,7 @@ function CalendarAppointment() {
           </Text>
         </ModalHeader>
         <ModalCloseButton color="white" />
-        <ModalBody p={5} backgroundColor="Red.500">
+        <ModalBody p={5}>
           {copyId ? (
             <Text textAlign="center">
               Souhaitez-vous copier ce rendez-vous au{' '}

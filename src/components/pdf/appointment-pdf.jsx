@@ -8,6 +8,7 @@ import {
   PDFViewer,
   Image,
 } from '@react-pdf/renderer';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   page: {
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
   listes: {
     padding: 10,
     marginLeft: 30,
-    gap: 5
+    gap: 5,
   },
   pageNumber: {
     position: 'absolute',
@@ -48,6 +49,7 @@ const styles = StyleSheet.create({
 });
 
 function AppointmentPDF() {
+  const date = moment(new Date()).format('dddd DD MMMM YYYY');
   return (
     <PDFViewer>
       <Document>
@@ -77,7 +79,7 @@ function AppointmentPDF() {
             ]}
           >
             <Text>TIEMENI HAPPI Christian</Text>
-            <Text>DAX, le jeudi 02 novembre 2023</Text>
+            <Text>DAX, le {date}</Text>
           </View>
 
           <View style={[styles.section, styles.text, { gap: 20 }]}>
@@ -94,14 +96,11 @@ function AppointmentPDF() {
               <View style={styles.listes}>
                 <View>
                   <Text>
-                    <Text style={styles.strong}>Jeudi 26 Octobre 09:20</Text>
+                    <Text style={styles.strong}>Jeudi 26 Octobre 09:20 </Text>
                     avec le Dr OPTHA2 PIerre
                   </Text>
                   <Text>
-                    <Text style={styles.strong}>
-                      Centre Ophtalmologique AXEVISION unitee
-                    </Text>
-                    fonctionnelle 1
+                    Centre Ophtalmologique AXEVISION - unite fonctionnelle 1
                   </Text>
                 </View>
               </View>
