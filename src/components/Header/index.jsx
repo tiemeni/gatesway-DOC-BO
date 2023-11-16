@@ -1,16 +1,45 @@
-import React from 'react';
-import { Flex } from '@chakra-ui/react';
-import { Icon } from '@chakra-ui/icons';
-import { FaUser } from 'react-icons/fa';
-import { MdMail, MdOutlinePersonalVideo } from 'react-icons/md';
+import { SearchIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Flex,
+  HStack,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spacer,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { AiFillSetting } from 'react-icons/ai';
-import { FcFlashOn } from 'react-icons/fc';
-import { RiSearch2Line, RiAlertFill } from 'react-icons/ri';
 import { BiSolidMessageRounded } from 'react-icons/bi';
+import { FaUser } from 'react-icons/fa';
 import { HiUserGroup } from 'react-icons/hi';
-import './styles.css';
+import { IoMdArrowDropdown } from 'react-icons/io';
+import { MdMail, MdOutlinePersonalVideo } from 'react-icons/md';
+import { RiAlertFill } from 'react-icons/ri';
+import styles from './styles';
 
 function NavigationBar() {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   function getDateAndTime() {
     const now = new Date();
 
@@ -98,37 +127,118 @@ function NavigationBar() {
   }
 
   return (
-    <Flex bg="#3A3C44" p={4} alignItems="center">
-      <div className="first">
-        <h1>GATESWAYDOC</h1>
-        <p>{getDateAndTime()}</p>
-      </div>
-      <div className="second">
-        <form>
-          <input
-            type="search"
-            name=""
-            id=""
-            placeholder="Rechercer un patient"
+    <Flex
+      bg="#3A3C44"
+      paddingY={5}
+      paddingX={5}
+      height="16"
+      flexDirection={{ base: 'column', md: 'row' }}
+      alignItems="center"
+    >
+      <VStack justifyItems="center">
+        <Text fontSize={windowWidth < 958 ? 16 : 20} style={styles.textLogo}>
+          GATESWAYDOC
+        </Text>
+        <Text style={styles.dateText}>{getDateAndTime()}</Text>
+      </VStack>
+      {windowWidth > 758 ? (
+        <InputGroup
+          size="sm"
+          mt={{ base: 0, md: 0 }}
+          width={{ base: '100%', md: 250 }}
+          ml={{ base: 0, md: 14 }}
+        >
+          <Input
+            backgroundColor="whiteAlpha.800"
+            rounded={50}
+            placeholder="Rechercher un patient"
+            _placeholder={{ color: 'blue.300' }}
           />
-          <Icon className="icon" as={RiSearch2Line} color="white" />
-        </form>
-        <Icon as={FaUser} />
-        <Icon as={MdMail} />
-        <Icon as={AiFillSetting} />
-        <Icon as={FcFlashOn} />
-        <Icon as={MdOutlinePersonalVideo} />
-      </div>
-      <div className="tird">
-        <Icon className="let" as={BiSolidMessageRounded} />
-        <Icon className="let" as={MdMail} />
-        <Icon className="let" as={RiAlertFill} />
-        <Icon className="let let-user" as={FaUser} />
-        <select name="" id="">
-          <option value=""> GatesWayDoc Admin </option>
-        </select>
-        <Icon className="group" as={HiUserGroup} />
-      </div>
+          <InputRightElement backgroundColor="blue.300" rounded={50}>
+            <SearchIcon color="white" />
+          </InputRightElement>
+        </InputGroup>
+      ) : null}
+      <HStack color="whiteAlpha.800" spacing={6} ml={{ base: 0, md: 14 }}>
+        <FaUser
+          display={{ base: 'none', md: 'block' }}
+          className="let"
+          size={20}
+        />
+        <MdMail size={24} />
+        <Menu>
+          <MenuButton>
+            <AiFillSetting size={24} />
+          </MenuButton>
+          <MenuList zIndex={9999} color="blue.400">
+            <Link to="/content/structure">
+              <MenuItem>Structure</MenuItem>
+            </Link>
+            <Link to="/content/patient">
+              <MenuItem>Comptes patient</MenuItem>
+            </Link>
+            <Link to="/content/user">
+              <MenuItem>Utilisateurs</MenuItem>
+            </Link>
+            <Link to="/content/praticien">
+              <MenuItem>Fiches praticien</MenuItem>
+            </Link>
+            <Link to="/content/speciality">
+              <MenuItem>Spécialités</MenuItem>
+            </Link>
+            <Link to="/content/motif">
+              <MenuItem>Motifs de rendez-vous</MenuItem>
+            </Link>
+            <Link to="/content/lieu">
+              <MenuItem>Lieux</MenuItem>
+            </Link>
+            <Link to="/content">
+              <MenuItem>Parametres avancés</MenuItem>
+            </Link>
+          </MenuList>
+        </Menu>
+        <MdOutlinePersonalVideo size={24} />
+      </HStack>
+      <Spacer />
+      <HStack spacing={6} color="whiteAlpha.800" mr={4}>
+        {windowWidth > 958 ? (
+          <>
+            <Box style={styles.boxLeftIcon}>
+              <BiSolidMessageRounded size={20} />
+            </Box>
+            <Box style={styles.boxLeftIcon}>
+              <MdMail size={20} />
+            </Box>
+            <Box style={styles.boxLeftIcon}>
+              <RiAlertFill size={20} />
+            </Box>
+            <Box
+              backgroundColor="black"
+              borderWidth={0}
+              style={styles.boxLeftIcon}
+            >
+              <FaUser size={20} />
+            </Box>
+          </>
+        ) : null}
+
+        {windowWidth > 796 ? (
+          <Menu isLazy>
+            <MenuButton>
+              <HStack>
+                <Text>GatewayDoc Admin</Text>
+                <IoMdArrowDropdown color="white" />
+              </HStack>
+            </MenuButton>
+            <MenuList color="blue.400">
+              <MenuItem>Download</MenuItem>
+              <MenuItem>Create a Copy</MenuItem>
+              <MenuItem>Mark as Draft</MenuItem>
+            </MenuList>
+          </Menu>
+        ) : null}
+        {windowWidth > 1092 ? <HiUserGroup size={26} /> : null}
+      </HStack>
     </Flex>
   );
 }

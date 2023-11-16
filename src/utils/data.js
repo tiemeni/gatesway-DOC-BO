@@ -1137,9 +1137,12 @@ export const upsertStructure = {
       onUp: {
         action: (d) => console.log(d),
         label: 'Enregistrer',
+        color: '#04B7C9',
       },
       onBack: {
-        action: () => window.history.back(),
+        action: () => {
+          window.location = '/content/';
+        },
         label: 'Retour',
         color: 'red',
       },

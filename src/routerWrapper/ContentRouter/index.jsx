@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import MainPage from '../../pages/MainPage';
 import { useSocket } from '../../providers/socket';
-// import Header from '../../components/Header';
+import Header from '../../components/Header';
 import PraticienRouter from './PraticienRouter';
 import UserRouter from './UserRouter';
 import PatientRouter from './PatientRouter';
@@ -37,7 +37,7 @@ function ContentRouter() {
 
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/praticien/*" element={<PraticienRouter />} />
